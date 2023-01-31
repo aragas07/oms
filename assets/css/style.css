@@ -7,13 +7,8 @@ body, html{
     box-sizing: border-box;
 }
 
-.form-group{
-    padding: 7px 0;
-    display: flex;
-    justify-content: space-between;
-}
-
 .form-control{
+    position: relative;
     padding: 4px;
     flex: 1 1 auto;
     font-size: 15px;
@@ -25,7 +20,8 @@ body, html{
 }
 
 .label-sm{
-    width: 75px;
+    width: 100px;
+    text-align: left;
     margin-right: 10px;
 }
 
@@ -38,4 +34,24 @@ body, html{
 
 .text-right{
     text-align: right;
+}
+
+.form-group{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+}
+@media screen and (max-width: 600px){
+    .form-group{
+        display: block!important;
+    }
+
+    .text-right{
+        text-align: center;
+    }
+    .form-header h3{
+        font-size: 13px;
+    }
 }

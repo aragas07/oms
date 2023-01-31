@@ -4,9 +4,10 @@ export default{
 const urlRoutes = {
     404:{template: "templates/404.html", title: "Page not found", script: "login"},
     "/": {template: "templates/login.html", title:"Login | OMS", script: "login"},
-    "/about": {template: "templates/about.html", title:"About | OMS", script: ""},
-    "/contact": {template: "templates/contact.html", title:"contact |OMS", script: ""},
-    "/login": {template: "route/login", title:"",script:""},
+    "/about": {template: "templates/about.html", title:"About | OMS", script: "about"},
+    "/contact": {template: "templates/contact.html", title:"contact | OMS", script: ""},
+    "/signup": {template: "templates/signup.html",title:"Sign up | OMS",script: "signup"},
+    "/submit-signup": {template: "route/signup",title:"",script:""},
 }
 
 function nav(){
@@ -26,6 +27,7 @@ const urlRoute = (event)=>{
     window.history.pushState({}, "",event.target.href)
     urlLocationHandler()
 }
+sessionStorage.setItem('auth','nasdfdsaone');
 
 const urlLocationHandler = async()=>{
     const location = window.location.pathname

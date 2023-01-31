@@ -2,7 +2,8 @@
 
 namespace app\controller;
 class UserController{
-    public function example(){
-        return "Example sdfsdfdsf";
+
+    public function getUser(){
+        $conn->query("INSERT INTO users(username,password) values('argie','arehoiwsd')");
     }
 }

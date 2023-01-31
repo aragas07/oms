@@ -14,18 +14,27 @@
 }
 
 .form-control{
-    background-color: #ddd;
+    background-color: rgba(0, 0, 0, 0);
     border: none;
     outline: none;
+    border-bottom: 1px solid gray;
 }
 
 .form-header{
     background-image: url("../img/fire.png");
     padding: 7px;
+    display: flex;
+    align-items: center;
 }
 
 .form-header img{
     height: 90px;
+    margin-right: 40px;
+}
+
+.form-header h3{
+    color: white;
+    text-shadow: 0 1px 3px black;
 }
 
 .form-body{
@@ -33,19 +42,23 @@
     background-image: url("../img/pamphlet.jpg");
     background-position: right;
     background-repeat: no-repeat;
-    height: 300px;
     padding-top: 30px;
 }
 
 .form-body form{
     flex-direction: column;
     margin: auto;
-    max-width: 280px;
+    max-width: 330px;
     width: 70%;
     min-width: 250px;
     text-align: center;
+    padding-bottom: 50px;
 }
 
 .btn-w90{
     width: 90px;
+}
+
+.mt-1{
+   margin-top: 10px; 
 }

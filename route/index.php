@@ -1,6 +1,7 @@
 <?php 
-    // use app\controllers\UserController;
-    include('sample.php');
-    use app\controller\sample;
-    $sample = new sample();
+    global $conn;
+    include('../app/controllers/UserController.php');
+    include('../app/database/dbconnection.php');
+    use app\controllers\UserController;
+    include('kernel.php');
 ?>
