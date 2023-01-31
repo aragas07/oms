@@ -7,7 +7,6 @@ const urlRoutes = {
     "/about": {template: "templates/about.html", title:"About | OMS", script: "about"},
     "/contact": {template: "templates/contact.html", title:"contact | OMS", script: ""},
     "/signup": {template: "templates/signup.html",title:"Sign up | OMS",script: "signup"},
-    "/submit-signup": {template: "route/signup",title:"",script:""},
 }
 
 function nav(){

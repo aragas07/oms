@@ -1,36 +1,40 @@
 <link rel="stylesheet" href="../assets/css/login.css">
 <link rel="stylesheet" href="../assets/css/style.css">
+<script src="assets/js/swal.js"></script>
 <div class="login-form">
     <div class="form-header">
         <img src="../assets/img/logo.png" alt="" srcset="">
         <h3>BUREAU OF FIRE PROTECTION <br>OPERATION MONITORING SYSTEM</h3>
     </div>
     <div class="form-body">
-        <form action="/submit-signup" method="post">
+        <form>
             <label class="label-lg">LOGIN</label>
             <div class="form-group">
                 <label class="label-sm">Username</label>
-                <input type="text" required name="password" id="" class="form-control">
+                <input type="text" required id="username" class="form-control">
             </div>
             <div class="form-group">
                 <label class="label-sm">Password</label>
-                <input type="password" required name="password" id="" class="form-control">
+                <input type="password" required id="password" class="form-control">
             </div>
             <div class="form-group">
                 <label class="label-sm">Confirm</label>
-                <input type="password" required name="password" id="" class="form-control">
+                <div style="position:relative; flex: 1 1 auto">
+                    <input type="password" required id="confirmation" style="width: 100%" class="form-control">
+                    <label class="error">Your confirmation password is not same</label>
+                </div>
             </div>
             <div class="form-group">
                 <label class="label-sm">First name</label>
-                <input type="text" required name="password" id="" class="form-control">
+                <input type="text" required id="firstname" class="form-control">
             </div>
             <div class="form-group">
                 <label class="label-sm">Middle name</label>
-                <input type="text" required name="password" id="" class="form-control">
+                <input type="text" required id="middlename" class="form-control">
             </div>
             <div class="form-group">
                 <label class="label-sm">Last name</label>
-                <input type="text" required name="password" id="" class="form-control">
+                <input type="text" required id="lastname" class="form-control">
             </div>
             <div class="text-right mt-1">
                 <button id="signup" type="button" class="btn-default btn-w90">Sign Up</button>

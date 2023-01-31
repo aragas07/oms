@@ -1,9 +1,24 @@
 <?php
-
-namespace app\controller;
 class UserController{
+    public function login($conn,$username,$password){
+        try{
+            $result = $conn->query("SELECT * FROM users where username = '$username' and password = '$password'");
+            if(mysql_num_rows($result) == 0){
+                echo false;
+            }else{
+                echo true;
+            }
+        }catch(Exception $e){
+            echo "We have a problem about database connection";
+        }
+    }
 
-    public function getUser(){
-        $conn->query("INSERT INTO users(username,password) values('argie','arehoiwsd')");
+    public function getUser($conn,$username,$password,$firstname,$middlename,$lastname){
+        try{
+            $conn->query("INSERT INTO users(username,password,firstname,middlename,lastname) values('$username','$password','$firstname','$middlename','$lastname')");
+            echo true;
+        }catch(Exception $e){
+            echo false;
+        }
     }
 }
