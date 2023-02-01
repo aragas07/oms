@@ -5,6 +5,7 @@ body, html{
 
 *, *:after, *:before{
     box-sizing: border-box;
+    transition: 0.3s;
 }
 
 .form-control{
@@ -40,6 +41,11 @@ body, html{
     background-color: black;
     color: #ddd;
     border-radius: 15px;
+    height: fit-content;
+}
+
+.btn-w90{
+    width: 90px;
 }
 
 .text-right{
@@ -52,6 +58,98 @@ body, html{
     justify-content: space-between;
     align-items: center;
     padding: 7px 0;
+}
+
+.container{
+    position: relative;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 1170px;
+    width: 85%;
+    height: 100vh;
+    box-shadow: 1px 0 4px gray;
+}
+
+
+.title{
+    color: white;
+    text-shadow: 0 1px 3px black;
+    text-align: center;
+    flex: 1 1 auto;
+}
+
+.header{
+    padding: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.logo{
+    height: 100px;
+}
+
+.mr-3{
+    margin-right: 30px;
+}
+
+.body{
+    display: flex;
+    flex: 1 1 auto;
+    background-color: white;
+    flex-direction: column;
+}
+
+.welcome{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.flex-body{
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card{
+    margin: 10px;
+    box-shadow: 1px 0 3px gray;
+    height: fit-content;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: white;
+    text-align: center;
+}
+
+.card p{
+    line-height: 3px;
+    font-weight: 550;
+    color: #111;
+}
+
+.card:hover{
+    transform: scale(1.05);
+}
+
+.flex-body .col-2{
+    width: 20%;
+    position: relative;
+    flex: 27%;
+}
+
+.card img{
+    position: relative;
+    width: 100%;
+}
+
+.welcome p{
+    font-weight: 550;
+    color: #111;
+    flex: 1 1 auto;
+    text-align: center;
 }
 @media screen and (max-width: 600px){
     .form-group{

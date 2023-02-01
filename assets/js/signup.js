@@ -1,14 +1,17 @@
 $(function(){
-    $("#signup").click(function(){
-        $("form").submit()
-    })
     $("form").on('submit',function(e){
         e.preventDefault()
         $("#password").val() == $("#confirmation").val() ? 
         $.ajax({
             url: "route/signup",
             type: "POST",
-            data: {username: $("#username").val(),password: $("#password").val()},
+            data: {
+                username: $("#username").val(),
+                password: $("#password").val(),
+                firstname: $("#firstname").val(),
+                middlename: $("#middlename").val(),
+                lastname: $("#lastname").val()
+            },
             success: function(data){
                 data ? success() : error()
             },

@@ -1,0 +1,19 @@
+.header{
+    background-image: url("../img/ft.jpg");
+    background-position: center;
+}
+
+body{
+    background-color: rgb(219, 247, 247);
+}
+
+.body{
+    background-image: url("../img/pamphlet1.jpg");
+    background-repeat: none;
+    background-size: cover;
+}
+
+.flex-body{
+    max-width: 600px;
+    margin: auto;
+}

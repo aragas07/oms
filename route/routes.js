@@ -3,7 +3,8 @@ export default{
 }
 const urlRoutes = {
     404:{template: "templates/404.html", title: "Page not found", script: "login"},
-    "/": {template: "templates/login.html", title:"Login | OMS", script: "login"},
+    "/home": {template: "templates/login.html", title:"Login | OMS", script: "login"},
+    "/": {template: "templates/home.html", title: "Home | OMS", script: "home"},
     "/about": {template: "templates/about.html", title:"About | OMS", script: "about"},
     "/contact": {template: "templates/contact.html", title:"contact | OMS", script: ""},
     "/signup": {template: "templates/signup.html",title:"Sign up | OMS",script: "signup"},
@@ -26,12 +27,16 @@ const urlRoute = (event)=>{
     window.history.pushState({}, "",event.target.href)
     urlLocationHandler()
 }
-sessionStorage.setItem('auth','nasdfdsaone');
-
+if(sessionStorage.length == 0){
+    sessionStorage.setItem("auth","none");
+}
 const urlLocationHandler = async()=>{
     const location = window.location.pathname
     if(location.length == 0){
         location = "/"
+    }else if(location == '/signup'){
+    }else if(sessionStorage.getItem('auth') == 'none' && location.length > 1){
+        window.location.href = "/"
     }
     const route = urlRoutes[location] || urlRoutes[404]
     const html = await fetch(route.template).then((response) => response.text()) 

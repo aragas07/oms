@@ -1,15 +1,11 @@
 <?php
 class UserController{
     public function login($conn,$username,$password){
-        try{
-            $result = $conn->query("SELECT * FROM users where username = '$username' and password = '$password'");
-            if(mysql_num_rows($result) == 0){
-                echo false;
-            }else{
-                echo true;
-            }
-        }catch(Exception $e){
-            echo "We have a problem about database connection";
+        $result = $conn->query("SELECT * FROM users where username = '$username' and password = '$password'");
+        if(mysqli_num_rows($result) == 0){
+            echo false;
+        }else{
+            echo true;
         }
     }
 
