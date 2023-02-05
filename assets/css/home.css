@@ -13,7 +13,110 @@ body{
     background-size: cover;
 }
 
+#body-logo{
+    position: absolute;
+    height: 90px;
+    cursor: pointer;
+}
+
+.col-2{
+    cursor: pointer;
+}
+
 .flex-body{
-    max-width: 600px;
+    max-width: 500px;
     margin: auto;
+}
+
+.nav{
+    display: flex;
+    margin: auto;
+}
+
+#container{
+    flex: 1 1 auto;
+    padding: 0 15px;
+    overflow: auto;
+    margin: 40px 7px 0 7px;
+    border-radius: 7px;
+    border-collapse: collapse;
+}
+
+.nav li, .nav li button{
+    margin: 0 15px;
+    font-weight: 550;
+    font-size: 14px;
+    color: #111;
+    display: block;
+    padding: 3px 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.drp-dwn{
+    border: none;
+    background-color: #1b1b1b00;
+    margin: 0!important;
+    padding: 0!important;
+}
+
+.active, .active .drp-dwn{
+    background-color: #0055c5;
+    color: white!important;
+}
+
+.nav li:hover, .nav li:hover button{
+    background-color: #9cc5fc;
+}
+
+.nav li ul{
+    display: none;
+    position: absolute;
+    padding: 3px 0;
+    width: fit-content;
+    box-shadow: 1px 1px 3px gray;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.nav li:hover ul{
+    display: block;
+}
+
+li{
+    cursor: pointer;
+}
+
+.nav li ul li{
+    position: relative;
+    padding: 4px 7px;
+    margin: 3px;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 7px;
+    width: 100%;
+}
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+    background-color: #0d4b92ea;
+    color: white;
+    text-shadow: 0 1px 3px black;
+}
+th{
+    padding: 7px;
+}
+tbody tr{
+    background-color: #ffffffe1;
+}
+
+td{
+    padding: 5px 9px;
+    text-align: center;
+}
+tbody tr:nth-child(even){
+    background-color: #59C1BDDA;
 }

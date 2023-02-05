@@ -13,6 +13,9 @@ $(function(){
                 lastname: $("#lastname").val()
             },
             success: function(data){
+                console.log(data)
+                data.length > 1 ?
+                swal.fire("error","You are not connected to the database","error") :
                 data ? success() : error()
             },
             error: function (request, status, error) {
@@ -29,7 +32,8 @@ $(function(){
             timer: 1300
         })
         setTimeout(() => {
-            window.location.href= "/"
+            sessionStorage.setItem('auth','login')
+            window.location.href = "/home"
         }, 1500);
 
     }

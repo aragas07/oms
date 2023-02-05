@@ -1,0 +1,46 @@
+<table>
+    <thead>
+        <tr>
+            <th>INCIDENT TYPE</th>
+            <th>LOCATION</th>
+            <th>RESPONDING TEAM</th>
+            <th>STATUS OF INCIDENT</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+<div class="col-4 home mt-30">
+    <h3 class="title">Summary</h3>
+</div>
+
+<div class="card">
+    <p>&emsp;&ensp;
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore maiores iusto, ullam voluptas nesciunt error magnam eligendi, omnis magni minus adipisci tempora saepe molestias quaerat necessitatibus commodi deserunt unde aspernatur!
+        Numquam sequi, ducimus magni consequuntur obcaecati, vel velit, at sit ex provident tempore adipisci eum temporibus ullam voluptatibus corrupti ipsam omnis! Debitis voluptate molestiae nam! Quasi illum excepturi voluptatum soluta.
+        Earum quo repellendus doloribus corporis perspiciatis asperiores saepe, eos aut dignissimos doloremque consequuntur aperiam reprehenderit perferendis? Sit fugit praesentium deserunt sint nemo, eaque voluptatum dolore suscipit eveniet, architecto exercitationem possimus!
+        Sequi nobis doloribus vitae, natus porro quaerat accusamus! Eos, exercitationem obcaecati, pariatur labore harum aliquam, nulla recusandae odit modi reprehenderit delectus porro nobis debitis! Illo quam natus repellendus quibusdam aliquam.
+        Corrupti doloribus quas nihil, deleniti officia similique ipsum amet dignissimos tempore cumque cum minima dolorum, quo porro repellat a sit aliquam dicta? Nesciunt nam, quam consectetur veniam numquam vitae? Earum?
+        Voluptas inventore ducimus a accusantium omnis corporis eos porro adipisci unde quo vitae laboriosam vel, animi incidunt exercitationem odio voluptatum, dignissimos fugiat, ullam rerum! Unde qui ullam dolore saepe nihil!
+        A est, quidem voluptate, consectetur facere sint quae officia veritatis explicabo totam alias. Quam accusamus architecto sunt aliquid, voluptatibus quisquam illum fuga, eveniet tenetur dolor nesciunt iure quae tempora blanditiis?
+        Dolorem consequatur, optio iure quod, exercitationem fuga officiis totam facere molestias deserunt accusantium perferendis, minus harum eaque! Cupiditate accusamus exercitationem ex iste consequatur, accusantium possimus voluptatibus corporis praesentium, perspiciatis obcaecati.
+        Deleniti officiis voluptatum culpa praesentium consequatur soluta molestiae? Nihil laudantium, debitis ipsum sint fugit cupiditate impedit eum commodi voluptate ex molestiae quisquam, repudiandae ipsam! Suscipit esse repellendus doloribus harum modi.
+        Impedit molestiae quod, magni omnis obcaecati repudiandae, fugit corporis aut quasi itaque necessitatibus ex. Ipsa maxime iste neque, laboriosam sequi, necessitatibus et ex quia tenetur tempore, optio doloremque consequatur quis!
+        Dolorem amet unde eos veniam animi reiciendis iusto voluptatum quos nemo officiis quasi corporis nam dignissimos perspiciatis obcaecati, aliquam saepe? Quos quia mollitia expedita distinctio. Eveniet quas non et minima.
+        Ad, odit animi vitae dolor tempora ea! Ratione quisquam aut eos culpa iste officia officiis vitae! Ratione eveniet soluta dolorem error ullam, hic velit illo porro quia quaerat veritatis! Numquam!
+        Corporis consectetur accusamus et laboriosam rerum, veniam cumque eius iste ipsa nulla quidem velit fugiat commodi aliquid non natus voluptatem debitis iure voluptatibus consequuntur sapiente, beatae suscipit officia adipisci! Tenetur!
+        Ducimus numquam soluta consequatur mollitia maxime voluptate labore quod in officiis voluptates sed, perferendis esse provident cupiditate, commodi dolores harum, eum modi a quisquam. Ad corporis consequuntur deleniti debitis neque!
+    </p>
+</div>
+
+<script>
+    $(function(){
+        $.ajax({
+            url:"route/getReport",
+            success: function(result){
+                $("table tbody").html(result)
+            }
+        })
+    })
+</script>

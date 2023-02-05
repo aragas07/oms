@@ -3,6 +3,22 @@ body, html{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#container::-webkit-scrollbar {
+    width: 10px;
+}
+
+#container::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+#container::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+#container::-webkit-scrollbar-track {
+    background: #f1f1f100; 
+}
+
 *, *:after, *:before{
     box-sizing: border-box;
     transition: 0.3s;
@@ -60,23 +76,12 @@ body, html{
     padding: 7px 0;
 }
 
-.container{
-    position: relative;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    max-width: 1170px;
-    width: 85%;
-    height: 100vh;
-    box-shadow: 1px 0 4px gray;
-}
-
-
 .title{
     color: white;
     text-shadow: 0 1px 3px black;
     text-align: center;
     flex: 1 1 auto;
+    margin-top: 3px;
 }
 
 .header{
@@ -96,15 +101,21 @@ body, html{
 .body{
     display: flex;
     flex: 1 1 auto;
+    height: 100%;
     background-color: white;
     flex-direction: column;
 }
 
 .welcome{
-    display: flex;
     width: 100%;
-    justify-content: space-between;
+    display: flex;
     padding: 15px;
+}
+
+#logout{
+    position: absolute;
+    right: 10px;
+    margin-top: 10px;
 }
 
 .flex-body{
@@ -117,20 +128,27 @@ body, html{
 .card{
     margin: 10px;
     box-shadow: 1px 0 3px gray;
-    height: fit-content;
     border-radius: 4px;
-    overflow: hidden;
     background-color: white;
-    text-align: center;
+    padding: 10px;
 }
 
 .card p{
-    line-height: 3px;
+    text-align: justify;
+}
+
+.h-card{
+    height: fit-content;
+    overflow: hidden;
+    text-align: center;
+}
+.h-card h4{
+    margin: 3px;
     font-weight: 550;
     color: #111;
 }
 
-.card:hover{
+.h-card:hover{
     transform: scale(1.05);
 }
 
@@ -151,6 +169,63 @@ body, html{
     flex: 1 1 auto;
     text-align: center;
 }
+.row{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.p-justify{
+    text-align: justify;
+}
+
+.col-4{
+    width: 33.33%;
+}
+
+.home{
+    text-align: center;
+    margin: 7px;
+}
+
+.home .title{
+    background-color: #0d4b92ea;
+    padding: 7px;
+}
+
+.mt-30{
+    margin-top: 30px;
+}
+
+.home p{
+    background-color: #59C1BDDA;
+    padding: 4px;
+    font-weight: 550;
+    margin-top: -5px;
+    color: #111;
+}
+
+.col-6{
+    width: 50%;
+}
+
+.container{
+    position: relative;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 1070px;
+    width: 85%;
+    height: 100vh;
+    box-shadow: 1px 0 4px gray;
+}
+
+@media screen and (max-width: 900px){
+    .container{
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 600px){
     .form-group{
         display: block!important;

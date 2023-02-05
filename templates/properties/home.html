@@ -1,0 +1,36 @@
+<div class="row">
+    <div id="activity" class="col-4 home">
+        <h3 class="title">RECENT ACTIVITY</h3>
+    </div>
+    <div id="location" class="col-4 home">
+        <h3 class="title">LOCATION</h3>
+    </div>
+    <div id="date" class="col-4 home">
+        <h3 class="title">DATE OF INCIDENT</h3>
+    </div>
+</div>
+
+<div class="card">
+    <h1>Example</h1>
+    <p>&emsp;&ensp;Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis sed consequuntur, quisquam, ut officiis aliquid similique deleniti veniam ipsa doloremque aperiam rem eaque, maxime non expedita at tenetur maiores autem.
+    Veniam, nostrum? Quod veniam aperiam beatae accusantium unde, tempora at? Accusantium cupiditate ducimus voluptate doloremque officiis culpa saepe corporis numquam eaque dolore voluptatem consectetur esse in dolorum, dolor laborum modi?
+    Repudiandae, odio saepe! Ipsa aspernatur cumque nulla voluptates dolores, fuga repellat, sint aut assumenda eos quae et est error! Tempora itaque facilis quod magnam natus blanditiis eos excepturi non. Perspiciatis!
+    At quidem eveniet eum exercitationem nesciunt distinctio non ea quis accusamus dolor alias laborum vitae obcaecati deserunt delectus dolores aliquid, beatae numquam fuga. Ipsum consequuntur quod velit eligendi. Dignissimos, illum!
+    Repudiandae aut eum tenetur dignissimos. Expedita voluptas doloremque aliquam voluptates sint ullam consequuntur suscipit, impedit explicabo nostrum omnis eveniet eaque corporis, unde quasi dolorum quos nesciunt aut, sequi corrupti obcaecati?
+    Quis modi et maiores ea veritatis debitis! Nihil dolor blanditiis iste eos magni quas, voluptas reiciendis fugit culpa at ipsa, sequi mollitia repellat necessitatibus obcaecati qui maxime nam quibusdam? Natus.
+    Molestiae adipisci sint dolores. Laudantium quibusdam eos mollitia? Eos officiis rerum magnam enim beatae expedita sapiente aliquam. Voluptatibus inventore velit repellendus quis fuga, neque nemo dolorum, est facilis doloremque tempore!</p>
+</div>
+
+<script>
+    $(function(){
+        $.ajax({
+            url: "route/aclist",
+            dataType: "JSON",
+            success: function(result){
+                $("#activity").append(result.activity)
+                $("#location").append(result.location)
+                $("#date").append(result.date)
+            }
+        })
+    })
+</script>
