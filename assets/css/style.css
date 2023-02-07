@@ -76,6 +76,16 @@ body, html{
     height: fit-content;
 }
 
+.btn-primary{
+    padding: 5px 9px;
+    background-color: rgb(2, 210, 247);
+    border: none;
+    color: #111;
+    font-weight: 550;
+    border-radius: 15px;
+    height: fit-content;
+}
+
 .btn-w90{
     width: 90px!important;
 }
@@ -90,6 +100,12 @@ body, html{
     justify-content: space-between;
     align-items: center;
     padding: 7px 0;
+}
+
+.hv-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .title{

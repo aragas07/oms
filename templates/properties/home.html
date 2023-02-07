@@ -1,5 +1,5 @@
 <div class="card">
-    <form method="" class="row">
+    <form method="" class="row hv-center">
         <div class="form-group">
             <label for="" class="label sm">Disaster</label>
             <input type="text" name="disaster" class="cont-row form-control">
@@ -8,7 +8,11 @@
             <label for="" class="label sm">Location</label>
             <input type="text" name="location" class="cont-row form-control">
         </div>
-        <button class="btn-default btn-w90">Submit</button>
+        <div class="form-group">
+            <label for="" class="label sm">Date</label>
+            <input type="date" name="date" class="cont-row form-control">
+        </div>
+        <button class="btn-primary" style="padding: 4px 17px">Submit</button>
     </form>
 </div>
 <div class="row">
@@ -36,6 +40,15 @@
 
 <script>
     $(function(){
+            var now = new Date()
+            var month = (now.getMonth() + 1)               
+            var day = now.getDate()
+            if (month < 10) 
+                month = "0" + month
+            if (day < 10) 
+                day = "0" + day
+            var today = now.getFullYear() + '-' + month + '-' + day
+            $('input[name="date"]').val(today)
         $.ajax({
             url: "route/aclist",
             dataType: "JSON",

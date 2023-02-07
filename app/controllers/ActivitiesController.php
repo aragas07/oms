@@ -1,6 +1,7 @@
 <?php
 class ActivitiesController{
-    public function insertActivities($conn){
-        echo json_encode(["disaster"=>$_POST['disaster'],"location"=>$_POST['location']]);
+    public function insertActivities($conn,$disaster,$location,$date){
+        $conn->query("INSERT INTO activities(activity,location,date,team_status) VALUES('$disaster','$location','$date',0)");
+
     }
 }

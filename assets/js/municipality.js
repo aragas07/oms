@@ -1,5 +1,5 @@
 $(function(){
-    view("home")
+    view("home",false,"")
     let submenu = false;
     $("#body-logo").click(function(){
         console.log("Exampel")
@@ -14,12 +14,11 @@ $(function(){
         $(".active").removeClass("active")
         $(this).addClass("active")
         submenu = false;
-        view($(this).text()+"")
+        view($(this).text()+"",false,"")
     })
     $(".drp-dwn").siblings("ul").children().click(function(){
         if(!submenu){
             submenu = true 
-            view("status")
         }
         $(".nav").children(".active").removeClass("active")
         $(this).siblings(".active").removeClass("active")
@@ -31,17 +30,19 @@ $(function(){
             dataType: "JSON",
             data: {type: text[0]},
             success: function(result){
-                $("thead").html(result.thead)
-                $("tbody").html(result.tbody)
-                console.log(result)
+                view("status",true,result)
             }
         })
     })
-    function view(link){
+    function view(link,stat,result){
         $.ajax({
             url: "templates/properties/"+link+".html",
             success: function(data){
                 $("#container").html(data)
+                if(stat){
+                    $("thead").html(result.thead)
+                    $("tbody").html(result.tbody)
+                }
             }
         })
     }
