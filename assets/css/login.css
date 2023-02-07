@@ -13,13 +13,6 @@
     box-shadow: 1px 1px 4px gray;
 }
 
-.form-control{
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-    outline: none;
-    border-bottom: 1px solid gray;
-}
-
 .form-header{
     background-image: url("../img/fire.png");
     padding: 7px;

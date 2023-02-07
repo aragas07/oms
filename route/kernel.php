@@ -1,6 +1,7 @@
 <?php
     $url = explode("/",$_SERVER['REQUEST_URI']);
     $user = new UserController();
+    $activities = new ActivitiesController();
     switch($url[2]){
         case "signup": $user->getUser($conn,$_POST['username'],md5($_POST['password']),$_POST['firstname'],$_POST['middlename'],$_POST['lastname']); break;
         case "login": $user->login($conn,$_POST['username'],md5($_POST['password'])); break;
@@ -8,4 +9,5 @@
         case "getData": $user->getData($conn,$_POST['type']); break;
         case "aclist": $user->getAcList($conn); break;
         case "getReport": $user->getReport($conn); break;
+        case "inAc": $activities->insertActivities($conn); break;
     }

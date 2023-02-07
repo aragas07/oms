@@ -1,6 +1,5 @@
 <?php
 class UserController{
-    public $city;
     public function login($conn,$username,$password){
         $result = $conn->query("SELECT * FROM users where username = '$username' and password = '$password'");
         if(mysqli_num_rows($result) == 0){

@@ -1,3 +1,16 @@
+<div class="card">
+    <form method="" class="row">
+        <div class="form-group">
+            <label for="" class="label sm">Disaster</label>
+            <input type="text" name="disaster" class="cont-row form-control">
+        </div>
+        <div class="form-group">
+            <label for="" class="label sm">Location</label>
+            <input type="text" name="location" class="cont-row form-control">
+        </div>
+        <button class="btn-default btn-w90">Submit</button>
+    </form>
+</div>
 <div class="row">
     <div id="activity" class="col-4 home">
         <h3 class="title">RECENT ACTIVITY</h3>
@@ -32,5 +45,21 @@
                 $("#date").append(result.date)
             }
         })
+        $("form").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "route/inAc",
+                type: "POST",
+                data: new FormData(this),
+                dataType: "JSON",
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(result){
+                    console.log(result)
+                }
+            })
+        })
+
     })
 </script>
