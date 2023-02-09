@@ -9,5 +9,5 @@
         case "getData": $user->getData($conn,$_POST['type']); break;
         case "aclist": $user->getAcList($conn); break;
         case "getReport": $user->getReport($conn); break;
-        case "inAc": $activities->insertActivities($conn,$_POST['disaster'],$_POST['location'],$_POST['date']); break;
+        case "inAc": $activities->insertActivities($conn,$_POST['disaster'],$_POST['location'],$_POST['date'],$_POST['summary']); break;
     }

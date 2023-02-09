@@ -62,10 +62,11 @@ body, html{
     font-weight: 550;
 }
 
+
 .label-sm{
-    width: 100px;
     text-align: left;
     margin-right: 10px;
+    font-weight: bold;
 }
 
 .btn-default{
@@ -100,11 +101,11 @@ body, html{
     justify-content: space-between;
     align-items: center;
     padding: 7px 0;
+    text-align: left;
 }
 
 .hv-center{
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
@@ -241,6 +242,10 @@ body, html{
     width: 50%;
 }
 
+.flex-col{
+    flex-direction: column;
+}
+
 .container{
     position: relative;
     margin: auto;
@@ -250,6 +255,53 @@ body, html{
     width: 85%;
     height: 100vh;
     box-shadow: 1px 0 4px gray;
+}
+
+textarea{
+    width: 100%;
+    transition: 0s !important;
+    resize: none;
+}
+
+.alert{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    max-width: 300px;
+    overflow: hidden;
+    border-radius: 3px;
+    transition: 1.5s;
+    animation: 0.5s slideleft none linear;
+    cursor: default;
+}
+
+@keyframes slideleft{
+    0%{ 
+        right: -100px;
+        transform: skew(0, 0);
+    }
+    90%{ 
+        right: 10px; 
+        transform: skew(30deg, 0);
+    }
+    100%{
+        right: 10px; 
+        transform: skew(0, 0);
+    }
+}
+
+.aerror{
+    padding: 10px;
+    display: flex;
+    background-color: hsla(0, 87%, 63%, 0.917);
+    color: white;
+    
+}
+
+.asuccess{
+    padding: 10px;
+    background-color: rgba(38, 212, 243, 0.917);
 }
 
 @media screen and (max-width: 900px){
