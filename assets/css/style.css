@@ -40,7 +40,7 @@ body, html{
     flex-direction: column;
 }
 
-.form-control{
+.form-control, select{
     background-color: rgba(0, 0, 0, 0);
     border: none;
     outline: none;
@@ -69,6 +69,10 @@ body, html{
     font-weight: bold;
 }
 
+.w-100{
+    width: 100px;
+}
+
 .btn-default{
     padding: 5px 9px;
     background-color: black;
@@ -79,9 +83,9 @@ body, html{
 
 .btn-primary{
     padding: 5px 9px;
-    background-color: rgb(2, 210, 247);
+    background-color: rgb(2, 129, 247);
     border: none;
-    color: #111;
+    color: white;
     font-weight: 550;
     border-radius: 15px;
     height: fit-content;
@@ -202,10 +206,16 @@ body, html{
     flex: 1 1 auto;
     text-align: center;
 }
+
 .row{
     display: flex;
     width: 100%;
     justify-content: space-between;
+}
+
+.wrap{
+    flex-wrap: wrap;
+    
 }
 
 .p-justify{
@@ -214,6 +224,21 @@ body, html{
 
 .col-4{
     width: 33.33%;
+}
+
+.img-cont div{
+    padding: 3px;
+    overflow: hidden;
+}
+
+.img-cont div img{
+    width: 100%;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.678);
+    border-radius: 4px;
+}
+
+.img-cont div img:hover{
+    scale: 1.03;
 }
 
 .home{
@@ -276,6 +301,74 @@ textarea{
     cursor: default;
 }
 
+.modal{
+    position: absolute;
+    top: 0;
+    padding-top: 15px;
+    height: 100vh;
+    width: 100%;
+    background-color: #00000070;
+    display: block;
+    transition: 0.7s!important;
+}
+
+@keyframes showingmodal {
+    0%{
+        transform: scale(0);
+    }
+    65%{
+        transform: scale(1.05);
+    }
+    85%{
+        transform: scale(0.98);
+    }
+    
+}
+
+.modal-form{
+    background-color: white;
+    border-radius: 4px;
+    margin: auto;
+    width: 80%;
+    animation: 0.7s showingmodal none linear;
+}
+
+.close>.icon, .close>.icon:after{
+    height: 13px;
+    width: 3px;
+    background-color: #333;
+}
+
+.close{
+    padding: 5px;
+    margin-right: 7px;
+}
+
+.close>.icon{
+    transform: rotate(45deg);
+}
+
+.icon:after{
+    content: "";    
+    display: block;
+    transform: rotate(90deg);
+}
+
+.modal-head{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #c7c7c7;
+}
+
+.modal-head, .modal-body{
+    padding: 4px;
+}
+
+.right{
+    float: right;
+    margin-top: 5px;
+}
+
 @keyframes slideleft{
     0%{ 
         right: -100px;
@@ -291,6 +384,11 @@ textarea{
     }
 }
 
+h4{
+    color: #333;
+    line-height: 3px;
+}
+
 .aerror{
     padding: 10px;
     display: flex;
@@ -302,6 +400,11 @@ textarea{
 .asuccess{
     padding: 10px;
     background-color: rgba(38, 212, 243, 0.917);
+}
+
+select{
+    padding: 4px;
+    width: 100px;
 }
 
 @media screen and (max-width: 900px){

@@ -1,8 +1,8 @@
 $(function(){
     view("home",false,"")
     let submenu = false;
+    let text = "";
     $("#body-logo").click(function(){
-        console.log("Exampel")
         location.href="/home"
     })
     $("#logout").click(function(){
@@ -23,7 +23,7 @@ $(function(){
         $(".nav").children(".active").removeClass("active")
         $(this).siblings(".active").removeClass("active")
         $(this).addClass("active").parent().parent().addClass("active")
-        let text = $(this).text().split(" ")
+        text = $(this).text().split(" ")
         $.ajax({
             url: "route/getData",
             type: "POST",
@@ -42,6 +42,9 @@ $(function(){
                 if(stat){
                     $("thead").html(result.thead)
                     $("tbody").html(result.tbody)
+                    if(text[0] == 'PERSONNEL'){
+                        $("table").after("<button class='right' id='custom-btn'>Update</button>")
+                    }
                 }
             }
         })

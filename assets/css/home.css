@@ -84,13 +84,34 @@ body{
 }
 
 li{
+    position: relative;
     cursor: pointer;
+}
+
+.notif{
+    position: absolute;
+    right: -7px;
+    top: -4px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    color: white;
+    font-size: 9px;
+    background-color: red;
+    z-index: 100;
 }
 
 .nav li ul li{
     position: relative;
     padding: 4px 7px;
     margin: 3px;
+}
+
+.nav>li:hover>.notif{
+    display: none;
 }
 
 table {
@@ -111,6 +132,29 @@ th{
 }
 tbody tr{
     background-color: #ffffffe1;
+}
+
+.img-wrapper{
+    width: 50%;
+    margin: auto;
+}
+
+#summaryimg{
+    border-radius: 3px;
+    max-height: 300px;
+}
+
+#custom-btn{
+    padding: 4px 30px;
+    border: none;
+    background-color: #06283D;
+    color: white;
+    font-weight: 550;
+    border-radius: 17px;
+}
+
+#custom-btn:hover{
+    background-color: #0249a7;
 }
 
 td{

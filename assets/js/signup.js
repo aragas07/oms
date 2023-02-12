@@ -1,19 +1,24 @@
 $(function(){
+    $.ajax({
+        url: "route/getCity",
+        success: function(result){
+            console.log(result)
+            $("select[name='municipality']").html(result)
+        }
+    })
+
     $("form").on('submit',function(e){
         e.preventDefault()
         $("#password").val() == $("#confirmation").val() ? 
         $.ajax({
             url: "route/signup",
             type: "POST",
-            data: {
-                username: $("#username").val(),
-                password: $("#password").val(),
-                firstname: $("#firstname").val(),
-                middlename: $("#middlename").val(),
-                lastname: $("#lastname").val()
-            },
+            data: new FormData(this),
+            dataType: "JSON",
+            contentType: false,
+            cache: false,
+            processData: false,
             success: function(data){
-                console.log(data)
                 data.length > 1 ?
                 swal.fire("error","You are not connected to the database","error") :
                 data ? success() : error()

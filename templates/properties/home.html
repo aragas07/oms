@@ -19,6 +19,14 @@
             <label for="" class="label-sm">Summary</label>
             <textarea name="summary" class="form-control txtarea"></textarea>
         </div>
+        <div class="flex-col">
+            <div class="img-wrapper">
+                <img alt="" id="summaryimg">
+                <input type="text" name="image" hidden id="imgtext">
+                <input type="file" hidden accept="image/png, image/gif, image/jpeg" id="default-btn">
+                <button type="button" id="custom-btn">Choose an image</button>
+            </div>
+        </div>
     </form>
 </div>
 <div class="row">
@@ -32,9 +40,26 @@
         <h3 class="title">DATE OF INCIDENT</h3>
     </div>
 </div>
+<div class="row wrap img-cont">
+</div>
 <script>
     $(function(){
-
+        $("#custom-btn").click(function(){
+            $("#default-btn").click()
+        })
+        
+        $("#default-btn").change(function(){
+            const file = this.files[0]
+            if(file){
+                const reader = new FileReader()
+                reader.onload = function(){
+                    const result = reader.result
+                    $("#summaryimg").attr("src",result)
+                    $("#imgtext").val(result)
+                }
+                reader.readAsDataURL(file)
+            }
+        })
         function msg(type,msg){
             $("body").append("<div class='alert'><div class='"+type+"'><a>"+msg+"</a></div></div>")
             setTimeout(()=>{
@@ -67,6 +92,8 @@
                 $("#activity").append(result.activity)
                 $("#location").append(result.location)
                 $("#date").append(result.date)
+                $(".img-cont").append(result.image)
+                result.selfMun ? $(".card").show() : $(".card").hide()
             }
         })
         $("form").submit(function(e){
@@ -88,6 +115,8 @@
             msg("asuccess","The report has been sent") 
             $(".form-control").each(function(){
                 $(this).val("")
+                $("#summaryimg").attr("src","")
+                $("#imgtext").val("")
             })
             $('input[name="date"]').val(today)
             $(".txtarea").css("height","26px")

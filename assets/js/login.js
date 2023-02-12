@@ -13,7 +13,6 @@ $(function(){
             }
         })
     })
-    console.log(sessionStorage.getItem('auth'))
     function success(){
         sessionStorage.setItem('auth','login')
         window.location.href = "/home"
