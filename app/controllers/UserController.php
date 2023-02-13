@@ -1,16 +1,18 @@
 <?php
 class UserController{
     public function login($conn,$username,$password){
-        $result = $conn->query("SELECT * FROM users where username = '$username' and password = '$password'");
-        if(mysqli_num_rows($result) == 0){
-            echo false;
-        }else{
+        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id where username = '$username' and password = '$password'");
+        $login = false;
+        $loc = "";
+        if(mysqli_num_rows($result) != 0){
             while($res = $result->fetch_assoc()){
                 $_SESSION['userloc'] = $res['municipality_id'];
                 $_SESSION['usertype'] = $res['usertype'];
+                $loc = $res['name'];
             }
-            echo true;
+            $login = true;
         }
+        echo json_encode(['login'=>$login, 'location'=>$loc]);
     }
  
     public function signup($conn,$username,$password,$firstname,$middlename,$lastname,$municipality,$usertype){
@@ -36,6 +38,7 @@ class UserController{
         $thead = "";
         $tbody = "";
         $city = $_SESSION['city_id'];
+        $showbtn = false;
         if($type == "PERSONNEL"){
             $thead = "<tr>
                         <th>PERSONNEL</th>
@@ -43,28 +46,38 @@ class UserController{
                         <th>ASSIGNMENT</th>
                         <th>TEAM</th>
                     </tr>";
-            $result = $conn->query("SELECT * FROM municipality INNER JOIN users on municipality.id = users.municipality_id 
-            WHERE usertype = 'personnel' and municipality.id = ".$city);
+            $result = $conn->query("SELECT *,t.name AS team_name FROM municipality AS m INNER JOIN users AS u LEFT JOIN team AS t on m.id = u.municipality_id 
+            AND u.team_id = t.id WHERE usertype = 'personnel' and m.id = ".$city);
             while($get = $result->fetch_assoc()){
                 $middlename = "";
                 $status = "Absent";
+                $ownteam = "";
+                $municipality = "";
+                $team = "";
                 if(strlen($get['middlename']) > 0){
                     $middlename = substr(ucfirst($get['middlename']),0,1).".";
                 }
                 if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
-                    $ownMun = "<select name='personnelstatus'>
-                    <option>select</option>
-                    <option value='1'>On Duty</option>
+                    $municipality = "<select name='personnelstatus'>
                         <option value='0'>Absent</option>
+                        <option value='1'>On Duty</option>
                     </select>";
+                    $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $city");
+                    $team = "<select name='personnelteam'>
+                        <option>select team</option>";
+                        while($gteam = $getTeam->fetch_assoc()){
+                            $team .= "<option value='".$gteam['id']."'>".$gteam['name']."</option>";
+                        }
+                    "</select>";
+                    $showbtn = true;
                 }else{
                     $status = "On Duty";
                 }
                 $tbody .= "<tr>
                 <td>".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])." ".$middlename."</td>
-                <td>$ownMun</td>
+                <td>$municipality</td>
                 <td>".ucfirst($get["assignment"])."</td>
-                <td>".ucfirst($get["assignment"])."</td>
+                <td>$team</td>
                 </tr>";
             }
         }else if($type == "VEHICLE"){
@@ -93,7 +106,7 @@ class UserController{
                         <th>STATUS OF TEAM</th>
                     </tr>";
         }
-        echo json_encode(['thead'=>$thead,'tbody'=>$tbody]);
+        echo json_encode(['thead'=>$thead,'tbody'=>$tbody, 'showbtn'=>$showbtn]);
     }
 
 }

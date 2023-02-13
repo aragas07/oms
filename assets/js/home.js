@@ -3,6 +3,9 @@ $(function(){
         sessionStorage.setItem('auth','none')
         location.href = "/"
     })
+
+    $(".welcome p").append(" OF "+sessionStorage.getItem('location').toUpperCase())
+    console.log(sessionStorage.getItem('location'))
     $(".card").click(function(e){
         e.preventDefault();
         $.ajax({

@@ -1,5 +1,13 @@
 $(function(){
     view("home",false,"")
+    $(".modal").show()
+    $(".close").click(function(){
+        $(".modal-form").css("transform","scale(0)")
+        setTimeout(()=>{
+            $(".modal").hide()
+            $(".modal-form").css("transform","scale(1)")
+        }, 700)
+    })
     let submenu = false;
     let text = "";
     $("#body-logo").click(function(){
@@ -30,7 +38,11 @@ $(function(){
             dataType: "JSON",
             data: {type: text[0]},
             success: function(result){
+                console.log(result)
                 view("status",true,result)
+            },
+            error: function (request, status, error) {
+                console.log(request.responseText);
             }
         })
     })
@@ -42,7 +54,7 @@ $(function(){
                 if(stat){
                     $("thead").html(result.thead)
                     $("tbody").html(result.tbody)
-                    if(text[0] == 'PERSONNEL'){
+                    if(text[0] == 'PERSONNEL' && result.showbtn){
                         $("table").after("<button class='right' id='custom-btn'>Update</button>")
                     }
                 }
