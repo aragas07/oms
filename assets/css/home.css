@@ -164,3 +164,13 @@ td{
 tbody tr:nth-child(even){
     background-color: #59C1BDDA;
 }
+
+
+.btn-bottom-border{
+    width: 150px;
+    padding: 4px;
+    font-weight: 550;
+    font-size: 17px;
+    color: #111;
+    margin: 5px;
+}

@@ -27,7 +27,6 @@ body, html{
 
 .form-control{
     position: relative;
-    padding: 4px;
     flex: 1 1 auto;
     font-size: 15px;
 }
@@ -109,7 +108,6 @@ body, html{
 }
 
 .hv-center{
-    display: flex;
     align-items: center;
 }
 
@@ -327,7 +325,7 @@ textarea{
     background-color: white;
     border-radius: 4px;
     margin: auto;
-    width: 80%;
+    width: fit-content;
     transition: 0.7s;
     animation: 0.7s showingmodal none linear;
 }

@@ -1,11 +1,10 @@
 $(function(){
     view("home",false,"")
-    $(".modal").show()
     $(".close").click(function(){
         $(".modal-form").css("transform","scale(0)")
         setTimeout(()=>{
             $(".modal").hide()
-            $(".modal-form").css("transform","scale(1)")
+            $(".modal-form").css({"transform":"scale(1)",'width':'fit-content'})
         }, 700)
     })
     let submenu = false;
@@ -38,7 +37,6 @@ $(function(){
             dataType: "JSON",
             data: {type: text[0]},
             success: function(result){
-                console.log(result)
                 view("status",true,result)
             },
             error: function (request, status, error) {
@@ -56,6 +54,24 @@ $(function(){
                     $("tbody").html(result.tbody)
                     if(text[0] == 'PERSONNEL' && result.showbtn){
                         $("table").after("<button class='right' id='custom-btn'>Update</button>")
+
+                        $("#custom-btn").click(function(){
+                            $(".modal-head").hide()
+                            $(".modal").css({
+                                "display":"flex",
+                                "justify-content":"center",
+
+                            })
+                            $(".modal-body").html("<button id='attendance' class='btn-bottom-border'>Attendance</button><button id='team' class='btn-bottom-border'>Team</button>")
+                            $("#attendance").click(function(){
+                                $(".modal-head").show()
+                                $(".modal-form").width('70%')
+                                $.get('./../../templates/properties/attendance.html',function(e){
+                                    console.log(e)
+                                    $(".modal-body").html(e)
+                                })
+                            })
+                        })
                     }
                 }
             }

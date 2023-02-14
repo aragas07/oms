@@ -6,4 +6,8 @@ class MainController{
             echo '<option value="'.$res['id'].'">'.$res['name'].'</option>';
         }
     }
+
+    public function updatePersonnel(){
+        
+    }
 }

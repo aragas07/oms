@@ -46,7 +46,7 @@ class UserController{
                         <th>ASSIGNMENT</th>
                         <th>TEAM</th>
                     </tr>";
-            $result = $conn->query("SELECT *,t.name AS team_name FROM municipality AS m INNER JOIN users AS u LEFT JOIN team AS t on m.id = u.municipality_id 
+            $result = $conn->query("SELECT *,t.name AS team_name, u.id AS uid FROM municipality AS m INNER JOIN users AS u LEFT JOIN team AS t on m.id = u.municipality_id 
             AND u.team_id = t.id WHERE usertype = 'personnel' and m.id = ".$city);
             while($get = $result->fetch_assoc()){
                 $middlename = "";
@@ -58,17 +58,17 @@ class UserController{
                     $middlename = substr(ucfirst($get['middlename']),0,1).".";
                 }
                 if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
-                    $municipality = "<select name='personnelstatus'>
-                        <option value='0'>Absent</option>
-                        <option value='1'>On Duty</option>
-                    </select>";
-                    $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $city");
-                    $team = "<select name='personnelteam'>
-                        <option>select team</option>";
-                        while($gteam = $getTeam->fetch_assoc()){
-                            $team .= "<option value='".$gteam['id']."'>".$gteam['name']."</option>";
-                        }
-                    "</select>";
+                    // $municipality = "<select arg='".$get['uid']."' name='personnelstatus'>
+                    //     <option value='0'>Absent</option>
+                    //     <option value='1'>On Duty</option>
+                    // </select>";
+                    // $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $city");
+                    // $team = "<select name='personnelteam'>
+                    //     <option value=''>select team</option>";
+                    //     while($gteam = $getTeam->fetch_assoc()){
+                    //         $team .= "<option value='".$gteam['id']."'>".$gteam['name']."</option>";
+                    //     }
+                    // "</select>";
                     $showbtn = true;
                 }else{
                     $status = "On Duty";
