@@ -37,6 +37,7 @@ $(function(){
             dataType: "JSON",
             data: {type: text[0]},
             success: function(result){
+                console.log(result)
                 view("status",true,result)
             },
             error: function (request, status, error) {
@@ -60,12 +61,11 @@ $(function(){
                             $(".modal").css({
                                 "display":"flex",
                                 "justify-content":"center",
-
                             })
                             $(".modal-body").html("<button id='attendance' class='btn-bottom-border'>Attendance</button><button id='team' class='btn-bottom-border'>Team</button>")
                             $("#attendance").click(function(){
+                                $(".modal-head h4").text("Personnel Attendance")
                                 $(".modal-head").show()
-                                $(".modal-form").width('70%')
                                 $.get('./../../templates/properties/attendance.html',function(e){
                                     console.log(e)
                                     $(".modal-body").html(e)

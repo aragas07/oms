@@ -46,8 +46,7 @@ class UserController{
                         <th>ASSIGNMENT</th>
                         <th>TEAM</th>
                     </tr>";
-            $result = $conn->query("SELECT *,t.name AS team_name, u.id AS uid FROM municipality AS m INNER JOIN users AS u LEFT JOIN team AS t on m.id = u.municipality_id 
-            AND u.team_id = t.id WHERE usertype = 'personnel' and m.id = ".$city);
+            $result = $conn->query("SELECT * FROM users AS u LEFT JOIN team AS t ON u.team_id = t.id WHERE u.municipality_id = ".$city);
             while($get = $result->fetch_assoc()){
                 $middlename = "";
                 $status = "Absent";
@@ -76,7 +75,7 @@ class UserController{
                 $tbody .= "<tr>
                 <td>".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])." ".$middlename."</td>
                 <td>$municipality</td>
-                <td>".ucfirst($get["assignment"])."</td>
+                <td>".ucfirst($get["lastname"])."</td>
                 <td>$team</td>
                 </tr>";
             }
@@ -106,7 +105,7 @@ class UserController{
                         <th>STATUS OF TEAM</th>
                     </tr>";
         }
-        echo json_encode(['thead'=>$thead,'tbody'=>$tbody, 'showbtn'=>$showbtn]);
+        echo json_encode(['thead'=>$thead,'tbody'=>$tbody, 'showbtn'=>$showbtn, 'city'=>$city]);
     }
 
 }

@@ -12,4 +12,6 @@
         case "getReport": $activities->getReport($conn); break;
         case "getCity": $main->getCity($conn); break;
         case "inAc": $activities->insertActivities($conn,$_POST['disaster'],$_POST['location'],$_POST['date'],$_POST['summary'],$_POST['image'],$_SESSION['city_id']); break;
+        case "attendance": $main->attendance($conn); break;
+        case "getPersonnel": $main->getPersonnel($conn); break;
     }
