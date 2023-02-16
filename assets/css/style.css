@@ -403,6 +403,63 @@ select{
     width: 100px;
 }
 
+.grid-cont>.grid-body{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid-title{
+    color: #333;
+}
+
+.bubble{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 4px gray;
+    background-color: white;
+    z-index: 86;
+    border-radius: 4px;
+    height: 0;
+    overflow: hidden;
+}
+
+
+.bubble>a{
+    position: relative;
+    display: flex;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 550;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+.bubble>h4{
+    margin: 3px 4px 11px 4px;
+}
+
+h4, h3{
+    cursor: context-menu;
+}
+
+.bubble>a:hover{
+    color: #eee;
+    background-color: #0249a7;
+}
+
+.grid-body>div>p{
+    padding: 4px;
+    border: 1px solid gray;
+    margin: 3px;
+    text-align: center;
+    font-weight: 550;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 900px){
     .container{
         width: 100%;

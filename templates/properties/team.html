@@ -1,0 +1,146 @@
+
+<div class="grid-cont">
+    <h3 class="grid-title">New Personnel</h3>
+    <div class="grid-body">
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+    </div>
+    <h3 class="grid-title">Team 1 </h3>
+    <div class="grid-body">
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+    </div>
+    <h3 class="grid-title">Team 1 </h3>
+    <div class="grid-body">
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+    </div>
+    <h3 class="grid-title">Team 1 </h3>
+    <div class="grid-body">
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <p>Ragas, Argie C.</p>
+            <div class="bubble">
+                <h4>Change Team</h4>
+                <a>Team 1</a>
+                <a>Team 2</a>
+                <a>Team 3</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $(".grid-body>div>p").each(function(i){
+            let height = $(".bubble").eq(i).prop('scrollHeight')+10
+            $(this).click(function(){
+                $(".bubble").css({
+                    padding: '0',
+                    height: '0'
+                })
+                $(".bubble").eq(i).css({
+                    padding: '7px',
+                    height: height
+                })
+            })
+        })
+    })
+</script>

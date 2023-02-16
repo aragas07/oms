@@ -101,7 +101,7 @@ li{
     color: white;
     font-size: 9px;
     background-color: red;
-    z-index: 100;
+    z-index: 80;
 }
 
 .nav li ul li{

@@ -46,35 +46,31 @@ class UserController{
                         <th>ASSIGNMENT</th>
                         <th>TEAM</th>
                     </tr>";
-            $result = $conn->query("SELECT * FROM users AS u LEFT JOIN team AS t ON u.team_id = t.id WHERE u.municipality_id = ".$city);
+            $result = $conn->query("SELECT *, u.id AS uid FROM users AS u LEFT JOIN team AS t ON u.team_id = t.id WHERE usertype = 'personnel' AND u.municipality_id = ".$city);
             while($get = $result->fetch_assoc()){
                 $middlename = "";
                 $status = "Absent";
                 $ownteam = "";
-                $municipality = "";
                 $team = "";
                 if(strlen($get['middlename']) > 0){
                     $middlename = substr(ucfirst($get['middlename']),0,1).".";
                 }
                 if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
-                    // $municipality = "<select arg='".$get['uid']."' name='personnelstatus'>
-                    //     <option value='0'>Absent</option>
-                    //     <option value='1'>On Duty</option>
-                    // </select>";
-                    // $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $city");
-                    // $team = "<select name='personnelteam'>
-                    //     <option value=''>select team</option>";
-                    //     while($gteam = $getTeam->fetch_assoc()){
-                    //         $team .= "<option value='".$gteam['id']."'>".$gteam['name']."</option>";
-                    //     }
-                    // "</select>";
                     $showbtn = true;
-                }else{
-                    $status = "On Duty";
+                }
+                $duty = "";
+                $onDuty = $conn->query("SELECT * FROM logs WHERE users_id = ".$get['uid']." AND DATE(date) = CURDATE()");
+                if(mysqli_num_rows($onDuty) > 0){
+                    $duty = "On duty";
+                    while($out = $onDuty->fetch_assoc()){
+                        if($out['timeout'] != '00:00:00'){
+                            $duty = "Off duty";
+                        }
+                    }
                 }
                 $tbody .= "<tr>
                 <td>".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])." ".$middlename."</td>
-                <td>$municipality</td>
+                <td>$duty</td>
                 <td>".ucfirst($get["lastname"])."</td>
                 <td>$team</td>
                 </tr>";

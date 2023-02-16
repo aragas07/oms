@@ -1,6 +1,6 @@
 <div class="attendance" style="padding: 10px; flex-direction: column!important;">
     <label>Personnel name</label>
-    <input list="personnels" name="personnel" class="form-control">
+    <input list="personnels" name="personnel" placeholder="Last name, First name" class="form-control">
     <datalist id="personnels">
     </datalist>
     <button class="btn-primary" id="submit-attendance">Submit</button>
@@ -11,13 +11,8 @@
         $.ajax({
             url: "route/getPersonnel",
             success: function(data){
-                console.log(data)
                 $("#personnels").html(data)
             }
-        })
-
-        $("#submit-attendance").click(function(){
-            
         })
     })
 </script>
