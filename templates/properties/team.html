@@ -1,146 +1,83 @@
 
 <div class="grid-cont">
-    <h3 class="grid-title">New Personnel</h3>
-    <div class="grid-body">
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-    </div>
-    <h3 class="grid-title">Team 1 </h3>
-    <div class="grid-body">
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-    </div>
-    <h3 class="grid-title">Team 1 </h3>
-    <div class="grid-body">
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-    </div>
-    <h3 class="grid-title">Team 1 </h3>
-    <div class="grid-body">
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-        <div class="col-4">
-            <p>Ragas, Argie C.</p>
-            <div class="bubble">
-                <h4>Change Team</h4>
-                <a>Team 1</a>
-                <a>Team 2</a>
-                <a>Team 3</a>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
     $(function(){
-        $(".grid-body>div>p").each(function(i){
-            let height = $(".bubble").eq(i).prop('scrollHeight')+10
-            $(this).click(function(){
-                $(".bubble").css({
-                    padding: '0',
-                    height: '0'
-                })
-                $(".bubble").eq(i).css({
-                    padding: '7px',
-                    height: height
-                })
+        npersonnel()
+        function npersonnel(){
+            $.ajax({
+                url: 'route/gnp',
+                success: function(data){
+                    $(".grid-cont").html(data)
+                    $(".delete").click(function(){
+                        submitForm(
+                            'Are you sure?',
+                            'You want to delete this person!',
+                            'warning',
+                            'route/deletePersonnel',
+                            {id: $(this).siblings('p').attr('value')},
+                            'Yes, delete it!'
+                        )
+                    })
+                    $(".bubble>b").click(function(e){
+                        e.preventDefault()
+                        submitForm(
+                            '',
+                            'Do you want '+$(this).parent().siblings('p').html()+' to belong '+$(this).html()+"?",
+                            'question',
+                            'route/changeTeam',
+                            {id: $(this).parent().siblings('p').attr('value'), tid: $(this).attr('value')},
+                            'Yes'
+                        )
+                        console.log($(this).parent().siblings('p').attr('value'))
+                    })
+                    $(".grid-body>div>p").each(function(i){
+                        let height = $(".bubble").eq(i).prop('scrollHeight')+10
+                        $(this).click(()=>{
+                            $(".bubble").css({
+                                padding: '0',
+                                height: '0'
+                            })
+                            $(".bubble").eq(i).css({
+                                padding: '7px',
+                                height: height
+                            })
+                        })
+                    })
+                }
             })
-        })
+        }
+
+        function submitForm(title,text,icon,url,data,cbt){
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: cbt
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: data,
+                        dataType: "JSON",
+                        success: function(data){
+                            if(data.showMessage){
+                                Swal.fire(
+                                    data.title,
+                                    data.msg,
+                                    data.icon
+                                )
+                            }
+                            npersonnel()
+                        }
+                    })
+                }
+            })
+        }
     })
 </script>

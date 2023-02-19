@@ -44,4 +44,81 @@ class MainController{
             echo "<option value='".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])."'>";
         }
     }
+
+    public function getPandT($conn){
+        $id = $_SESSION['city_id'];
+        $getNew = $conn->query("SELECT *,users.id AS uid FROM users WHERE usertype='personnel' AND team_id is null AND municipality_id = $id");
+        if(mysqli_num_rows($getNew) > 0){
+            echo "<h3 class='grid-title'>New Personnel</h3>
+            <div class='grid-body bcc'>";
+            while($new = $getNew->fetch_assoc()){
+                $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $id");
+                $middlename = "";
+                if(strlen($new['middlename']) > 0){
+                    $middlename = substr(ucfirst($new['middlename']),0,1).".";
+                }
+                echo "<div class='col-4'>
+                    <div class='delete'>
+                        <div class='delete-icon'></div>
+                    </div>
+                    <p value='".$new['uid']."'>".ucfirst($new["lastname"]).", ".ucfirst($new["firstname"])." ".$middlename."</p>
+                    <div class='bubble'><h4>Set team</h4>";
+                while($gteam = $getTeam->fetch_assoc()){
+                    echo "<b value='".$gteam['id']."'>".$gteam['name']."</b>";
+                }
+                    
+                    echo "</div>
+                </div>";
+            }
+            echo "</div>";
+        }
+        $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $id");
+        if(mysqli_num_rows($getTeam) > 0){
+            while($team = $getTeam->fetch_assoc()){
+                echo "<h3 class='grid-title'>".$team['name']."</h3>
+                <div class='grid-body bc'>";
+                $getTeamMember = $conn->query("SELECT * FROM users WHERE team_id = ".$team['id']);
+                while($member = $getTeamMember->fetch_assoc()){
+                    $allTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $id");
+                    $middlename = "";
+                    if(strlen($member['middlename']) > 0){
+                        $middlename = substr(ucfirst($member['middlename']),0,1).".";
+                    }
+                    echo "<div class='col-4'>
+                        <p value='".$member['id']."'>".ucfirst($member["lastname"]).", ".ucfirst($member["firstname"])." ".$middlename."</p>
+                        <div class='bubble'><h4>Change team</h4>";
+                        while($ateam = $allTeam->fetch_assoc()){
+                            echo "<b value='".$ateam['id']."'>".$ateam['name']."</b>";
+                        }
+                    echo "</div>
+                    </div>";
+                }
+                echo "</div>";
+            }
+        }
+    }
+
+    public function deletePersonnel($conn, $id){
+        $icon = "error";
+        $msg = "Sorry we have a database problem";
+        $title = "Error";
+        $showMessage = true;
+        if($conn->query("DELETE FROM users WHERE id = $id")){
+            $msg = "The personnel has been deleted";
+            $icon = "success";
+            $title = "Deleted!";
+        }
+        echo json_encode(['icon'=>$icon,'msg'=>$msg,'title'=>$title, 'showMessage'=>$showMessage]);
+    }
+
+    public function changeTeam($conn,$id,$tid){
+        $icon = "error";
+        $msg = "Sorry we have a database problem";
+        $title = "Error";
+        $showMessage = true;
+        if($conn->query("UPDATE users SET team_id = $tid WHERE id = $id")){
+            $showMessage = false;
+        }
+        echo json_encode(['icon'=>$icon,'msg'=>$id,'title'=>$tid, 'showMessage'=>$showMessage]);
+    }
 }

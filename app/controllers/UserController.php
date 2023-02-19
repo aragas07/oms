@@ -51,7 +51,6 @@ class UserController{
                 $middlename = "";
                 $status = "Absent";
                 $ownteam = "";
-                $team = "";
                 if(strlen($get['middlename']) > 0){
                     $middlename = substr(ucfirst($get['middlename']),0,1).".";
                 }
@@ -59,6 +58,7 @@ class UserController{
                     $showbtn = true;
                 }
                 $duty = "";
+                $duty = "Off duty";
                 $onDuty = $conn->query("SELECT * FROM logs WHERE users_id = ".$get['uid']." AND DATE(date) = CURDATE()");
                 if(mysqli_num_rows($onDuty) > 0){
                     $duty = "On duty";
@@ -71,8 +71,8 @@ class UserController{
                 $tbody .= "<tr>
                 <td>".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])." ".$middlename."</td>
                 <td>$duty</td>
-                <td>".ucfirst($get["lastname"])."</td>
-                <td>$team</td>
+                <td>Assignment</td>
+                <td>".$get['name']."</td>
                 </tr>";
             }
         }else if($type == "VEHICLE"){

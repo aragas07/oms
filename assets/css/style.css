@@ -221,6 +221,7 @@ body, html{
 }
 
 .col-4{
+    position: relative;
     width: 33.33%;
 }
 
@@ -330,21 +331,33 @@ textarea{
     animation: 0.7s showingmodal none linear;
 }
 
-.close>.icon, .close>.icon:after{
+.delete-icon, .delete-icon:after{
     height: 13px;
     width: 3px;
     background-color: #333;
 }
 
-.close{
+.close-modal{
     padding: 5px;
 }
 
-.close>.icon{
+.delete{
+    position: absolute;
+    display: none;
+    right: 4px;
+    top: 0;
+    padding: 5px;
+}
+
+.grid-body>.col-4:hover .delete{
+    display: flex;
+} 
+
+.delete-icon{
     transform: rotate(45deg);
 }
 
-.icon:after{
+.delete-icon:after{
     content: "";    
     display: block;
     transform: rotate(90deg);
@@ -424,14 +437,12 @@ select{
     overflow: hidden;
 }
 
-
-.bubble>a{
+.bubble>b{
     position: relative;
     display: flex;
     color: #333;
     text-decoration: none;
     cursor: pointer;
-    font-weight: 550;
     padding: 3px 10px;
     border-radius: 4px;
 }
@@ -451,13 +462,20 @@ h4, h3{
 
 .grid-body>div>p{
     padding: 4px;
-    border: 1px solid gray;
     margin: 3px;
     text-align: center;
     font-weight: 550;
-    color: #333;
+    color: #111;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.bcc>div>p{
+    background-color: #b0f7f3;
+}
+
+.bc>div>p{
+    border: 1px solid #01a5f1;
 }
 
 @media screen and (max-width: 900px){

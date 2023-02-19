@@ -14,4 +14,7 @@
         case "inAc": $activities->insertActivities($conn,$_POST['disaster'],$_POST['location'],$_POST['date'],$_POST['summary'],$_POST['image'],$_SESSION['city_id']); break;
         case "attendance": $main->attendance($conn); break;
         case "getPersonnel": $main->getPersonnel($conn); break;
+        case "gnp": $main->getPandT($conn); break;
+        case "deletePersonnel": $main->deletePersonnel($conn, $_POST['id']); break;
+        case "changeTeam": $main->changeTeam($conn,$_POST['id'],$_POST['tid']); break;
     }

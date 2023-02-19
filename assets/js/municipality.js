@@ -1,9 +1,9 @@
 $(function(){
     view("home",false,"")
-    // $(".modal").show()
     // $(".notif").css("display",'flex')
-    $(".close").click(function(){
+    $(".close-modal").click(function(){
         $(".modal-form").css("transform","scale(0)")
+        getData('PERSONNEL')
         setTimeout(()=>{
             $(".modal").hide()
             $(".modal-form").css({"transform":"scale(1)",'width':'fit-content'})
@@ -119,5 +119,4 @@ $(function(){
         {"box-shadow": "inset 0 7px 9px -7px #00000077", "border-top":"1px solid #00000041"}:
         {"box-shadow":"none","border-top": "none"})
     })
-
 })
