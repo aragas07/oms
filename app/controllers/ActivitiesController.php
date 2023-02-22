@@ -26,18 +26,23 @@ class ActivitiesController{
     }
 
     public function getReport($conn){
-        $result = $conn->query("SELECT * FROM activities AS a INNER JOIN municipality AS m ON a.municipality_id = m.id WHERE municipality_id = ".$_SESSION['city_id']);
+        $result = $conn->query("SELECT * FROM activities WHERE status < 2");
         while($res = $result->fetch_assoc()){
-            $status = "";
-            if($res['team_status'] == 1){
-                $status = "Responded to incident";
+            $status = "On going";
+            if($res['status'] == 1){
+                $status = "Responding";
             }
             echo "<tr>
                 <td>".$res['activity']."</td>
                 <td>".$res['location']."</td>
-                <td>Team from ".$res['name']."</td>
+                <td></td>
                 <td>".$status."</td>
             </tr>";
         }
+    }
+
+    public function getNewActivity($conn){
+        $result = $conn->query("SELECT * FROM activities WHERE status = 0");
+        echo mysqli_num_rows($result);
     }
 }

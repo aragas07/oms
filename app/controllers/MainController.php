@@ -10,10 +10,12 @@ class MainController{
     public function attendance($conn){
         $icon = "error";
         $msg = "";
+        $cid = $_SESSION['city_id'];
         $name = explode(", ",$_POST['name']);
         $fname = $name[1];
         $lname = $name[0];
-        $getPerson = $conn->query("SELECT * FROM users where firstname like '%$fname%' AND lastname like '%$lname%' OR firstname like '%$lname%' AND lastname like '%$fname%'");
+        $getPerson = $conn->query("SELECT * FROM users where firstname like '%$fname%' AND lastname like '%$lname%' 
+        AND municipality_id = $cid OR firstname like '%$lname%' AND lastname like '%$fname%' AND municipality_id = $cid");
         if(mysqli_num_rows($getPerson) != 0){
             $icon = "success";
             $userid = "";

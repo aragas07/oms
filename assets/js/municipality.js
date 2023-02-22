@@ -1,6 +1,6 @@
 $(function(){
     view("home",false,"")
-    // $(".notif").css("display",'flex')
+    hasNotif()
     $(".close-modal").click(function(){
         $(".modal-form").css("transform","scale(0)")
         getData('PERSONNEL')
@@ -23,7 +23,7 @@ $(function(){
         $(".active").removeClass("active")
         $(this).addClass("active")
         submenu = false;
-        view($(this).text()+"",false,"")
+        view($(this).attr('value')+"",false,"")
     })
     $(".drp-dwn").siblings("ul").children().click(function(){
         if(!submenu){
@@ -119,4 +119,16 @@ $(function(){
         {"box-shadow": "inset 0 7px 9px -7px #00000077", "border-top":"1px solid #00000041"}:
         {"box-shadow":"none","border-top": "none"})
     })
+
+    function hasNotif(){
+        $.ajax({
+            url: 'route/getnewAc',
+            success: function(num){
+                if(num > 0){
+                    $(".notif").css("display",'flex')
+                }
+                $(".notif").html(num)
+            }
+        })
+    }
 })
