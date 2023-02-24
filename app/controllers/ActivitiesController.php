@@ -37,6 +37,8 @@ class ActivitiesController{
                 <td>".$res['location']."</td>
                 <td></td>
                 <td>".$status."</td>
+                <td hidden>".$res['summary']."</td>
+                <td hidden>".$res['image']."</td>
             </tr>";
         }
     }

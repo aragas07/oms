@@ -98,6 +98,14 @@ body, html{
     text-align: right;
 }
 
+.f-width{
+    width: 100%;
+}
+
+.text-center{
+    text-align: center;
+}
+
 .form-group{
     width: 100%;
     display: flex;
@@ -301,7 +309,7 @@ textarea{
 }
 
 .modal{
-    position: absolute;
+    position: fixed;
     top: 0;
     padding-top: 15px;
     height: 100vh;
@@ -377,6 +385,7 @@ textarea{
     float: right;
     margin-top: 5px;
 }
+
 
 @keyframes slideleft{
     0%{ 
