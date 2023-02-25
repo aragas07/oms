@@ -28,7 +28,7 @@ class ActivitiesController{
     public function getReport($conn){
         $result = $conn->query("SELECT * FROM activities WHERE status < 2");
         while($res = $result->fetch_assoc()){
-            $status = "On going";
+            $status = "New";
             if($res['status'] == 1){
                 $status = "Responding";
             }
@@ -46,5 +46,38 @@ class ActivitiesController{
     public function getNewActivity($conn){
         $result = $conn->query("SELECT * FROM activities WHERE status = 0");
         echo mysqli_num_rows($result);
+    }
+
+    public function getAvailable($conn){
+        $city = $_SESSION['city_id'];
+        $getTeam = $conn->query("SELECT * FROM team AS t LEFT JOIN responded_team AS r ON t.id = r.team_id WHERE municipality_id = $city AND status IS NULL");
+        $getVehicle = $conn->query("SELECT * FROM vehicle WHERE municipality_id = $city");
+        echo "<div class='grid-cont'>
+            <h3 class='grid-title'>Team</h3>
+            <div class='grid-body bc'>";
+        while($team = $getTeam->fetch_assoc()){
+            echo "<div class='col-4'>
+                <p>".$team['name']."</p>
+            </div>";
+        }
+        echo "</div>
+        </div>";
+        
+        echo "<table class='mt-30 box-shadow table-text-left'>
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody id='vehicle' style='cursor: pointer'>";
+        while($vehicle = $getVehicle->fetch_assoc()){
+            echo "<tr>
+                <td>".$vehicle['vehicle']."</td>
+                <td><div class='table-div'>".$vehicle['type']."</div></td>
+            </tr>";
+        }
+        echo "</tbody>
+        </table>";
     }
 }

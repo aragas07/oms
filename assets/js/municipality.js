@@ -1,9 +1,11 @@
 $(function(){
+    let page = ''
     view("home",false,"")
     hasNotif()
     $(".close-modal").click(function(){
         $(".modal-form").css("transform","scale(0)")
-        getData('PERSONNEL')
+        if(page == 'PERSONNEL')
+            getData(page)
         setTimeout(()=>{
             $(".modal").hide()
             $(".modal-form").css({"transform":"scale(1)",'width':'fit-content'})
@@ -23,7 +25,8 @@ $(function(){
         $(".active").removeClass("active")
         $(this).addClass("active")
         submenu = false;
-        view($(this).attr('value')+"",false,"")
+        page = $(this).attr('value')
+        view(page,false,"")
     })
     $(".drp-dwn").siblings("ul").children().click(function(){
         if(!submenu){
@@ -33,6 +36,7 @@ $(function(){
         $(this).siblings(".active").removeClass("active")
         $(this).addClass("active").parent().parent().addClass("active")
         text = $(this).text().split(" ")
+        page = text[0]
         getData(text[0])
     })
 
@@ -126,8 +130,13 @@ $(function(){
             success: function(num){
                 if(num > 0){
                     $(".notif").css("display",'flex')
+                    $(".notif").html(num)
+                }else{
+                    $(".notif").css("display",'none')
                 }
-                $(".notif").html(num)
+                setTimeout(()=>{
+                    hasNotif()
+                }, 3000)
             }
         })
     }

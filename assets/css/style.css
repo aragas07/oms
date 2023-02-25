@@ -61,6 +61,15 @@ body, html{
     font-weight: 550;
 }
 
+.btn-danger{
+    padding: 5px 15px;
+    background-color: rgb(247, 2, 2);
+    border: none;
+    color: white;
+    font-weight: 550;
+    border-radius: 15px;
+    height: fit-content;
+}
 
 .label-sm{
     text-align: left;
@@ -73,7 +82,7 @@ body, html{
 }
 
 .btn-default{
-    padding: 5px 9px;
+    padding: 5px 15px;
     background-color: black;
     color: #ddd;
     border-radius: 15px;
@@ -81,7 +90,7 @@ body, html{
 }
 
 .btn-primary{
-    padding: 5px 9px;
+    padding: 5px 15px;
     background-color: rgb(2, 129, 247);
     border: none;
     color: white;
@@ -176,6 +185,10 @@ body, html{
     padding: 10px;
 }
 
+.box-shadow{
+    box-shadow: 1px 0 3px gray;
+}
+
 .card p{
     text-align: justify;
 }
@@ -262,6 +275,14 @@ body, html{
     margin-top: 30px;
 }
 
+.mt-10{
+    margin-top: 10px;
+}
+
+.mb-5{
+    margin-bottom: 5px;
+}
+
 .home p{
     background-color: #59C1BDDA;
     padding: 4px;
@@ -316,6 +337,7 @@ textarea{
     width: 100%;
     background-color: #00000070;
     display: none;
+    z-index: 100;
 }
 
 @keyframes showingmodal {

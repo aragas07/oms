@@ -16,12 +16,12 @@
         <h3 class="title">Summary</h3>
     </div>
     <div class="card">
+        <div class="f-width text-right">
+            <button id="response" class="btn-primary">Response</button>
+        </div>
         <p></p>
         <div class="f-width text-center">
             <img style="width:50%; border-radius: 4px;" id="img-report" alt="">
-        </div>
-        <div class="f-width text-right">
-            <button id="response" class="btn-primary">Response</button>
         </div>
     </div>
 </div>
@@ -46,7 +46,42 @@
         })
 
         $("#response").click(function(){
-            $(".modal").show()
+            $(".modal").show().children().css('width','40%')
+            $(".modal-head>h4").text('Team & Vehicle available')
+            $.ajax({
+                url: "route/getAvailable",
+                success: function(data){
+                    data += "<div class='f-width text-right mt-10 mb-5'><button class='btn-danger'>Deploy</button></div>"
+                    $(".modal-body").html(data)
+                    $("#vehicle").children().each(function(){
+                        $(this).click(function(){
+                            if($(this).attr('class') != 'row-active'){
+                                $(this).attr('class','row-active')
+                                .children()
+                                .children().append('<a class="check">✅</a>')
+                            }else{
+                                $(this).attr('class','')
+                                .children()
+                                .children()
+                                .children('a').remove()
+                            }
+                        })
+                    })
+
+                    $(".bc").children().each(function(){
+                        let b = true
+                        $(this).click(function(){
+                            if(b){
+                                b = false
+                                $(this).children().addClass('t-active')
+                            }else{
+                                b = true
+                                $(this).children().removeClass('t-active')
+                            }
+                        })
+                    })
+                }
+            })
         })
     })
 </script>

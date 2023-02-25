@@ -18,4 +18,5 @@
         case "deletePersonnel": $main->deletePersonnel($conn, $_POST['id']); break;
         case "changeTeam": $main->changeTeam($conn,$_POST['id'],$_POST['tid']); break;
         case "getnewAc": $activities->getNewActivity($conn); break;
+        case "getAvailable": $activities->getAvailable($conn); break;
     }

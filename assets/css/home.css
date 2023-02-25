@@ -31,6 +31,7 @@ body{
 .nav{
     display: flex;
     margin: auto;
+    z-index: 50;
 }
 
 #container{
@@ -153,6 +154,16 @@ tbody tr{
     border-radius: 17px;
 }
 
+.t-active{
+    background-color: #01a5f1;
+    color: white!important;
+}
+
+.table-div{
+    display: flex;
+    justify-content: space-between;
+}
+
 #custom-btn:hover{
     background-color: #0249a7;
 }
@@ -161,10 +172,14 @@ td{
     padding: 5px 9px;
     text-align: center;
 }
+
 tbody tr:nth-child(even){
     background-color: #59C1BDDA;
 }
 
+.table-text-left>thead>tr>th, .table-text-left>tbody>tr>td{
+    text-align: left;
+}
 
 .btn-bottom-border{
     width: 150px;
