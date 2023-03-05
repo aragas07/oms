@@ -7,7 +7,7 @@
             <th>STATUS OF INCIDENT</th>
         </tr>
     </thead>
-    <tbody style="cursor: pointer">
+    <tbody id="reporttable">
         
     </tbody>
 </table>
@@ -28,22 +28,30 @@
 
 <script>
     $(function(){
+        let aid = 0,
+        ctable = ()=>{
+            $("#reporttable").css('cursor','pointer')
+            $("tbody>tr").click(function(){
+                aid = $(this).attr('value')
+                $("#summary")
+                .show()
+                .children('.card')
+                .children('p')
+                .text($(this).children().eq(4).text())
+                if($(this).children().eq(5).text() != ""){
+                    $("#img-report").attr("src",$(this).children().eq(5).text())
+                }
+            })
+        }
         $.ajax({
             url:"route/getReport",
+            dataType: "JSON",
             success: function(result){
-                $("table tbody").html(result)
-                $("tbody>tr").click(function(){
-                    $("#summary")
-                    .show()
-                    .children('.card')
-                    .children('p')
-                    .text($(this).children().eq(4).text())
-                    if($(this).children().eq(5).text() != ""){
-                        $("#img-report").attr("src",$(this).children().eq(5).text())
-                    }
-                })
+                $("table tbody").html(result.tbody)
+                result.clickable ? ctable() : $("#reporttable").css('cursor','default')
             }
         })
+
 
         $("#response").click(function(){
             $(".modal").show().children().css('width','40%')
@@ -79,6 +87,31 @@
                                 $(this).children().removeClass('t-active')
                             }
                         })
+                    })
+
+                    $(".btn-danger").click(function(){
+                        if($(".row-active").length == 0 && $(".t-active").length == 0){
+                            swal.fire('Sorry!','Due to the lack of a team or vehicle, we are unable to provide service.','error')
+                        }else{
+                            $(".t-active").each(function(){
+                                let tid = $(this).attr('value')
+                                $.ajax({
+                                    url: 'route/rteam',
+                                    type: "POST",
+                                    data: {tid: tid, aid: aid}
+                                })
+                            })
+                            $(".row-active").each(function(){
+                                let id = $(this).attr('value')
+                                $.ajax({
+                                    url: 'route/rveh',
+                                    type: "POST",
+                                    data: {id: id}
+                                })
+                            })
+                            $(".close-modal").click()
+                            swal.fire('The team will be sent out.')
+                        }
                     })
                 }
             })

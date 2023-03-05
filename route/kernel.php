@@ -19,4 +19,7 @@
         case "changeTeam": $main->changeTeam($conn,$_POST['id'],$_POST['tid']); break;
         case "getnewAc": $activities->getNewActivity($conn); break;
         case "getAvailable": $activities->getAvailable($conn); break;
+        case "rteam": $main->rteam($conn, $_POST['tid'], $_POST['aid']); break;
+        case "rveh": $main->rveh($conn, $_POST['id']); break;
+        case "rtcs": $activities->rtcs($conn, $_POST['activities'], $_POST['team'], $_POST['status']); break;
     }

@@ -39,6 +39,9 @@ class UserController{
         $tbody = "";
         $city = $_SESSION['city_id'];
         $showbtn = false;
+        if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
+            $showbtn = true;
+        }
         if($type == "PERSONNEL"){
             $thead = "<tr>
                         <th>PERSONNEL</th>
@@ -54,11 +57,9 @@ class UserController{
                 if(strlen($get['middlename']) > 0){
                     $middlename = substr(ucfirst($get['middlename']),0,1).".";
                 }
-                if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
-                    $showbtn = true;
-                }
                 $duty = "";
                 $duty = "Off duty";
+                $assignment = "";
                 $onDuty = $conn->query("SELECT * FROM logs WHERE users_id = ".$get['uid']." AND DATE(date) = CURDATE()");
                 if(mysqli_num_rows($onDuty) > 0){
                     $duty = "On duty";
@@ -66,12 +67,13 @@ class UserController{
                         if($out['timeout'] != '00:00:00'){
                             $duty = "Off duty";
                         }
+                        $assignment = $out['assignment'];
                     }
                 }
                 $tbody .= "<tr>
                 <td>".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])." ".$middlename."</td>
                 <td>$duty</td>
-                <td>Assignment</td>
+                <td>$assignment</td>
                 <td>".$get['name']."</td>
                 </tr>";
             }
@@ -85,7 +87,9 @@ class UserController{
             while($res = $result->fetch_assoc()){
                 $status = "";
                 if($res['status'] == 1){
-                    $status = "On going";
+                    $status = "Available";
+                }else if($res['status'] == 2){
+                    $status = "On use";
                 }
                 $tbody .= "<tr>
                         <td>".$res['vehicle']."</td>
@@ -100,6 +104,23 @@ class UserController{
                         <th>RESPONDING TEAM</th>
                         <th>STATUS OF TEAM</th>
                     </tr>";
+            $result = $conn->query("SELECT *,r.status AS rstatus FROM activities AS a INNER JOIN responded_team AS r INNER JOIN team AS t ON a.id = r.activities_id AND r.team_id = t.id WHERE t.municipality_id = $city");
+            while($res = $result->fetch_assoc()){
+                $status = "";
+                if($res['rstatus'] == 1){
+                    $status = "On going";
+                }else if($res['rstatus'] == 2){
+                    $status = "On working";
+                }else{
+                    $status = "Done";
+                }
+                $tbody .= "<tr value='".$res['activities_id']."|".$res['team_id']."'>
+                <td>".$res['activity']."</td>
+                <td>".$res['location']."</td>
+                <td>".$res['name']."</td>
+                <td>$status</td>
+                </tr>";
+            }
         }
         echo json_encode(['thead'=>$thead,'tbody'=>$tbody, 'showbtn'=>$showbtn, 'city'=>$city]);
     }

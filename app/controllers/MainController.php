@@ -123,4 +123,14 @@ class MainController{
         }
         echo json_encode(['icon'=>$icon,'msg'=>$id,'title'=>$tid, 'showMessage'=>$showMessage]);
     }
+
+    public function rteam($conn, $tid, $aid){
+        $conn->query("INSERT INTO responded_team(activities_id,team_id,status) VALUES($aid,$tid,1)");
+        echo "success";
+    }
+
+    public function rveh($conn,$id){
+        $conn->query("UPDATE vehicle SET status = 2 WHERE id = $id");
+        echo "Example";
+    }
 }
