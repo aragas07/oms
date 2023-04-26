@@ -9,8 +9,13 @@ const urlRoutes = {
     "/contact": {template: "templates/contact.html", title:"contact | OMS", script: "", link: ""},
     "/signup": {template: "templates/signup.html",title:"Sign up | OMS",script: "signup", link:"login"},
     "/municipality": {template: "templates/municipal.html", title: sessionStorage.getItem('city')+" | OMS", script: "municipality", link: "home"},
-    
 }
+
+window.addEventListener('click', function(){
+    if(sessionStorage.length == 0){
+        window.location.href = '/'
+    }
+})
 
 function nav(){
     document.addEventListener("click",(e)=>{

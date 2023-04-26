@@ -1,15 +1,10 @@
+<div class="tabcont">
+    <button tab="report" class="tab tab-active">Report</button>
+    <button tab="request" class="tab">Request <div class="notif"></div></button>
+</div>
 <table>
-    <thead>
-        <tr>
-            <th>INCIDENT TYPE</th>
-            <th>LOCATION</th>
-            <th>RESPONDING TEAM</th>
-            <th>STATUS OF INCIDENT</th>
-        </tr>
-    </thead>
-    <tbody id="reporttable">
-        
-    </tbody>
+    <thead></thead>
+    <tbody id="reporttable" style="cursor: pointer!important"></tbody>
 </table>
 <div id="summary" hidden class="mt-30">
     <div class="col-4 home">
@@ -17,10 +12,11 @@
     </div>
     <div class="card">
         <div class="f-width text-right">
-            <button id="response" class="btn-primary">Response</button>
+            <button id="response" class="btn-primary">Ask help</button>
+            <button id="repres" class="btn-danger">Response</button>
         </div>
         <p></p>
-        <div class="f-width text-center">
+        <div class="f-width text-center" style="caret-color: transparent">
             <img style="width:50%; border-radius: 4px;" id="img-report" alt="">
         </div>
     </div>
@@ -30,8 +26,9 @@
     $(function(){
         let aid = 0,
         ctable = ()=>{
-            $("#reporttable").css('cursor','pointer')
             $("tbody>tr").click(function(){
+                $('.tractive').removeClass('tractive')
+                $(this).attr('class','tractive')
                 aid = $(this).attr('value')
                 $("#summary")
                 .show()
@@ -42,36 +39,43 @@
                     $("#img-report").attr("src",$(this).children().eq(5).text())
                 }
             })
-        }
-        $.ajax({
-            url:"route/getReport",
-            dataType: "JSON",
-            success: function(result){
-                $("table tbody").html(result.tbody)
-                result.clickable ? ctable() : $("#reporttable").css('cursor','default')
-            }
-        })
-
-
-        $("#response").click(function(){
-            $(".modal").show().children().css('width','40%')
-            $(".modal-head>h4").text('Team & Vehicle available')
+        },
+        hidetab = ()=>{
+            $("#reporttable").css('cursor','default')
+            $(".tabcont").hide()
+        }, 
+        fetch = (type)=>{
+            $.ajax({
+                url:"route/getReport",
+                dataType: "JSON",
+                type: 'POST',
+                data: {type: type},
+                success: function(result){
+                    $("table>thead").html(result.thead)
+                    $("table>tbody").html(result.tbody)
+                    result.clickable ? ctable() : hidetab()
+                }
+            })
+        }, 
+        response = ()=>{
+            console.log("response")
             $.ajax({
                 url: "route/getAvailable",
                 success: function(data){
-                    data += "<div class='f-width text-right mt-10 mb-5'><button class='btn-danger'>Deploy</button></div>"
+                    data += "<div class='f-width text-right mt-10 mb-5'><button id='deploy' class='btn-danger'>Deploy</button></div>"
                     $(".modal-body").html(data)
                     $("#vehicle").children().each(function(){
                         $(this).click(function(){
                             if($(this).attr('class') != 'row-active'){
                                 $(this).attr('class','row-active')
                                 .children()
-                                .children().append('<a class="check">✅</a>')
+                                .children()
+                                .children().text('✅').attr('class','check')
                             }else{
                                 $(this).attr('class','')
                                 .children()
                                 .children()
-                                .children('a').remove()
+                                .children().text('❏').attr('class','')
                             }
                         })
                     })
@@ -89,32 +93,100 @@
                         })
                     })
 
-                    $(".btn-danger").click(function(){
-                        if($(".row-active").length == 0 && $(".t-active").length == 0){
+                    $("#deploy").click(function(){
+                        if($(".row-active").length == 0 || $(".t-active").length == 0){
                             swal.fire('Sorry!','Due to the lack of a team or vehicle, we are unable to provide service.','error')
                         }else{
                             $(".t-active").each(function(){
-                                let tid = $(this).attr('value')
-                                $.ajax({
-                                    url: 'route/rteam',
-                                    type: "POST",
-                                    data: {tid: tid, aid: aid}
-                                })
+                                ajaxPost({url: 'route/rteam', data: {tid: $(this).attr('value'), aid: aid}})
                             })
                             $(".row-active").each(function(){
-                                let id = $(this).attr('value')
-                                $.ajax({
-                                    url: 'route/rveh',
-                                    type: "POST",
-                                    data: {id: id}
-                                })
+                                ajaxPost({url: 'route/rveh', data: {id: $(this).attr('value'), aid: aid}})
                             })
+
+                            ajaxPost({url: 'route/response', data: {id: aid}})
                             $(".close-modal").click()
                             swal.fire('The team will be sent out.')
                         }
                     })
                 }
             })
+            return {width: '40%', text: 'Team & Vehicle available'}
+        },
+        ajaxPost = (p)=>{
+            $.ajax({
+                url: p.url,
+                type: 'POST',
+                data: p.data
+            })
+        },
+        askhelp = ()=>{
+            $.ajax({
+                url: 'route/askhelp',
+                success: function(result){
+                    $(".modal-body").html(result+
+                        "<div class='f-width text-right mt-10 mb-5'><button class='btn-primary' id='help'>Submit</button></div>")
+                    $("#municipality").children().each(function(){
+                        $(this).click(()=>{
+                            if($(this).attr('class') != 'municipality-active'){
+                                $(this).attr('class','municipality-active')
+                                .children()
+                                .children()
+                                .children().text('✅').attr('class','check')
+                            }else{
+                                $(this).attr('class','')
+                                .children()
+                                .children()
+                                .children().text('❏').attr('class','')
+                            }
+                        })
+                    })
+                    $("#help").click(()=>{
+                        $(".municipality-active").each(function(){
+                            $.ajax({
+                                url: 'route/sendrequest',
+                                type: 'POST',
+                                data: {id: $(this).attr('value')}
+                            })
+                        })
+                        swal.fire({
+                            icon: 'success',
+                            title: 'The request for help has been sent'
+                        })
+                        $(".close-modal").click()
+                    })
+                }
+            })
+            return {width: '25%', text: 'Ask for the help of this municipality'}
+        },
+        modal = (type)=>{
+            const get = type ? response() : askhelp()
+            $(".modal").css({"display":"flex","justify-content":"center"}).children().css('width',get.width)
+            $(".modal-head>h4").text(get.text)
+        }
+
+        fetch(0)
+        $(".tab").click(function(){
+            $(".tab-active").removeClass('tab-active')
+            $("#summary").hide()
+            $(this).addClass('tab-active')
+            if($(this).attr('tab') == 'report'){
+                $("#response").text('Ask help')
+                $("#repres").show()
+                fetch(0)
+            }else{
+                $("#response").text('Response')
+                $("#repres").hide()
+                fetch(1)
+            }
+        })
+        
+        $("#repres").click(()=>{
+            modal(true)
+        })
+
+        $("#response").click(function(){
+            modal($(this).text() == 'Response')
         })
     })
 </script>

@@ -2,24 +2,25 @@
     <form method="">
         <div class="row hv-center">
             <div class="form-group">
-                <label for="" class="label-sm">Disaster</label>
+                <h3 class="grid-title">Disaster</h3>
                 <input type="text" required name="disaster" class="cont-row form-control">
             </div>
             <div class="form-group">
-                <label for="" class="label-sm">Location</label>
+                <h3 class="grid-title">Location</h3>
                 <input type="text" required name="location" class="cont-row form-control">
             </div>
             <div class="form-group">
-                <label for="" class="label-sm">Date</label>
+                <h3 class="grid-title">Date</h3>
                 <input type="date" name="date" class="cont-row form-control">
             </div>
             <button class="btn-primary" style="padding: 4px 17px">Submit</button>
         </div>
         <div class="flex-col">
-            <label for="" class="label-sm">Summary</label>
+            <h3 class="grid-title">Summary</h3>
             <textarea name="summary" class="form-control txtarea"></textarea>
         </div>
-        <div class="flex-col">
+        <div class="flex-col mb-5" id="available"></div>
+        <div class="flex-col mt-10">
             <div class="img-wrapper">
                 <img alt="" id="summaryimg">
                 <input type="text" name="image" hidden id="imgtext">
@@ -44,6 +45,53 @@
 </div>
 <script>
     $(function(){
+        // 👉️👇️👈️
+        const clearform = ()=>{
+            $(".form-control").each(function(){
+                $(this).val("")
+                $("#summaryimg").attr("src","")
+                $("#imgtext").val("")
+            })
+            $('input[name="date"]').val(today)
+            $(".txtarea").css("height","26px")
+        },
+        available = ()=>{
+            $.ajax({
+            url: 'route/getAvailable',
+            success: function(e){
+                $("#available").html(e)
+                $("#vehicle").children().each(function(){
+                        $(this).click(function(){
+                            if($(this).attr('class') != 'row-active'){
+                                $(this).attr('class','row-active')
+                                .children()
+                                .children()
+                                .children().text('✅').attr('class','check')
+                            }else{
+                                $(this).attr('class','')
+                                .children()
+                                .children()
+                                .children().text('❏').attr('class','')
+                            }
+                        })
+                    })
+
+                    $(".bc").children().each(function(){
+                        let b = true
+                        $(this).click(function(){
+                            if(b){
+                                b = false
+                                $(this).children().addClass('t-active')
+                            }else{
+                                b = true
+                                $(this).children().removeClass('t-active')
+                            }
+                        })
+                    })
+            }
+        })
+        }
+        available()
         $("#custom-btn").click(function(){
             $("#default-btn").click()
         })
@@ -97,29 +145,100 @@
             }
         })
         $("form").submit(function(e){
-            e.preventDefault();
+            e.preventDefault()
+            const data = new FormData(this)
+            if($(".row-active").length == 0 || $(".t-active").length == 0){
+                swal.fire({
+                    title: 'Sorry!',
+                    html: '<h5 style="margin: 0">Due to the lack of a team or vehicle, we are unable to provide service.</h5>',
+                    icon: 'error',
+                    showCancelButton: true,
+                    confirmButtonText: 'ask help'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $(".modal-form").width("25%")
+                        $(".modal-head").children('h4').text('Ask for the help of this municipality')
+                        $.ajax({
+                            url: 'route/askhelp',
+                            success: function(result){
+                                $(".modal-body").html(result+
+                                "<div class='f-width text-right mt-10 mb-5'><button class='btn-primary' id='help'>Submit</button></div>")
+                                $("#municipality").children().each(function(){
+                                    $(this).click(()=>{
+                                        if($(this).attr('class') != 'municipality-active'){
+                                            $(this).attr('class','municipality-active')
+                                            .children()
+                                            .children()
+                                            .children().text('✅').attr('class','check')
+                                        }else{
+                                            $(this).attr('class','')
+                                            .children()
+                                            .children()
+                                            .children().text('❏').attr('class','')
+                                        }
+                                    })
+                                })
+                                $("#help").click(()=>{
+                                    insertact(false,data)
+                                    $(".municipality-active").each(function(){
+                                        $.ajax({
+                                            url: 'route/sendrequest',
+                                            type: 'POST',
+                                            data: {id: $(this).attr('value')}
+                                        })
+                                    })
+                                    swal.fire({
+                                        icon: 'success',
+                                        title: 'The request for help has been sent'
+                                    })
+                                    $(".close-modal").click()
+                                    clearform()
+                                })
+                            }
+                        })
+                        $(".modal").css({
+                            "display":"flex",
+                            "justify-content":"center",
+                        })
+                    }
+                })
+            }else{
+                insertact(true,data)
+            }
+        })
+
+        function insertact(b,data){
             $.ajax({
                 url: "route/inAc",
                 type: "POST",
-                data: new FormData(this),
+                data: data,
                 dataType: "JSON",
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function(result){
-                    result ? success() : msg("aerror","Sorry we have a problem about the database connection")
+                success: function(r){
+                    if(b) r.success ? success(r.id) : msg("aerror","Sorry we have a problem about the database connection")
                 }
             })
-        })
-        function success(){
-            msg("asuccess","The report has been sent") 
-            $(".form-control").each(function(){
-                $(this).val("")
-                $("#summaryimg").attr("src","")
-                $("#imgtext").val("")
+        }
+        function success(aid){
+            $(".t-active").each(function(){
+                $.ajax({
+                    url: 'route/rteam',
+                    type: "POST",
+                    data: {tid: $(this).attr('value'), aid: aid}
+                })
             })
-            $('input[name="date"]').val(today)
-            $(".txtarea").css("height","26px")
+            $(".row-active").each(function(){
+                $.ajax({
+                    url: 'route/rveh',
+                    type: "POST",
+                    data: {id: $(this).attr('value'), aid: aid}
+                })
+            })
+            msg("asuccess","The report has been sent") 
+            clearform()
+            available()
         }
     })
 </script>

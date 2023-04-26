@@ -87,23 +87,9 @@ body{
 li{
     position: relative;
     cursor: pointer;
+    caret-color: transparent;
 }
 
-.notif{
-    position: absolute;
-    right: -7px;
-    top: -4px;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    height: 15px;
-    width: 15px;
-    border-radius: 100%;
-    color: white;
-    font-size: 9px;
-    background-color: red;
-    z-index: 80;
-}
 
 .nav li ul li{
     position: relative;
@@ -119,6 +105,7 @@ table {
     border-collapse: collapse;
     margin-top: 7px;
     width: 100%;
+    border-bottom: 1px solid #a1a1a1;
 }
 thead {
     display: table-header-group;
@@ -128,6 +115,11 @@ thead {
     color: white;
     text-shadow: 0 1px 3px black;
 }
+
+th, td{
+    caret-color: transparent;
+}
+
 th{
     padding: 7px;
 }
@@ -146,7 +138,7 @@ tbody tr{
 }
 
 #custom-btn{
-    padding: 4px 30px;
+    padding: 5px 30px;
     border: none;
     background-color: #06283D;
     color: white;

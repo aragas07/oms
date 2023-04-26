@@ -9,7 +9,7 @@
         case "getMun": $user->getMun($conn,$_POST['city']); break;
         case "getData": $user->getData($conn,$_POST['type']); break;
         case "aclist": $activities->getAcList($conn); break;
-        case "getReport": $activities->getReport($conn); break;
+        case "getReport": $activities->getReport($conn, $_POST['type']); break;
         case "getCity": $main->getCity($conn); break;
         case "inAc": $activities->insertActivities($conn,$_POST['disaster'],$_POST['location'],$_POST['date'],$_POST['summary'],$_POST['image'],$_SESSION['city_id']); break;
         case "attendance": $main->attendance($conn); break;
@@ -19,7 +19,16 @@
         case "changeTeam": $main->changeTeam($conn,$_POST['id'],$_POST['tid']); break;
         case "getnewAc": $activities->getNewActivity($conn); break;
         case "getAvailable": $activities->getAvailable($conn); break;
-        case "rteam": $main->rteam($conn, $_POST['tid'], $_POST['aid']); break;
-        case "rveh": $main->rveh($conn, $_POST['id']); break;
+        case "rteam": $activities->rteam($conn, $_POST['tid'], $_POST['aid']); break;
+        case "rveh": $activities->rveh($conn, $_POST['id'], $_POST['aid']); break;
         case "rtcs": $activities->rtcs($conn, $_POST['activities'], $_POST['team'], $_POST['status']); break;
+        case "updateVehicle": $activities->updateVeh($conn, $_POST['id'], $_POST['stats'], $_POST['response']); break;
+        case 'askhelp': $user->askhelp($conn); break;
+        case 'sendrequest': $user->sendrequest($conn, $_POST['id']); break;
+        case 'glTeam': $main->glTeam($conn); break;
+        case 'addteam': $main->addteam($conn); break;
+        case 'response': $main->response($conn,$_POST['id']); break;
+        case 'updateTeam': $activities->updateTeam($conn,$_POST['id'],$_POST['value'], true); break;
+        case 'updateInc': $activities->updateInc($conn,$_POST['id'],$_POST['value']); break;
+        case 'getAttendance': $user->getAttendance($conn,$_POST['month']);
     }

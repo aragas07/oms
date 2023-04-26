@@ -5,83 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-    <script src="assets/js/jquery.js"></script>
     <style>
-        table {
-            border-collapse: collapse;
-            margin-top: 7px;
-            width: 40%;
-            margin: auto;
-            box-shadow: 1px 0 4px gray;
-        }
-        thead {
-            display: table-header-group;
-            vertical-align: middle;
-            border-color: inherit;
-            background-color: #0d4b92ea;
-            color: white;
-            text-shadow: 0 1px 3px black;
-        }
-        th{
-            padding: 7px;
-        }
-        tbody tr{
-            background-color: #ffffffe1;
-        }
-        tbody tr:nth-child(even){
-            background-color: #59C1BDDA;
-        }
-
-        .table-div{
-            display: flex;
-            justify-content: space-between;
+        .btn-outline-primary{
+            padding: 5px 15px;
+            border: none;
+            color: rgb(6, 53, 182);
+            font-weight: 550;
+            border-radius: 15px;
+            height: fit-content;
+            background-color: transparent;
+            border: 1px solid rgb(89, 86, 241);
         }
     </style>
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>Vehicle</th>
-                <th>Type</th>
-            </tr>
-        </thead>
-        <tbody id="vehicle" style="cursor: pointer">
-        <tr>
-            <td>vehicle #1</td>
-            <td><div class="table-div">Medium Fire engine</div></td>
-        </tr><tr>
-            <td>vehicle #2</td>
-            <td><div class="table-div">Medium Fire engine</div></td>
-        </tr><tr>
-            <td>vehicle #3</td>
-            <td><div class="table-div">Medium Fire engine</div></td>
-        </tr><tr>
-            <td>vehicle #4</td>
-            <td><div class="table-div">Medium Fire engine</div></td>
-        </tr></tbody>
-    </table>
-    <script>
-        $(function(){
-                    $("#vehicle").children().each(function(){
-                        $(this).click(function(){
-                            if($(this).attr('class') != 'row-active'){
-                                
-                                console.log("active")
-                                $(this).attr('class','row-active')
-                                .children()
-                                .children().append('<a class="check">✅</a>')
-                                $('body').append('<button class="sample">Example</button>')
-                            }else{
-                                $(this).attr('class','')
-                                .children()
-                                .children()
-                                .children('a').remove()
-                            }
-                        })
-                    })
-        })
-    </script>
+    <button class="btn-outline-primary">Add new</button>
 </body>
 </html>

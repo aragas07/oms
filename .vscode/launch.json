@@ -4,7 +4,20 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+        {
+            "type": "java",
+            "name": "VaccinationApp",
+            "request": "launch",
+            "mainClass": "VaccinationApp",
+            "projectName": "oms_25f422df"
+        },
+        {
+            "type": "java",
+            "name": "petregistration",
+            "request": "launch",
+            "mainClass": "petregistration",
+            "projectName": "oms_25f422df"
+        },
         {
             "type": "chrome",
             "request": "launch",

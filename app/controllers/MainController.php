@@ -124,13 +124,24 @@ class MainController{
         echo json_encode(['icon'=>$icon,'msg'=>$id,'title'=>$tid, 'showMessage'=>$showMessage]);
     }
 
-    public function rteam($conn, $tid, $aid){
-        $conn->query("INSERT INTO responded_team(activities_id,team_id,status) VALUES($aid,$tid,1)");
-        echo "success";
+    public function response($conn, $id){
+        $conn->query("UPDATE help SET status = 1 WHERE activities = $id AND municipality_id = ".$_SESSION['userloc']);
     }
 
-    public function rveh($conn,$id){
-        $conn->query("UPDATE vehicle SET status = 2 WHERE id = $id");
-        echo "Example";
+    public function glTeam($conn){
+        $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = ".$_SESSION['userloc']." ORDER BY id DESC LIMIT 1");
+        while($get = $getTeam->fetch_assoc()){
+            $n = explode(" ",$get['name']);
+            $last = (int)$n[1]+1;
+            $_SESSION['last'] = $last;
+            echo $last;
+        }
+    }
+
+    public function addteam($conn){
+        $num = 'team '.$_SESSION['last'];
+        $mun = $_SESSION['userloc'];
+        $conn->query("INSERT INTO team(name,municipality_id,status) VALUES('$num',$mun,0)");
+        echo true;
     }
 }

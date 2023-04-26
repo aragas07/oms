@@ -4,6 +4,7 @@ $(function(){
     if(sessionStorage.getItem('city') == sessionStorage.getItem('location'))
         hasNotif()
     $(".close-modal").click(function(){
+        $('.btn-outline-primary').remove()
         $(".modal-form").css("transform","scale(0)")
         if(page == 'PERSONNEL' || page == 'INCIDENT')
             getData(page)
@@ -66,13 +67,22 @@ $(function(){
                     $("tbody").html(result.tbody)
                     if(result.showbtn){
                         $("table").after("<button class='right' id='custom-btn'>Update</button>")
+                        $("select").each(function(){
+                            this.bool = false
+                            this.val = $(this).val()
+                            $(this).change(()=>{
+                                $(this).val() == this.val ? $(this).removeClass('changed') : $(this).addClass('changed')
+                            })
+                        })
                         if(text[0] == 'PERSONNEL'){
+                            $("#custom-btn").after("<button class='right btn-outline-primary mr-3' id='report-btn'>Report</button>")
+                            $("#custom-btn").text("Attendance / Team")
                             $("#custom-btn").click(function(){
-                                $(".modal-head").hide()
                                 $(".modal").css({
                                     "display":"flex",
                                     "justify-content":"center",
                                 })
+                                $(".modal-head").children('h4').text('Attendance & Update team')
                                 $(".modal-body").html("<button id='attendance' class='btn-bottom-border'>Attendance</button><button id='team' class='btn-bottom-border'>Team</button>")
                                 $("#attendance").click(function(){
                                     $(".modal-head h4").text("Personnel Attendance")
@@ -86,20 +96,11 @@ $(function(){
                                                 data: {name: $("input[name='personnel']").val()+", "},
                                                 dataType: "JSON",
                                                 success: function(data){
-                                                    console.log(data)
-                                                    Swal.fire({
-                                                        icon: data.icon,
-                                                        title: data.msg,
-                                                        showConfirmButton: false,
-                                                        timer: 1500
-                                                    })
+                                                    swal(data)
                                                     if(data.icon == 'success'){
                                                         $("input[name='personnel']").val("")
                                                         getData('PERSONNEL')
                                                     }
-                                                },
-                                                error: function (request, status, error) {
-                                                    console.log(request.responseText);
                                                 }
                                             })
                                         })
@@ -107,45 +108,141 @@ $(function(){
                                 })
     
                                 $("#team").click(function(){
-                                    $(".modal-head").show()
-                                    $(".modal-form").width("40%")
-                                    $.get("./../../templates/properties/team.html",function(e){
+                                    $(".modal-head").children('h4').text('Team update')
+                                    const showteam = $.get("./../../templates/properties/team.html",function(e){
                                         $(".modal-body").html(e)
                                     })
+                                    $(".modal-tools").prepend('<button id="add" class="btn-outline-primary mr-3">Add new</button>')
+                                    $("#add").click(()=>{
+                                        $.ajax({
+                                            url: 'route/glTeam',
+                                            success: function(r){
+                                                swal.fire({
+                                                    title: "You'll add team "+r+" to your list of teams.",
+                                                    icon: 'question',
+                                                    showCancelButton: true,
+                                                    confirmButtonText: 'Yes'
+                                                }).then((res)=>{
+                                                    if(res.isConfirmed){
+                                                        $.ajax({
+                                                            url: 'route/addteam',
+                                                            success: function(isSuccess){
+                                                                if(isSuccess)
+                                                                    swal.fire('Success','The team will be added','success')
+                                                                showteam
+                                                            }
+                                                        })
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    })
+                                    $(".modal-form").width("40%")
+                                    showteam
+                                })
+                            })
+                            $("#report-btn").click(function(){
+                                $(".modal").css({
+                                    "display":"flex",
+                                    "justify-content":"center",
+                                })
+                                $.get("./../../templates/properties/reportattendance.html",function(e){
+                                    $(".modal-body").html(e)
                                 })
                             })
                         }else if(text[0] == 'VEHICLE'){
+                            $("#custom-btn").click(function(){
+                                vehicle(0,0)
+                            })
+                        }else if(text[0] == 'TEAM'){
+                            $("#custom-btn").click(function(){
+                                $(".changed").each(function(){
+                                    $.ajax({
+                                        url: 'route/updateTeam',
+                                        type: 'post',
+                                        data: {id: $(this).attr('id'), value: $(this).val()}
+                                    })
+                                })
+                                swal({
+                                    icon: 'success',
+                                    msg: "The data has been updated"
+                                })
+                            })
                         }else{
                             $("#custom-btn").click(function(){
-                                $(".modal").show().children().width('40%')
-                                table = '<table class="box-shadow" id="modal-table"><thead>'+result.thead+'</thead><tbody>'+result.tbody+'</tbody></table>'
-                                table += "<div class='f-width text-right mt-10 mb-5'><button id='edit' class='btn-primary'>Edit</button></div>"
-                                $(".modal-body").html(table)
-                               $("#modal-table").children().each(function(i){
-                                    $(this).children().each(function(){
-                                        i > 0 ? 
-                                        $(this).children().eq(3).html('<select alt="'+$(this).attr('value')+'"><option value="2">On working</option><option value="3">Done</option></select>') :
-                                        $(this).children().eq(3).text('Change Status')
-                                        $(this).children().eq(1).hide()
-                                    })
-                                })
-
-                                $("#edit").click(function(){
-                                    $("select").each(function(){
-                                        var id = $(this).attr('alt').split('|')
-                                        $.ajax({
-                                            url: 'route/rtcs',
-                                            type: "POST",
-                                            data: {activities: id[0], team: id[1], status: $(this).val()}
-                                        })
-                                        swal.fire('success','The status has been update','success')
-                                    })
-                                })
+                                if($(".changed").length > 0)
+                                    incident(0,$(".changed").eq(0))
                             })
                         }
                     }
                 }
             }
+        })
+    }
+
+    function swal(data){
+        Swal.fire({
+            icon: data.icon,
+            title: data.msg,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+    function vehicle(i,response){
+        let a = $(".vehStatus").eq(i)
+        $.ajax({
+            url: 'route/updateVehicle',
+            type: 'post',
+            dataType: 'JSON',
+            data: {id: a.attr('id'), stats: a.val(), response: response},
+            success: function(e){
+                console.log(e)
+                i++
+                if(i <= $(".vehStatus").length)
+                e.onUse ? 
+                Swal.fire({
+                    icon: 'question',
+                    title: e.vehicle+' is on use',
+                    text: 'Are you sure that you want to change this status?',
+                    showDenyButton: true,
+                    confirmButtonText: 'Yes',
+                }).then((result) => {
+                    let j = 1
+                    result.isConfirmed ? i-- : j--
+                    vehicle(i,j)
+                }) : vehicle(i,0)
+            }
+        })
+        swal({
+            icon: 'success',
+            msg: "The data has been updated"
+        })
+    }
+    function incident(i,e){
+        i++
+        const ev = e.parent().siblings(),
+        c = $(".changed")
+        Swal.fire(e.val() > 1 ?
+        {
+            icon: 'question',
+            title: ev.eq(1).html()+"'s "+ev.eq(0).html()+" has been extinguish?",
+            showCancelButton: true,
+            confirmButtonText: 'Yes'
+        }:{
+            icon: 'error',
+            title: 'The on working status cannot be changed to on going.'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+                    url: 'route/updateInc',
+                    type: 'POST',
+                    data: {id: e.attr('id'), value: e.val()},
+                    success: function(response){
+                        console.log(response)
+                    }
+                })
+            }
+            c.length > i ? incident(i,c.eq(i)): getData('INCIDENT')
         })
     }
     $("#container").scroll(function(e){

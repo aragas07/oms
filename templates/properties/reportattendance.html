@@ -1,0 +1,73 @@
+<div class="text-center">
+    <h4>For the month of March</h4>
+</div>
+<table id="attendance">
+    <thead>
+        <tr>
+            <th>Personnel</th>
+        </tr>
+    </thead>
+    <tbody style="cursor: pointer"></tbody>
+</table>
+
+<script>
+    $(function(){
+        $(".modal-head").children('h4').text('Attendance log')
+        $(".modal-form").css('width','90%')
+        const table = $('#attendance'),
+        tbody = table.children('tbody'),
+        date = new Date(),
+        month = date.getMonth()+1,
+        year = date.getFullYear(),
+        datenow = date.getDate(),
+        daysInMonth = getDaysInMonth(year,month)
+        function getDaysInMonth(year, month) {
+            return new Date(year, month, 0).getDate()
+        }
+
+        for(var i = 1; i <= daysInMonth; i++){
+            table.children('thead').children().append('<th>'+i+'</th>')
+        }
+        $.ajax({
+            url: 'route/getAttendance',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {month: month},
+            success: function(e){
+                for(var i = 0; i < e.length ;i++){
+                    var ac = 0
+                    var tr = "<tr><td style='font-size: 15px!important'>"+e[i].personnel+"</td>"
+                    for(var j = 1; j <= daysInMonth; j++){
+                        if(j <= datenow){
+                            var day = e[i].attend[ac].date.split("-")
+                            if(j == day[2]){
+                                tr += "<td>✔️</td>"
+                                if(e[i].attend.length-1 > ac) ac++
+                            }else{
+                                tr += "<td>❌</td>"
+                            }
+                        }else{
+                            tr += "<td></td>"
+                        }
+                    }
+                        
+                    tr += "</tr>"
+                    tbody.append(tr)
+                }
+                tbody.children().each(function(i){
+                    $(this).click(()=>{
+                        $.get('./templates/properties/logsheet.html',(file)=>{
+                            data = e[i]
+                            dmonth = daysInMonth
+                            dnow = datenow 
+                            ye = year
+                            mo = month
+                            $(".modal-body").html(file)
+                        })
+                    })
+                })
+            }
+        })
+        
+    })
+</script>

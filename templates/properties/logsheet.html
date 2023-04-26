@@ -1,0 +1,71 @@
+<h4>Name : <b id="person"></b></h4>
+<style>
+h5{
+    text-align: left;
+    color: #333;
+    margin: 4px;
+}
+
+h5>b{
+    font-size: 17px;
+    color: #1f1f1f!important;
+}
+</style>
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time in</th>
+            <th>Time out</th>
+            <th>Assignment</th>
+        </tr>
+    </thead>
+    <tbody id="logs"></tbody>
+</table>
+<script>
+    $(function(){
+        $(".modal-head").children('h4').text('Personnel log')
+        $(".modal-tools").prepend('<button id="back" class="btn-outline-primary mr-3">Back to Attendance</button>')
+        $(".modal-form").css('width','70%')
+        $("#back").click(()=>{
+            $("#back").remove()
+            $.get("./../../templates/properties/reportattendance.html",function(e){
+                $(".modal-body").html(e)
+            })
+        })
+        $("#person").text(data.personnel)
+        ac = 0
+        for(var i = 1; i <= dmonth ;i++){
+            var day = data.attend[ac].date.split("-"),
+            tr = "<tr><td>"+ye+"-"+mo+"-"+i+"</td>"
+            if(day[2] == i){
+                tr += "<td>"+data.attend[ac].timein+"</td>"+
+                "<td>"+data.attend[ac].timeout+"</td>"+
+                "<td>"
+                if(data.attend[ac].assignment[0] != null)
+                    tr+=data.attend[ac].assignment[0].activity+" <button class='viewmore' value='"+ac+"' style='cursor: pointer; margin-left: 10px;font-size: 10px; color: blue; float: right'>More details</button>"  
+                tr+="</td>"
+                if(data.attend.length-1 > ac) ac++
+            }else{
+                tr += "<td></td><td></td><td></td>"
+            }
+            tr += "</tr>"
+            $("#logs").append(tr)
+        }
+        $(".viewmore").click(function(){
+            var details = data.attend[$(this).attr('value')].assignment,
+            text = ""
+            for(var i = 0; i < details.length ;i++){
+                text += "<h5>Activity: <b>"+details[i].activity+"</b></h5>"+
+                "<h5>Location: <b>"+details[i].location+"</b></h5>"+
+                "<h5>Summary: <b>"+details[i].summary+"</b></h5>"
+                if(details.length-1 >i) text+="<div style='width: 100%; height: 1px; background-color: #aaa'></div>"
+            }
+            Swal.fire({
+                html: text,
+                showCloseButton: true,
+                showConfirmButton: false
+            })
+        })
+    })
+</script>
