@@ -21,25 +21,29 @@ $(function(){
             success: function(data){
                 data.length > 1 ?
                 swal.fire("error","You are not connected to the database","error") :
-                data ? success() : error()
+                data.registered ? success(data.isadmin) : error()
             },
             error: function (request, status, error) {
                 console.log(request.responseText)
             }
         }) : $(".error").css("display","block")
     })
-    function success(){
+    function success(isadmin){
+        console.log(isadmin)
         Swal.fire({
             position: 'center',
             icon: 'success',
             title: 'You are successfully to sign-up',
             showConfirmButton: false,
-            timer: 1300
-        })
-        setTimeout(() => {
-            sessionStorage.setItem('auth','login')
-            window.location.href = "/home"
-        }, 1500);
+            timer: 1500
+        }).then(function(result) {
+            if(isadmin){
+                sessionStorage.setItem('auth','login')
+                window.location.href = "/home"
+            }else{
+                window.location.href = "/"
+            }
+        });
 
     }
     function error(){

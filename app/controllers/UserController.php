@@ -16,14 +16,18 @@ class UserController{
     }
 
     public function signup($conn,$username,$password,$firstname,$middlename,$lastname,$municipality,$usertype){
+        $admin = false;
+        $registered = false;
         if($conn->query("INSERT INTO users(username,password,firstname,middlename,lastname,usertype,municipality_id) 
         values('$username','$password','$firstname','$middlename','$lastname','$usertype',$municipality)")){
                 $_SESSION['userloc'] = $municipality;
                 $_SESSION['usertype'] = $usertype;
-            echo true;
-        }else{
-            echo false;
+                if($usertype == 'admin'){
+                    $admin = true;
+                }
+                $registered = true;
         }
+        echo json_encode(['isadmin'=>$admin, 'registered'=>$registered]);
     }
 
     public function getMun($conn,$city){
