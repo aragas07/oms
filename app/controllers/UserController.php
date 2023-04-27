@@ -1,7 +1,7 @@
 <?php
 class UserController{
     public function login($conn,$username,$password){
-        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id where username = '$username' and password = '$password'");
+        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id WHERE username = '$username' AND password = '$password' AND team_id IS NULL AND usertype = 'admin'");
         $login = false;
         $loc = "";
         if(mysqli_num_rows($result) != 0){
@@ -46,7 +46,6 @@ class UserController{
             $thead = "<tr>
                         <th>PERSONNEL</th>
                         <th>STATUS</th>
-                        <th>ASSIGNMENT</th>
                         <th>TEAM</th>
                     </tr>";
             $result = $conn->query("SELECT *, u.id AS uid FROM users AS u LEFT JOIN team AS t ON u.team_id = t.id WHERE usertype = 'personnel' AND u.municipality_id = ".$city);
@@ -73,7 +72,6 @@ class UserController{
                 $tbody .= "<tr>
                 <td>".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])." ".$middlename."</td>
                 <td>$duty</td>
-                <td>$assignment</td>
                 <td>".$get['name']."</td>
                 </tr>";
             }
