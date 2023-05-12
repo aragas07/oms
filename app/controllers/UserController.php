@@ -17,11 +17,11 @@ class UserController{
         echo json_encode(['login'=>$login, 'location'=>$loc, 'badge'=>$badge]);
     }
 
-    public function signup($conn,$username,$password,$firstname,$middlename,$lastname,$municipality,$usertype,$badge){
+    public function signup($conn,$password,$firstname,$middlename,$lastname,$municipality,$usertype,$badge){
         $admin = false;
         $registered = false;
-        if($conn->query("INSERT INTO users(username,password,firstname,middlename,lastname,usertype,municipality_id,badge) 
-        values('$username','$password','$firstname','$middlename','$lastname','$usertype',$municipality,$badge)")){
+        if($conn->query("INSERT INTO users(password,firstname,middlename,lastname,usertype,municipality_id,badge) 
+        values('$password','$firstname','$middlename','$lastname','$usertype',$municipality,$badge)")){
                 $_SESSION['userloc'] = $municipality;
                 $_SESSION['usertype'] = $usertype;
                 if($usertype == 'admin'){

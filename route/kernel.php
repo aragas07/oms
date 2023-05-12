@@ -4,7 +4,7 @@
     $activities = new ActivitiesController();
     $main = new MainController();
     switch($url[2]){
-        case "signup": $user->signup($conn,$_POST['username'],md5($_POST['password']),$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$_POST['municipality'],$_POST['usertype'],$_POST['badge']); break;
+        case "signup": $user->signup($conn,md5($_POST['password']),$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$_POST['municipality'],$_POST['usertype'],$_POST['badge']); break;
         case "login": $user->login($conn,$_POST['username'],md5($_POST['password'])); break;
         case "getMun": $user->getMun($conn,$_POST['city']); break;
         case "getData": $user->getData($conn,$_POST['type']); break;
