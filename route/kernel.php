@@ -4,7 +4,7 @@
     $activities = new ActivitiesController();
     $main = new MainController();
     switch($url[2]){
-        case "signup": $user->signup($conn,$_POST['username'],md5($_POST['password']),$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$_POST['municipality'],$_POST['usertype']); break;
+        case "signup": $user->signup($conn,$_POST['username'],md5($_POST['password']),$_POST['firstname'],$_POST['middlename'],$_POST['lastname'],$_POST['municipality'],$_POST['usertype'],$_POST['badge']); break;
         case "login": $user->login($conn,$_POST['username'],md5($_POST['password'])); break;
         case "getMun": $user->getMun($conn,$_POST['city']); break;
         case "getData": $user->getData($conn,$_POST['type']); break;
@@ -22,7 +22,7 @@
         case "rteam": $activities->rteam($conn, $_POST['tid'], $_POST['aid']); break;
         case "rveh": $activities->rveh($conn, $_POST['id'], $_POST['aid']); break;
         case "rtcs": $activities->rtcs($conn, $_POST['activities'], $_POST['team'], $_POST['status']); break;
-        case "updateVehicle": $activities->updateVeh($conn, $_POST['id'], $_POST['stats'], $_POST['response']); break;
+        case "updateVehicle": $activities->updateVeh($conn, $_POST['id'], $_POST['stats'], $_POST['response'], $_POST['vehicle'], $_POST['type']); break;
         case 'askhelp': $user->askhelp($conn); break;
         case 'sendrequest': $user->sendrequest($conn, $_POST['id']); break;
         case 'glTeam': $main->glTeam($conn); break;
@@ -30,5 +30,8 @@
         case 'response': $main->response($conn,$_POST['id']); break;
         case 'updateTeam': $activities->updateTeam($conn,$_POST['id'],$_POST['value'], true); break;
         case 'updateInc': $activities->updateInc($conn,$_POST['id'],$_POST['value']); break;
-        case 'getAttendance': $user->getAttendance($conn,$_POST['month']);
+        case 'getAttendance': $user->getAttendance($conn,$_POST['month']); break;
+        case 'getAllMun': $user->getAllMun($conn); break;
+        case 'getAbout': $main->getAbout($conn); break;
+        case 'updateAbout': $main->updateAbout($conn,$_POST['details']); break;
     }

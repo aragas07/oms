@@ -1,5 +1,5 @@
 .header{
-    background-image: url("../img/ft.jpg");
+    background:linear-gradient(0deg, rgba(0, 0, 0, 0.103), rgba(0, 0, 0, 0.103)), url("../img/ft.jpg");
     background-position: center;
 }
 
@@ -14,19 +14,24 @@ body{
 }
 
 #body-logo{
-    position: absolute;
     height: 90px;
+}
+
+.col-2, .col-8{
     cursor: pointer;
 }
 
 .col-2{
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .flex-body{
-    max-width: 500px;
+    max-width: 700px;
     margin: auto;
 }
+
 
 .nav{
     display: flex;
@@ -111,7 +116,7 @@ thead {
     display: table-header-group;
     vertical-align: middle;
     border-color: inherit;
-    background-color: #0d4b92ea;
+    background-color: #035dc4;
     color: white;
     text-shadow: 0 1px 3px black;
 }
@@ -137,13 +142,21 @@ tbody tr{
     max-height: 300px;
 }
 
-#custom-btn{
+#custom-btn, #team{
     padding: 5px 30px;
     border: none;
-    background-color: #06283D;
     color: white;
     font-weight: 550;
     border-radius: 17px;
+}
+
+#team{
+    background-color: #3d0606;
+    margin-right: 10px;
+}
+
+#custom-btn{
+    background-color: #06283D;
 }
 
 .t-active{
@@ -158,6 +171,9 @@ tbody tr{
 
 #custom-btn:hover{
     background-color: #0249a7;
+}
+#team:hover{
+    background-color: #a70202;
 }
 
 td{

@@ -3,10 +3,6 @@ body, html{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-p, h1, h2, h3, h4{
-    caret-color: transparent;
-}
-
 #container::-webkit-scrollbar {
     width: 10px;
 }
@@ -58,6 +54,7 @@ button:hover{
     position: relative;
     flex: 1 1 auto;
     font-size: 15px;
+    caret-color: #000!important;
 }
 
 .cont-row{
@@ -226,7 +223,7 @@ button:hover{
 }
 
 .card{
-    margin: 10px;
+    margin: 7px 10px;
     box-shadow: 1px 0 3px gray;
     border-radius: 4px;
     background-color: white;
@@ -239,6 +236,10 @@ button:hover{
 
 .card p{
     text-align: justify;
+}
+
+.mid>img{
+    width: 100%;
 }
 
 .h-card{
@@ -262,9 +263,15 @@ button:hover{
     flex: 27%;
 }
 
-.card img{
+.side img{
     position: relative;
-    width: 100%;
+    width: 63.5%;
+}
+
+.side{
+    min-width: 130px;
+    height: 100px;
+    max-height: 110px;
 }
 
 .welcome p{
@@ -467,7 +474,7 @@ textarea{
 
 .right{
     float: right;
-    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 
@@ -561,6 +568,47 @@ h4, h3{
     color: #111;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.btn-update-about{
+    height: 40px;
+    font-size: 15px;
+    font-weight: 550;
+    border-radius: 10px;
+    padding: 10px 30px;
+    border: none;
+    background-color: #01a5f1;
+    color: #f1f1f1;
+}
+
+.login-div{
+    max-width: 150px;
+    margin-top: -15px;
+}
+
+.login-div>h5{
+    color: white;
+    text-shadow: 0 1px 3px black;
+}
+
+.side-logo{
+    display: flex;
+    position: absolute;
+    align-items: center;
+}
+
+.back{
+    text-decoration: none;
+    font-size: 19px;
+    color: #181818;
+    padding: 5px 7px;
+    border-radius: 4px;
+    font-weight: 700;
+    background-color: #ffffffb9;
+}
+
+.back>img{
+    height: 15px;
 }
 
 .bcc>div>p{

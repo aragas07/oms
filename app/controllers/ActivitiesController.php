@@ -36,6 +36,7 @@ class ActivitiesController{
             <th>LOCATION</th>
             <th>RESPONDING TEAM</th>
             <th>STATUS</th>
+            <th></th>
         </tr>";
         $clickable = false;
         if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
@@ -64,6 +65,7 @@ class ActivitiesController{
                         <td>".$status."</td>
                         <td hidden>".$res['summary']."</td>
                         <td hidden>".$res['image']."</td>
+                        <td style='width: 40px'><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
                     </tr>";
                 }
             }else{
@@ -182,9 +184,9 @@ class ActivitiesController{
         }
     }
     
-    public function updateVeh($conn, $id, $stats, $response){
+    public function updateVeh($conn, $id, $stats, $response, $vehicle, $type){
         if($response){
-            $conn->query("UPDATE vehicle SET status = $stats WHERE id = $id");
+            $conn->query("UPDATE vehicle SET status = $stats, vehicle = '$vehicle', type='$type' WHERE id = $id");
             echo json_encode(['onUse'=>false, 'success'=>"Successfully to update the data", "vehicle_id"=>$id]);
         }else{
             $isUse = $conn->query("SELECT * FROM vehicle WHERE id = $id");
@@ -192,7 +194,7 @@ class ActivitiesController{
                 if($is['status'] == 1 && $stats != 1){
                     echo json_encode(['onUse'=>true, 'vehicle'=>$is['vehicle'], 'vehicle_id'=>$id]);
                 }else{
-                    $conn->query("UPDATE vehicle SET status = $stats WHERE id = $id");
+                    $conn->query("UPDATE vehicle SET status = $stats, vehicle = '$vehicle', type='$type' WHERE id = $id");
                     echo json_encode(['onUse'=>false,'vehicle_id'=>$id]);
                 }
             }

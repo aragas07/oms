@@ -130,11 +130,15 @@ class MainController{
 
     public function glTeam($conn){
         $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = ".$_SESSION['userloc']." ORDER BY id DESC LIMIT 1");
-        while($get = $getTeam->fetch_assoc()){
-            $n = explode(" ",$get['name']);
-            $last = (int)$n[1]+1;
-            $_SESSION['last'] = $last;
-            echo $last;
+        if(mysqli_num_rows($getTeam) > 0){
+            while($get = $getTeam->fetch_assoc()){
+                $n = explode(" ",$get['name']);
+                $last = (int)$n[1]+1;
+                $_SESSION['last'] = $last;
+                echo $last;
+            }
+        }else{
+            echo 1;
         }
     }
 
@@ -143,5 +147,19 @@ class MainController{
         $mun = $_SESSION['userloc'];
         $conn->query("INSERT INTO team(name,municipality_id,status) VALUES('$num',$mun,0)");
         echo true;
+    }
+
+    public function getAbout($conn){
+        $city = $_SESSION['city_id'];
+        $getAbout = $conn->query("SELECT * FROM abouts WHERE municipality_id = $city");
+        while($about = $getAbout->fetch_assoc()){
+            echo $about['about'];
+        }
+    }
+
+    public function updateAbout($conn, $details){
+        $city = $_SESSION['city_id'];
+        $conn->query("UPDATE abouts SET about = '$details' WHERE id = $city");
+        
     }
 }

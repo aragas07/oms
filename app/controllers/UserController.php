@@ -1,25 +1,27 @@
 <?php
 class UserController{
     public function login($conn,$username,$password){
-        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id WHERE username = '$username' AND password = '$password' AND team_id IS NULL AND usertype = 'admin'");
+        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id WHERE username = '$username' OR batch = '$username' AND password = '$password' AND team_id IS NULL AND usertype = 'admin'");
         $login = false;
         $loc = "";
+        $badge = "";
         if(mysqli_num_rows($result) != 0){
             while($res = $result->fetch_assoc()){
                 $_SESSION['userloc'] = $res['municipality_id'];
                 $_SESSION['usertype'] = $res['usertype'];
                 $loc = $res['name'];
+                $badge = $res['badge'];
             }
             $login = true;
         }
-        echo json_encode(['login'=>$login, 'location'=>$loc]);
+        echo json_encode(['login'=>$login, 'location'=>$loc, 'badge'=>$badge]);
     }
 
-    public function signup($conn,$username,$password,$firstname,$middlename,$lastname,$municipality,$usertype){
+    public function signup($conn,$username,$password,$firstname,$middlename,$lastname,$municipality,$usertype,$badge){
         $admin = false;
         $registered = false;
-        if($conn->query("INSERT INTO users(username,password,firstname,middlename,lastname,usertype,municipality_id) 
-        values('$username','$password','$firstname','$middlename','$lastname','$usertype',$municipality)")){
+        if($conn->query("INSERT INTO users(username,password,firstname,middlename,lastname,usertype,municipality_id,badge) 
+        values('$username','$password','$firstname','$middlename','$lastname','$usertype',$municipality,$badge)")){
                 $_SESSION['userloc'] = $municipality;
                 $_SESSION['usertype'] = $usertype;
                 if($usertype == 'admin'){
@@ -28,6 +30,22 @@ class UserController{
                 $registered = true;
         }
         echo json_encode(['isadmin'=>$admin, 'registered'=>$registered]);
+    }
+
+    public function getAllMun($conn){
+        $city = $_SESSION['userloc'];
+        $getHomeTown = $conn->query("SELECT * FROM municipality WHERE id = $city");
+        $getAll = $conn->query("SELECT * FROM municipality WHERE id != $city");
+        $hometown = [];
+        $all = array();
+        $samp = "";
+        while($homeTown = $getHomeTown->fetch_assoc()){
+            $hometown = ['name'=>$homeTown['name'], 'img'=>$homeTown['img']];
+        }
+        while($All = $getAll->fetch_assoc()){
+            array_push($all, ['name'=>$All['name'],'img'=>$All['img']]);
+        }
+        echo json_encode(['hometown'=>$hometown, 'all'=>$all]);
     }
 
     public function getMun($conn,$city){
@@ -95,9 +113,18 @@ class UserController{
                 }else{
                     $status = "Under maintenance";
                 }
+                $vehicle = "";
+                $type = "";
+                if($showbtn){
+                    $vehicle = "<input type='text' class='form-control vehicle-status' value='".$res['vehicle']."'/>";
+                    $type = "<input type='text' class='form-control type-status' value='".$res['type']."'";
+                }else{
+                    $vehicle = $res['vehicle'];
+                    $type = $res['type'];
+                }
                 $tbody .= "<tr>
-                        <td>".$res['vehicle']."</td>
-                        <td>".$res['type']."</td>";
+                        <td>$vehicle</td>
+                        <td>$type</td>";
                 if($showbtn){
                     $tbody .= "<td>
                             <select style='width:150px' class='vehStatus' id='".$res['id']."'>
