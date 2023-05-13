@@ -1,6 +1,7 @@
 $(function(){
     const loc = sessionStorage.getItem('location'),
     badge = sessionStorage.getItem('badge')
+    console.log(loc)
     $("#badge").text(badge+', '+loc+' Fire')
     $(".welcome p").append(" OF "+loc.toUpperCase())
 

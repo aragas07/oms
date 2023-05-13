@@ -31,9 +31,8 @@ $(function(){
         $.ajax({
             url: 'route/updateAbout',
             type: 'post',
-            data: {details: $(".card")},
+            data: {details: $(".card").html()},
             success: function(data){
-
             }
         })
         onEdit({'bool':false,'color':'#01a5f1', 'text':'Update'})

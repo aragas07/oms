@@ -46,6 +46,10 @@ class MainController{
             echo "<option value='".ucfirst($get["lastname"]).", ".ucfirst($get["firstname"])."'>";
         }
     }
+    
+    public function updateTeamName($conn,$id,$name){
+        $conn->query("UPDATE team SET name = '$name' WHERE id = $id");
+    }
 
     public function getPandT($conn){
         $id = $_SESSION['city_id'];
@@ -77,7 +81,7 @@ class MainController{
         $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = $id");
         if(mysqli_num_rows($getTeam) > 0){
             while($team = $getTeam->fetch_assoc()){
-                echo "<h3 class='grid-title'>".$team['name']."</h3>
+                echo "<div class='grid'><h3 id='".$team['id']."' class='grid-title'>".$team['name']."</h3><button class='grid-button'>Edit</button></div>
                 <div class='grid-body bc'>";
                 $getTeamMember = $conn->query("SELECT * FROM users WHERE team_id = ".$team['id']);
                 while($member = $getTeamMember->fetch_assoc()){
@@ -128,24 +132,9 @@ class MainController{
         $conn->query("UPDATE help SET status = 1 WHERE activities = $id AND municipality_id = ".$_SESSION['userloc']);
     }
 
-    public function glTeam($conn){
-        $getTeam = $conn->query("SELECT * FROM team WHERE municipality_id = ".$_SESSION['userloc']." ORDER BY id DESC LIMIT 1");
-        if(mysqli_num_rows($getTeam) > 0){
-            while($get = $getTeam->fetch_assoc()){
-                $n = explode(" ",$get['name']);
-                $last = (int)$n[1]+1;
-                $_SESSION['last'] = $last;
-                echo $last;
-            }
-        }else{
-            echo 1;
-        }
-    }
-
-    public function addteam($conn){
-        $num = 'team '.$_SESSION['last'];
+    public function addteam($conn, $team){
         $mun = $_SESSION['userloc'];
-        $conn->query("INSERT INTO team(name,municipality_id,status) VALUES('$num',$mun,0)");
+        $conn->query("INSERT INTO team(name,municipality_id,status) VALUES('$team',$mun,0)");
         echo true;
     }
 

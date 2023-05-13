@@ -1,3 +1,19 @@
+<style>
+    .grid{
+        display: flex;
+    }
+    .grid-button{
+        margin-left: 10px;
+        padding: 3px 7px;
+        border-radius: 3px; 
+        display: none;
+        border: none;
+        background-color: white;
+    }
+    .grid:hover>button{
+        display: block;
+    }
+</style>
 <div class="grid-cont"></div>
 <script>
     $(function(){
@@ -7,6 +23,20 @@
                 url: 'route/gnp',
                 success: function(data){
                     $(".grid-cont").html(data)
+                    
+                    $(".grid-button").each(function(i){
+                        $(this).click(()=>{
+                            $('.grid-title').eq(i).attr('contenteditable',true).focus()
+                        })
+                    })
+
+                    $('.grid-title').keyup(function(){
+                        $.ajax({
+                            url: 'route/updateTeamName',
+                            type: 'POST',
+                            data: {id: $(this).attr('id'), name: $(this).text()}
+                        })
+                    })
                     $(".delete").click(function(){
                         submitForm(
                             'Are you sure?',

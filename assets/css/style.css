@@ -454,10 +454,6 @@ textarea{
     border-bottom: 1px solid #c7c7c7;
 }
 
-.swal2-popup{
-    caret-color: transparent;
-}
-
 .modal-tools{
     caret-color: transparent;
 }
@@ -523,6 +519,7 @@ select{
 
 .grid-title{
     color: #333;
+    padding: 3px 5px;
 }
 
 .bubble{

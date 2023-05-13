@@ -26,7 +26,7 @@
         case 'askhelp': $user->askhelp($conn); break;
         case 'sendrequest': $user->sendrequest($conn, $_POST['id']); break;
         case 'glTeam': $main->glTeam($conn); break;
-        case 'addteam': $main->addteam($conn); break;
+        case 'addteam': $main->addteam($conn, $_POST['team']); break;
         case 'response': $main->response($conn,$_POST['id']); break;
         case 'updateTeam': $activities->updateTeam($conn,$_POST['id'],$_POST['value'], true); break;
         case 'updateInc': $activities->updateInc($conn,$_POST['id'],$_POST['value']); break;
@@ -34,4 +34,5 @@
         case 'getAllMun': $user->getAllMun($conn); break;
         case 'getAbout': $main->getAbout($conn); break;
         case 'updateAbout': $main->updateAbout($conn,$_POST['details']); break;
+        case 'updateTeamName': $main->updateTeamName($conn,$_POST['id'],$_POST['name']); break;
     }

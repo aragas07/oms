@@ -19,9 +19,10 @@ $(function(){
             cache: false,
             processData: false,
             success: function(data){
+                console.log(data)
                 data.length > 1 ?
                 swal.fire("error","You are not connected to the database","error") :
-                data.registered ? success(data.isadmin) : error()
+                data.login ? success(data) : error()
             },
             error: function (request, status, error) {
                 console.log(request.responseText)
@@ -37,8 +38,10 @@ $(function(){
             showConfirmButton: false,
             timer: 1500
         }).then(function(result) {
-            if(isadmin){
+            if(isadmin.login){
                 sessionStorage.setItem('auth','login')
+                sessionStorage.setItem('location',isadmin.location)
+                sessionStorage.setItem('badge',isadmin.badge)
                 window.location.href = "/home"
             }else{
                 window.location.href = "/"

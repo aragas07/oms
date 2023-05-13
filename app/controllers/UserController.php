@@ -1,7 +1,7 @@
 <?php
 class UserController{
     public function login($conn,$username,$password){
-        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id WHERE username = '$username' OR batch = '$username' AND password = '$password' AND team_id IS NULL AND usertype = 'admin'");
+        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id WHERE username = '$username' OR badge = '$username' AND password = '$password' AND team_id IS NULL AND usertype = 'admin'");
         $login = false;
         $loc = "";
         $badge = "";
@@ -21,7 +21,7 @@ class UserController{
         $admin = false;
         $registered = false;
         if($conn->query("INSERT INTO users(password,firstname,middlename,lastname,usertype,municipality_id,badge) 
-        values('$password','$firstname','$middlename','$lastname','$usertype',$municipality,$badge)")){
+        values('$password','$firstname','$middlename','$lastname','$usertype',$municipality,'$badge')")){
                 $_SESSION['userloc'] = $municipality;
                 $_SESSION['usertype'] = $usertype;
                 if($usertype == 'admin'){
@@ -29,7 +29,7 @@ class UserController{
                 }
                 $registered = true;
         }
-        echo json_encode(['isadmin'=>$admin, 'registered'=>$registered]);
+        $this->login($conn,$badge,$password);
     }
 
     public function getAllMun($conn){

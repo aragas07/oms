@@ -13,7 +13,7 @@
     <div class="card">
         <div class="f-width text-right">
             <button id="response" class="btn-primary">Ask help</button>
-            <button id="repres" class="btn-danger">Response</button>
+            <button id="repres" class="btn-danger">Respond</button>
         </div>
         <p></p>
         <div class="f-width text-center" style="caret-color: transparent">
@@ -175,7 +175,7 @@
                 $("#repres").show()
                 fetch(0)
             }else{
-                $("#response").text('Response')
+                $("#response").text('Respond')
                 $("#repres").hide()
                 fetch(1)
             }
@@ -186,7 +186,7 @@
         })
 
         $("#response").click(function(){
-            modal($(this).text() == 'Response')
+            modal($(this).text() == 'Respond')
         })
     })
 </script>

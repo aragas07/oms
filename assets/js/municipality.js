@@ -1,6 +1,12 @@
 $(function(){
     let page = ''
     view("home",false,"")
+    
+    const loc = sessionStorage.getItem('location'),
+    badge = sessionStorage.getItem('badge')
+    $("#badge").text(badge+', '+loc+' Fire')
+    $(".welcome p").append(" OF "+loc.toUpperCase())
+
     if(sessionStorage.getItem('city') == sessionStorage.getItem('location'))
         hasNotif()
     console.log($("#update-about").html())
@@ -56,6 +62,11 @@ $(function(){
             error: function (request, status, error) {
                 console.log(request.responseText);
             }
+        })
+    }
+    const showteam = ()=>{
+        $.get("./../../templates/properties/team.html",function(e){
+            $(".modal-body").html(e)
         })
     }
 
@@ -114,37 +125,36 @@ $(function(){
                                     "justify-content":"center",
                                 })
                                 $(".modal-head").children('h4').text('Team update')
-                                const showteam = $.get("./../../templates/properties/team.html",function(e){
-                                    $(".modal-body").html(e)
-                                })
                                 $(".modal-tools").prepend('<button id="add" class="btn-outline-primary mr-3">Add new</button>')
                                 $("#add").click(()=>{
-                                    $.ajax({
-                                        url: 'route/glTeam',
-                                        success: function(r){
-                                            console.log(r)
-                                            Swal.fire({
-                                                title: "You'll add team "+r+" to your list of teams.",
-                                                icon: 'question',
-                                                showCancelButton: true,
-                                                confirmButtonText: 'Yes'
-                                            }).then((res)=>{
-                                                if(res.isConfirmed){
-                                                    $.ajax({
-                                                        url: 'route/addteam',
-                                                        success: function(isSuccess){
-                                                            if(isSuccess)
-                                                                Swal.fire('Success','The team will be added','success')
-                                                            showteam
-                                                        }
-                                                    })
+                                    Swal.fire({
+                                        title: "You'll add new team?",
+                                        input: 'text',
+                                        inputAttributes: {
+                                          autocapitalize: 'off'
+                                        },
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Submit',
+                                        showLoaderOnConfirm: true,
+                                        preConfirm: (team) => {
+                                            $.ajax({
+                                                url: 'route/addteam',
+                                                type: 'POST',
+                                                data: {team: team},
+                                                success: function(isSuccess){
+                                                    $(".modal-body").html('')
+                                                    showteam()
+                                                    if(isSuccess)
+                                                        Swal.fire('Success','The team will be added','success')
+                                                
                                                 }
                                             })
-                                        }
+                                        },
+                                        allowOutsideClick: () => !Swal.isLoading()
                                     })
                                 })
                                 $(".modal-form").width("40%")
-                                showteam
+                                showteam()
                             })
                             $("#report-btn").click(function(){
                                 $(".modal").css({
