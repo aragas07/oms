@@ -1,23 +1,87 @@
 <div class="card">
     <form method="">
-        <div class="row hv-center">
-            <div class="form-group">
-                <h3 class="grid-title">Disaster</h3>
-                <input type="text" required name="disaster" class="cont-row form-control">
-            </div>
-            <div class="form-group">
-                <h3 class="grid-title">Location</h3>
-                <input type="text" required name="location" class="cont-row form-control">
-            </div>
-            <div class="form-group">
-                <h3 class="grid-title">Date</h3>
-                <input type="date" name="date" class="cont-row form-control">
-            </div>
+        <div class="hv-center">
             <button class="btn-primary" style="padding: 4px 17px">Submit</button>
-        </div>
-        <div class="flex-col">
-            <h3 class="grid-title">Summary</h3>
-            <textarea name="summary" class="form-control txtarea"></textarea>
+            <div class="row">
+                <div class="form-group">
+                    <h3 class="grid-title">Time/Date receive call</h3>
+                    <input type="datetime-local" id="birthdaytime" class="cont-row form-control" name="receivecall">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">Location</h3>
+                    <input type="text" required name="location" class="cont-row form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <h3 class="grid-title">Time Dispatched</h3>
+                    <input type="time" required name="dispatched" class="cont-row form-control">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">Time of arrival scene:</h3>
+                    <input type="time" required name="arrivalscene" class="cont-row form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <h3 class="grid-title">Alarm Status</h3>
+                    <input type="text" required name="alarmstatus" class="cont-row form-control">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">Time of fire out</h3>
+                    <input type="time" required name="fireout" class="cont-row form-control">
+                </div>           
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <h3 class="grid-title">Type of occupancy</h3>
+                    <input type="text" required name="occupancy" class="cont-row form-control">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">Fatality/Casualty</h3>
+                    <input type="text" required name="fatality" class="cont-row form-control">
+                </div>
+            </div>
+            <div class="row">     
+                <div class="form-group">
+                    <h3 class="grid-title">Estimated damage</h3>
+                    <input type="text" required name="damage" class="cont-row form-control">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">Cause</h3>
+                    <input type="text" required name="cause" class="cont-row form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <h3 class="grid-title">Time returned to unit</h3>
+                    <input type="text" required name="returnedunit" class="cont-row form-control">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">Ground commander</h3>
+                    <input type="text" required name="commander" class="cont-row form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <h3 class="grid-title">Commander Contact</h3>
+                    <input type="text" required name="commandercontact" class="cont-row form-control">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">Name of sender</h3>
+                    <input type="text" required name="sender" class="cont-row form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <h3 class="grid-title">Contact</h3>
+                    <input type="text" required name="contact" class="cont-row form-control">
+                </div>
+                <div class="form-group">
+                    <h3 class="grid-title">No. Fire Trucks</h3>
+                    <input type="number" required name="firetruck" class="cont-row form-control">
+                </div>
+            </div>
         </div>
         <div class="flex-col mb-5" id="available"></div>
         <div class="flex-col mt-10">
@@ -30,6 +94,7 @@
         </div>
     </form>
 </div>
+<div id="recent" hidden>
 <div class="row">
     <div id="activity" class="col-4 home">
         <h3 class="title">RECENT ACTIVITY</h3>
@@ -43,6 +108,7 @@
 </div>
 <div class="row wrap img-cont">
 </div>
+</div>
 <script>
     $(function(){
         // 👉️👇️👈️
@@ -53,7 +119,6 @@
                 $("#imgtext").val("")
             })
             $('input[name="date"]').val(today)
-            $(".txtarea").css("height","26px")
         },
         available = ()=>{
             $.ajax({
@@ -117,13 +182,14 @@
                 $(".alert").remove()
             },3000)
         }
-        
-        $(".txtarea").each(function () {
-            this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;")
-        }).on("input", function () {
-            this.style.height = 0
-            this.style.height = (this.scrollHeight) + "px"
-        })
+        const showCard=()=>{
+            $(".card").show()
+            $("#recent").hide()
+        },
+        hideCard=()=>{
+            $(".card").hide()
+            $("#recent").show()
+        }
         var now = new Date()
         var month = (now.getMonth() + 1)               
         var day = now.getDate()
@@ -137,15 +203,20 @@
             url: "route/aclist",
             dataType: "JSON",
             success: function(result){
+                console.log(result)
                 $("#activity").append(result.activity)
                 $("#location").append(result.location)
                 $("#date").append(result.date)
                 $(".img-cont").append(result.image)
-                result.selfMun ? $(".card").show() : $(".card").hide()
+                result.selfMun ? showCard : hideCard()
+            },
+            error: function (request, status, error) {
+                console.log(request.responseText);
             }
         })
         $("form").submit(function(e){
             e.preventDefault()
+            console.log("example")
             const data = new FormData(this)
             if($(".row-active").length == 0 || $(".t-active").length == 0){
                 swal.fire({
@@ -203,6 +274,7 @@
                     }
                 })
             }else{
+                console.log("Example else respp")
                 insertact(true,data)
             }
         })
@@ -218,6 +290,9 @@
                 processData: false,
                 success: function(r){
                     if(b) r.success ? success(r.id) : msg("aerror","Sorry we have a problem about the database connection")
+                }, 
+                error: function (request, status, error) {
+                    console.log(request.responseText);
                 }
             })
         }

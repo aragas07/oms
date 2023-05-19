@@ -45,6 +45,7 @@
             $(".tabcont").hide()
         }, 
         fetch = (type)=>{
+            console.log("exmaple")
             $.ajax({
                 url:"route/getReport",
                 dataType: "JSON",
@@ -54,6 +55,9 @@
                     $("table>thead").html(result.thead)
                     $("table>tbody").html(result.tbody)
                     result.clickable ? ctable() : hidetab()
+                },
+                error: function (request, status, error) {
+                    console.log(request.responseText);
                 }
             })
         }, 

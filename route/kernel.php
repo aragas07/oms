@@ -11,7 +11,28 @@
         case "aclist": $activities->getAcList($conn); break;
         case "getReport": $activities->getReport($conn, $_POST['type']); break;
         case "getCity": $main->getCity($conn); break;
-        case "inAc": $activities->insertActivities($conn,$_POST['disaster'],$_POST['location'],$_POST['date'],$_POST['summary'],$_POST['image'],$_SESSION['city_id']); break;
+        case "inAc": $activities->insertActivities(
+            $conn,
+            $_POST['receivecall'],
+            $_POST['location'],
+            $_POST['dispatched'],
+            $_POST['arrivalscene'],
+            $_POST['alarmstatus'],
+            $_POST['fireout'],
+            $_POST['occupancy'],
+            $_POST['fatality'],
+            $_POST['damage'],
+            $_POST['cause'],
+            $_POST['returnedunit'],
+            $_POST['commander'],
+            $_POST['commandercontact'],
+            $_POST['sender'],
+            $_POST['contact'],
+            $_POST['firetruck'],
+            $_POST['image'],
+            $_SESSION['city_id'],
+        ); 
+            break;
         case "attendance": $main->attendance($conn); break;
         case "getPersonnel": $main->getPersonnel($conn); break;
         case "gnp": $main->getPandT($conn); break;

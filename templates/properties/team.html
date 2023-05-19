@@ -17,19 +17,18 @@
 <div class="grid-cont"></div>
 <script>
     $(function(){
+        console.log("exmple")
         npersonnel()
         function npersonnel(){
             $.ajax({
                 url: 'route/gnp',
                 success: function(data){
                     $(".grid-cont").html(data)
-                    
                     $(".grid-button").each(function(i){
                         $(this).click(()=>{
                             $('.grid-title').eq(i).attr('contenteditable',true).focus()
                         })
                     })
-
                     $('.grid-title').keyup(function(){
                         $.ajax({
                             url: 'route/updateTeamName',

@@ -163,7 +163,7 @@ class UserController{
                 else{$status = "On working";}
                 $tbody .= "<tr>
                             <td>".$get['name']."</td>
-                            <td>".$get['activity']."</td>
+                            <td>".$get['fatality']."</td>
                             <td>$status</td>
                         </tr>";
             }

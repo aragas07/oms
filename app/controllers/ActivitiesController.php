@@ -9,16 +9,20 @@ class ActivitiesController{
         $date = "";
         $image = "";
         while($res = $result->fetch_assoc()){
-            $activity .= "<p>".$res['activity']."</p>";
+            $activity .= "<p>".$res['fatality']."</p>";
             $location .= "<p>".$res['location']."</p>";
-            $date .= "<p>".$res['date']."</p>";
+            $date .= "<p>".$res['receivecall']."</p>";
             $image .= "<div class='col-4'><img src='".$res['image']."'></div>";
         }
-        echo json_encode(['activity'=>$activity,'location'=>$location,'date'=>$date,'image'=>$image,'selfMun'=>$city === $_SESSION['userloc']]);
+        echo json_encode(['activity'=>$activity,'location'=>$location,'date'=>$date,'image'=>$image,'selfMun'=>$city === $_SESSION['userloc'], 'city'=>$city,'userlocation'=>$_SESSION['userloc']]);
     }
 
-    public function insertActivities($conn,$disaster,$location,$date,$summary,$image,$municipality){
-        if($conn->query("INSERT INTO activities(activity,location,date,summary,image,municipality_id,status) VALUES('$disaster','$location','$date','$summary','$image',$municipality,0)")){
+    public function insertActivities($conn,$receivecall,$location,$dispatched,$arrivalscene,$alarmstatus,$fireout,$occupancy,$fatality,
+    $damage,$cause,$returnedunit,$commander,$commandercontact,$sender,$contact,$firetruck,$image,$municipality){
+        if($conn->query("INSERT INTO activities(receivecall,location,dispatched,arrivalscene,image,alarmstatus,fireout,occupancy,
+        fatality,damage,cause,returnedunit,commander,commandercontact,sender,contact,firetruck,municipality_id,status) 
+        VALUES('$receivecall','$location','$dispatched','$arrivalscene','$image','$alarmstatus','$fireout','$occupancy','$fatality',
+        '$damage','$cause','$returnedunit','$commander','$commandercontact','$sender','$contact','$firetruck',$municipality,0)")){
             $getId = $conn->query("SELECT id FROM activities ORDER BY id DESC LIMIT 1");
            while($get = $getId->fetch_assoc()){
                 echo json_encode(['success'=>true, 'id'=>$get['id']]);
@@ -32,10 +36,11 @@ class ActivitiesController{
         $city = $_SESSION['city_id'];
         $tbody = "";
         $thead = "<tr>
-            <th>INCIDENT TYPE</th>
+            <th>Alarm status</th>
+            <th>Cause</th>
             <th>LOCATION</th>
             <th>RESPONDING TEAM</th>
-            <th>STATUS</th>
+            <th>Status</th>
             <th></th>
         </tr>";
         $clickable = false;
@@ -59,11 +64,12 @@ class ActivitiesController{
                         $status = "On working";
                     }
                     $tbody .= "<tr value='".$res['id']."'>
-                        <td>".$res['activity']."</td>
+                        <td>".$res['alarmstatus']."</td>
+                        <td>".$res['cause']."</td>
                         <td>".$res['location']."</td>
                         <td>$team</td>
                         <td>".$status."</td>
-                        <td hidden>".$res['summary']."</td>
+                        <td hidden>".$res['occupancy']."</td>
                         <td hidden>".$res['image']."</td>
                         <td style='width: 40px'><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
                     </tr>";
