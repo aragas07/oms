@@ -27,6 +27,7 @@
         let aid = 0,
         ctable = ()=>{
             $("tbody>tr").click(function(){
+                $("#img-report").attr("src","")
                 $('.tractive').removeClass('tractive')
                 $(this).attr('class','tractive')
                 aid = $(this).attr('value')
@@ -36,14 +37,23 @@
                 .children('p')
                 .text($(this).children().eq(4).text())
                 if($(this).children().eq(5).text() != ""){
-                    $("#img-report").attr("src",$(this).children().eq(5).text())
+                    $("#img-report").attr("src",$(this).children().eq(6).text())
                 }
             })
         },
         hidetab = ()=>{
-            $("#reporttable").css('cursor','default')
+            $("tbody>tr").click(function(){
+                $(".modal").css({
+                    "display":"flex",
+                    "justify-content":"center",
+                })
+                console.log($(this).children().eq(6).text())
+                $(".modal-head").children('h4').text('Details')
+                $(".modal-body").html('<p>'+$(this).children().eq(5).text()+'</p>'+
+                '<img src="'+$(this).children().eq(6).text()+'"/>')
+            })
             $(".tabcont").hide()
-        }, 
+        },
         fetch = (type)=>{
             console.log("exmaple")
             $.ajax({

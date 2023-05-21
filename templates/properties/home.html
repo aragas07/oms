@@ -82,6 +82,12 @@
                     <input type="number" required name="firetruck" class="cont-row form-control">
                 </div>
             </div>
+            <div class="f-width">
+                <div class="form-group">
+                    <h3 class="grid-title">Summary</h3>
+                    <textarea name="summary" id="" class="cont-row from-control"></textarea>
+                </div>
+            </div>
         </div>
         <div class="flex-col mb-5" id="available"></div>
         <div class="flex-col mt-10">
@@ -112,6 +118,12 @@
 <script>
     $(function(){
         // 👉️👇️👈️
+        $("textarea").each(function () {
+            this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+        }).on("input", function () {
+            this.style.height = 0;
+            this.style.height = (this.scrollHeight) + "px";
+        });
         const clearform = ()=>{
             $(".form-control").each(function(){
                 $(this).val("")

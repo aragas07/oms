@@ -166,15 +166,38 @@ $(function(){
                                 })
                             })
                         }else if(text[0] == 'VEHICLE'){
-                            // $("#custom-btn").after("<button id='add' class='right btn-primary mr-3'>Add vehicle</button>")
+                            $("table").before("<button id='add' class='right btn-primary mr-3'>Add vehicle</button>")
                             $("#add").click(()=>{
                                 $(".modal").css({
                                     "display":"flex",
                                     "justify-content":"center",
                                 })
                                 $(".modal-head").children('h4').text('Add Vehicle')
-                                $(".modal-body").html('')
+                                $(".modal-body").html('<form id="addvehicle"><div class="form-group">'+
+                                    '<h3 class="grid-title">Vehicle name</h3>'+
+                                    '<input type="text" id="vehiclename" class="cont-row form-control">'+
+                                '</div>'+
+                                '<div class="form-group">'+
+                                    '<h3 class="grid-title">Type</h3>'+
+                                    '<input type="text" id="type" class="cont-row form-control">'+
+                                '</div><input type="submit" class="btn-primary right"/></form>')
                                 $(".modal-form").width("40%")
+
+                                $("#addvehicle").submit(function(e){
+                                    e.preventDefault()
+                                    const sample = new FormData(this)
+                                    console.log("ewmperker "+sample)
+                                    $.ajax({
+                                        url: 'route/addVehicle',
+                                        type: 'post',
+                                        data: {vehiclename: $("#vehiclename").val(), type: $("#type").val()},
+                                        success: function(result){
+                                            $("#type").val("")
+                                            $("#vehiclename").val("")
+                                            result ? getData('VEHICLE') : swal({icon:'error', msg: 'Sorry we have a problem about the database connection'})
+                                        }
+                                    })
+                                })
                             })
                             $("#custom-btn").click(function(){
                                 vehicle(0,0)

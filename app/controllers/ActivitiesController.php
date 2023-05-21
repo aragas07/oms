@@ -18,11 +18,11 @@ class ActivitiesController{
     }
 
     public function insertActivities($conn,$receivecall,$location,$dispatched,$arrivalscene,$alarmstatus,$fireout,$occupancy,$fatality,
-    $damage,$cause,$returnedunit,$commander,$commandercontact,$sender,$contact,$firetruck,$image,$municipality){
+    $damage,$cause,$returnedunit,$commander,$commandercontact,$sender,$contact,$firetruck,$image,$summary,$municipality){
         if($conn->query("INSERT INTO activities(receivecall,location,dispatched,arrivalscene,image,alarmstatus,fireout,occupancy,
-        fatality,damage,cause,returnedunit,commander,commandercontact,sender,contact,firetruck,municipality_id,status) 
+        fatality,damage,cause,returnedunit,commander,commandercontact,sender,contact,firetruck,summary,municipality_id,status) 
         VALUES('$receivecall','$location','$dispatched','$arrivalscene','$image','$alarmstatus','$fireout','$occupancy','$fatality',
-        '$damage','$cause','$returnedunit','$commander','$commandercontact','$sender','$contact','$firetruck',$municipality,0)")){
+        '$damage','$cause','$returnedunit','$commander','$commandercontact','$sender','$contact','$firetruck','$summary',$municipality,0)")){
             $getId = $conn->query("SELECT id FROM activities ORDER BY id DESC LIMIT 1");
            while($get = $getId->fetch_assoc()){
                 echo json_encode(['success'=>true, 'id'=>$get['id']]);
@@ -69,7 +69,7 @@ class ActivitiesController{
                         <td>".$res['location']."</td>
                         <td>$team</td>
                         <td>".$status."</td>
-                        <td hidden>".$res['occupancy']."</td>
+                        <td hidden>".$res['summary']."</td>
                         <td hidden>".$res['image']."</td>
                         <td style='width: 40px'><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
                     </tr>";
@@ -106,10 +106,14 @@ class ActivitiesController{
                     $status = "Done";
                 }
                 $tbody .= "<tr>
-                    <td>".$res['activity']."</td>
+                    <td>".$res['alarmstatus']."</td>
+                    <td>".$res['cause']."</td>
                     <td>".$res['location']."</td>
                     <td>".$res['teams']."</td>
                     <td>".$status."</td>
+                    <td hidden>".$res['summary']."</td>
+                    <td hidden>".$res['image']."</td>
+                    <td><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
                 </tr>";
             }
         }

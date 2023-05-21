@@ -30,6 +30,7 @@
             $_POST['contact'],
             $_POST['firetruck'],
             $_POST['image'],
+            $_POST['summary'],
             $_SESSION['city_id'],
         ); 
             break;
@@ -56,4 +57,5 @@
         case 'getAbout': $main->getAbout($conn); break;
         case 'updateAbout': $main->updateAbout($conn,$_POST['details']); break;
         case 'updateTeamName': $main->updateTeamName($conn,$_POST['id'],$_POST['name']); break;
+        case 'addVehicle': $main->addVehicle($conn,$_POST['vehiclename'],$_POST['type']); break;
     }

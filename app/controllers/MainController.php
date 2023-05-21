@@ -151,4 +151,11 @@ class MainController{
         $conn->query("UPDATE abouts SET about = '$details' WHERE id = $city");
         
     }
+
+    public function addVehicle($conn, $vehicle, $type){
+        $city = $_SESSION['city_id'];
+        if($conn->query("INSERT INTO vehicle (vehicle,type,municipality_id) VALUES('$vehicle','$type',$city)")){
+            echo true;
+        }else{echo false;}
+    }
 }

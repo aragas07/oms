@@ -169,7 +169,7 @@ class UserController{
             }
         }else{
             $thead = "<tr>
-                        <th>INCIDENT TYPE</th>
+                        <th>ALARM STATUS</th>
                         <th>LOCATION</th>
                         <th>STATUS</th>
                     </tr>";
@@ -198,7 +198,7 @@ class UserController{
                     }
                 }
                 $tbody .= "<tr>
-                    <td>".$res['activity']."</td>
+                    <td>".$res['alarmstatus']."</td>
                     <td>".$res['location']."</td>
                     <td>$status</td>
                 </tr>";
