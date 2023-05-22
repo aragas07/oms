@@ -22,14 +22,15 @@ $(function(){
                 console.log(data)
                 data.length > 1 ?
                 swal.fire("error","You are not connected to the database","error") :
-                data.login ? success(data) : error()
+                success(data)
             },
             error: function (request, status, error) {
                 console.log(request.responseText)
             }
         }) : $(".error").css("display","block")
     })
-    function success(data){
+    function success(isadmin){
+        console.log(isadmin)
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -37,14 +38,18 @@ $(function(){
             showConfirmButton: false,
             timer: 1500
         }).then(function(result) {
-            sessionStorage.setItem('auth','login')
-            sessionStorage.setItem('location',data.location)
-            sessionStorage.setItem('badge',data.badge)
-            window.location.href = "/home"
+            if(isadmin.login){
+                sessionStorage.setItem('auth','login')
+                sessionStorage.setItem('location',isadmin.location)
+                sessionStorage.setItem('badge',isadmin.badge)
+                window.location.href = "/home"
+            }else{
+                window.location.href = "/"
+            }
         });
 
     }
     function error(){
-        window.location.href = "/"
+        wal.fire("Sorry","We have a problem about database connection");
     }
 })
