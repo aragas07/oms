@@ -29,8 +29,7 @@ $(function(){
             }
         }) : $(".error").css("display","block")
     })
-    function success(isadmin){
-        console.log(isadmin)
+    function success(data){
         Swal.fire({
             position: 'center',
             icon: 'success',
@@ -38,18 +37,14 @@ $(function(){
             showConfirmButton: false,
             timer: 1500
         }).then(function(result) {
-            if(isadmin.login){
-                sessionStorage.setItem('auth','login')
-                sessionStorage.setItem('location',isadmin.location)
-                sessionStorage.setItem('badge',isadmin.badge)
-                window.location.href = "/home"
-            }else{
-                window.location.href = "/"
-            }
+            sessionStorage.setItem('auth','login')
+            sessionStorage.setItem('location',data.location)
+            sessionStorage.setItem('badge',data.badge)
+            window.location.href = "/home"
         });
 
     }
     function error(){
-        swal.fire("Sorry","We have a problem about database connection");
+        window.location.href = "/"
     }
 })
