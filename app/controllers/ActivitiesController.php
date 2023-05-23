@@ -46,7 +46,7 @@ class ActivitiesController{
         $clickable = false;
         if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
             if($type == 0){
-                $result = $conn->query("SELECT * FROM activities WHERE municipality_id = $city AND status < 2");
+                $result = $conn->query("SELECT * FROM activities WHERE municipality_id = $city");
                 while($res = $result->fetch_assoc()){
                     $getTeam = $conn->query("SELECT *,t.name AS tname FROM responded_team AS r INNER JOIN team AS t INNER JOIN municipality AS m ON r.team_id = t.id AND t.municipality_id = m.id WHERE activities_id = ".$res['id']);
                     $status = "New";

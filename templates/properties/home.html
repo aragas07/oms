@@ -292,6 +292,8 @@
         })
 
         function insertact(b,data){
+            console.log("insertact")
+            console.log(b+" : "+data)
             $.ajax({
                 url: "route/inAc",
                 type: "POST",
@@ -324,7 +326,7 @@
                     data: {id: $(this).attr('value'), aid: aid}
                 })
             })
-            msg("asuccess","The report has been sent") 
+            msg("asuccess","The report has been sent")
             clearform()
             available()
         }
