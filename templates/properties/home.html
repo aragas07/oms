@@ -231,7 +231,7 @@
             console.log("example")
             const data = new FormData(this)
             if($(".row-active").length == 0 || $(".t-active").length == 0){
-                swal.fire({
+                Swal.fire({
                     title: 'Sorry!',
                     html: '<h5 style="margin: 0">Due to the lack of a team or vehicle, we are unable to provide service.</h5>',
                     icon: 'error',
@@ -270,7 +270,7 @@
                                             data: {id: $(this).attr('value')}
                                         })
                                     })
-                                    swal.fire({
+                                    Swal.fire({
                                         icon: 'success',
                                         title: 'The request for help has been sent'
                                     })
@@ -301,6 +301,7 @@
                 cache: false,
                 processData: false,
                 success: function(r){
+                    console.log(r)
                     if(b) r.success ? success(r.id) : msg("aerror","Sorry we have a problem about the database connection")
                 }, 
                 error: function (request, status, error) {

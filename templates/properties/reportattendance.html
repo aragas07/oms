@@ -34,6 +34,7 @@
             dataType: 'JSON',
             data: {month: month},
             success: function(e){
+                console.log(e)
                 for(var i = 0; i < e.length ;i++){
                     var ac = 0
                     var tr = "<tr><td style='font-size: 15px!important'>"+e[i].personnel+"</td>"
@@ -59,7 +60,7 @@
                         $.get('./templates/properties/logsheet.html',(file)=>{
                             data = e[i]
                             dmonth = daysInMonth
-                            dnow = datenow 
+                            dnow = datenow
                             ye = year
                             mo = month
                             $(".modal-body").html(file)
