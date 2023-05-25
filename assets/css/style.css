@@ -300,6 +300,11 @@ button:hover{
     width: 33.33%;
 }
 
+.col-3{
+    position: relative;
+    width: 25%;
+}
+
 .img-cont div{
     padding: 3px;
     overflow: hidden;

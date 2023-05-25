@@ -8,14 +8,55 @@
 </table>
 <div id="summary" hidden class="mt-30">
     <div class="col-4 home">
-        <h3 class="title">Summary</h3>
+        <h3 class="title">Full details</h3>
     </div>
     <div class="card">
-        <div class="f-width text-right">
+        <div id="insidebutton" class="f-width text-right">
             <button id="response" class="btn-primary">Ask help</button>
             <button id="repres" class="btn-danger">Respond</button>
         </div>
-        <p></p>
+        <div class="row">
+            <div class="col-6">
+                <h4>Receive call</h4>
+                <p id="rcall"></p>
+                <h4>Alarm status</h4>
+                <p id="astatus"></p>
+                <h4>Cause</h4>
+                <p id="cause"></p>
+                <h4>Location</h4>
+                <p id="loc"></p>
+                <h4>Teams</h4>
+                <p id="teams"></p>
+                <h4>Dispatched</h4>
+                <p id="dispatched"></p>
+                <h4>Arrival scene</h4>
+                <p id="arrivalscene"></p>
+                <h4>Status</h4>
+                <p id="status"></p>
+            </div>
+            <div class="col-6">
+                <h4>Fire out</h4>
+                <p id="fireout"></p>
+                <h4>Occupancy</h4>
+                <p id="occupancy"></p>
+                <h4>Fatality</h4>
+                <p id="fatality"></p>
+                <h4>Damage</h4>
+                <p id="damage"></p>
+                <h4>Returned unit</h4>
+                <p id="returnedunit"></p>
+                <h4>Commander</h4>
+                <p id="commmander"></p>
+                <h4>Commander contact</h4>
+                <p id="commandercontact"></p>
+                <h4>Sender</h4>
+                <p id="sender"></p>
+                <h4>sender</h4>
+                <p id="firetruck"></p>
+            </div>
+        </div>
+        <h4>Summary</h4>
+        <p id="suma"></p>
         <div class="f-width text-center" style="caret-color: transparent">
             <img style="width:50%; border-radius: 4px;" id="img-report" alt="">
         </div>
@@ -24,34 +65,55 @@
 
 <script>
     $(function(){
-        let aid = 0,
-        ctable = ()=>{
+        function tableclick(dis){
+            console.log("sample "+dis)
             $("tbody>tr").click(function(){
+                var tcol = $(this).children()
                 $("#img-report").attr("src","")
                 $('.tractive').removeClass('tractive')
                 $(this).attr('class','tractive')
                 aid = $(this).attr('value')
-                $("#summary")
-                .show()
-                .children('.card')
-                .children('p')
-                .text($(this).children().eq(4).text())
-                if($(this).children().eq(5).text() != ""){
+                $("#astatus").text(tcol.eq(0).text())
+                $("#cause").text(tcol.eq(1).text())
+                $("#loc").text(tcol.eq(2).text())
+                $("#teams").text(tcol.eq(3).text())
+                $("#suma").text(tcol.eq(5).text())
+                if($(this).children().eq(6).text() != ""){
                     $("#img-report").attr("src",$(this).children().eq(6).text())
                 }
+                $("#rcall").text(tcol.eq(7).text())
+                $("#dispatched").text(tcol.eq(8).text())
+                $("#arrivalscene").text(tcol.eq(9).text())
+                $("#fireout").text(tcol.eq(11).text())
+                $("#occupancy").text(tcol.eq(12).text())
+                $("#fatality").text(tcol.eq(13).text())
+                $("#damage").text(tcol.eq(14).text())
+                $("#returnedunit").text(tcol.eq(15).text())
+                $("#commander").text(tcol.eq(16).text())
+                $("#commandercontact").text(tcol.eq(17).text())
+                $("#sender").text(tcol.eq(18).text())
+                $("#firetruck").text(tcol.eq(19).text())
+                if(dis){
+                    $("#summary").show()
+                }
+                else{
+                    $(".modal").css({
+                        "display":"flex",
+                        "justify-content":"center",
+                    })
+                    $(".modal-body").html($(".card").html())
+                }
             })
+        }
+        let aid = 0,
+        ctable = ()=>{
+            tableclick(true)
         },
         hidetab = ()=>{
-            $("tbody>tr").click(function(){
-                $(".modal").css({
-                    "display":"flex",
-                    "justify-content":"center",
-                })
-                console.log($(this).children().eq(6).text())
-                $(".modal-head").children('h4').text('Details')
-                $(".modal-body").html('<p>'+$(this).children().eq(5).text()+'</p>'+
-                '<img src="'+$(this).children().eq(6).text()+'"/>')
-            })
+            $("#insidebutton").hide()
+            tableclick(false)
+            $(".modal-form").width("70%")
+            $(".modal-head").children('h4').text('Full details')
             $(".tabcont").hide()
         },
         fetch = (type)=>{

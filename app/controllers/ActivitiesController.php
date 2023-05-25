@@ -12,7 +12,7 @@ class ActivitiesController{
             $activity .= "<p>".$res['fatality']."</p>";
             $location .= "<p>".$res['location']."</p>";
             $date .= "<p>".$res['receivecall']."</p>";
-            $image .= "<div class='col-4'><img src='".$res['image']."'></div>";
+            $image .= "<div class='col-3'><img src='".$res['image']."'></div>";
         }
         echo json_encode(['activity'=>$activity,'location'=>$location,'date'=>$date,'image'=>$image,'selfMun'=>$city === $_SESSION['userloc'], 'city'=>$city,'userlocation'=>$_SESSION['userloc']]);
     }
@@ -44,34 +44,43 @@ class ActivitiesController{
             <th></th>
         </tr>";
         $clickable = false;
+        
         if($city === $_SESSION['userloc'] && $_SESSION['usertype'] === "admin"){
+            $clickable = true;
+        }
             if($type == 0){
-                $result = $conn->query("SELECT * FROM activities WHERE municipality_id = $city");
+                $result = $conn->query("SELECT *, group_concat(name SEPARATOR ', ') AS teams FROM activities AS a 
+                INNER JOIN responded_team AS r INNER JOIN team AS t ON a.id = r.activities_id AND r.team_id = t.id 
+                WHERE t.municipality_id = $city GROUP BY a.id");
                 while($res = $result->fetch_assoc()){
-                    $getTeam = $conn->query("SELECT *,t.name AS tname FROM responded_team AS r INNER JOIN team AS t INNER JOIN municipality AS m ON r.team_id = t.id AND t.municipality_id = m.id WHERE activities_id = ".$res['id']);
                     $status = "New";
-                    $team = "";
-                    $i = 1;
-                    while($gteam = $getTeam->fetch_assoc()){
-                        $team .= $gteam['name']." : ".$gteam['tname'];
-                        if(mysqli_num_rows($getTeam) > $i){
-                            $team .= ", ";
-                            $i++;
-                        }
-                        $status = "Work in progress";
-                    }
                     if($res['status'] == 1){
                         $status = "On working";
+                    }else if($res['status'] == 2){
+                        $status = "Fire out";
                     }
-                    $tbody .= "<tr value='".$res['id']."'>
-                        <td>".$res['alarmstatus']."</td>
+                    $tbody .= "<tr>
+                        <td>".$res['alarmstatus']."</td> 
                         <td>".$res['cause']."</td>
                         <td>".$res['location']."</td>
-                        <td>$team</td>
+                        <td>".$res['teams']."</td>
                         <td>".$status."</td>
                         <td hidden>".$res['summary']."</td>
                         <td hidden>".$res['image']."</td>
-                        <td style='width: 40px'><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
+                        <td hidden>".$res['receivecall']."</td>
+                        <td hidden>".$res['dispatched']."</td>
+                        <td hidden>".$res['arrivalscene']."</td>
+                        <td hidden>".$res['status']."</td>
+                        <td hidden>".$res['fireout']."</td>
+                        <td hidden>".$res['occupancy']."</td>
+                        <td hidden>".$res['fatality']."</td>
+                        <td hidden>".$res['damage']."</td>
+                        <td hidden>".$res['returnedunit']."</td>
+                        <td hidden>".$res['commander']."</td>
+                        <td hidden>".$res['commandercontact']."</td>
+                        <td hidden>".$res['sender']."</td>
+                        <td hidden>".$res['firetruck']."</td>
+                        <td><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
                     </tr>";
                 }
             }else{
@@ -92,31 +101,6 @@ class ActivitiesController{
                     </tr>";
                 }
             }
-            $clickable = true;
-            
-        }else if($_SESSION['usertype'] === "admin"){
-            $result = $conn->query("SELECT *, group_concat(name SEPARATOR ', ') AS teams FROM activities AS a 
-            INNER JOIN responded_team AS r INNER JOIN team AS t ON a.id = r.activities_id AND r.team_id = t.id 
-            WHERE t.municipality_id = $city GROUP BY a.id");
-            while($res = $result->fetch_assoc()){
-                $status = "New";
-                if($res['status'] == 1){
-                    $status = "On working";
-                }else if($res['status'] == 2){
-                    $status = "Done";
-                }
-                $tbody .= "<tr>
-                    <td>".$res['alarmstatus']."</td>
-                    <td>".$res['cause']."</td>
-                    <td>".$res['location']."</td>
-                    <td>".$res['teams']."</td>
-                    <td>".$status."</td>
-                    <td hidden>".$res['summary']."</td>
-                    <td hidden>".$res['image']."</td>
-                    <td><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
-                </tr>";
-            }
-        }
         echo json_encode(['thead'=>$thead, 'tbody'=>$tbody, 'clickable'=>$clickable]);
     }
 

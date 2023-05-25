@@ -1,5 +1,5 @@
 <div class="text-center">
-    <h4>For the month of March</h4>
+    <h4 id="month"></h4>
 </div>
 <table id="attendance">
     <thead>
@@ -20,11 +20,13 @@
         month = date.getMonth()+1,
         year = date.getFullYear(),
         datenow = date.getDate(),
-        daysInMonth = getDaysInMonth(year,month)
+        daysInMonth = getDaysInMonth(year,month),
+        listofmonth = ['January','February','March','April','May','June','July','August','September','October','November','December']
+
         function getDaysInMonth(year, month) {
             return new Date(year, month, 0).getDate()
         }
-
+        $("#month").text("For the month of "+listofmonth[month-1])
         for(var i = 1; i <= daysInMonth; i++){
             table.children('thead').children().append('<th>'+i+'</th>')
         }
