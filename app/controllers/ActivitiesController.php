@@ -9,7 +9,7 @@ class ActivitiesController{
         $date = "";
         $image = "";
         while($res = $result->fetch_assoc()){
-            $activity .= "<p>".$res['fatality']."</p>";
+            $activity .= "<p>".$res['alarmstatus']."</p>";
             $location .= "<p>".$res['location']."</p>";
             $date .= "<p>".$res['receivecall']."</p>";
             $image .= "<div class='col-3'><img src='".$res['image']."'></div>";
@@ -49,14 +49,14 @@ class ActivitiesController{
             $clickable = true;
         }
             if($type == 0){
-                $result = $conn->query("SELECT *, group_concat(name SEPARATOR ', ') AS teams FROM activities AS a 
+                $result = $conn->query("SELECT *, group_concat(name SEPARATOR ', ') AS teams, a.status AS astat FROM activities AS a 
                 INNER JOIN responded_team AS r INNER JOIN team AS t ON a.id = r.activities_id AND r.team_id = t.id 
                 WHERE t.municipality_id = $city GROUP BY a.id");
                 while($res = $result->fetch_assoc()){
                     $status = "New";
-                    if($res['status'] == 1){
+                    if($res['astat'] == 1){
                         $status = "On working";
-                    }else if($res['status'] == 2){
+                    }else if($res['astat'] == 2){
                         $status = "Fire out";
                     }
                     $tbody .= "<tr>
@@ -70,7 +70,7 @@ class ActivitiesController{
                         <td hidden>".$res['receivecall']."</td>
                         <td hidden>".$res['dispatched']."</td>
                         <td hidden>".$res['arrivalscene']."</td>
-                        <td hidden>".$res['status']."</td>
+                        <td hidden>".$res['astat']."</td>
                         <td hidden>".$res['fireout']."</td>
                         <td hidden>".$res['occupancy']."</td>
                         <td hidden>".$res['fatality']."</td>
