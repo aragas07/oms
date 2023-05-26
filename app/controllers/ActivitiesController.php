@@ -31,6 +31,12 @@ class ActivitiesController{
             echo false;
         }
     }
+    public function updateActivities($conn,$receivecall,$location,$dispatched,$arrivalscene,$alarmstatus,$fireout,$occupancy,$fatality,
+    $damage,$cause,$returnedunit,$commander,$commandercontact,$sender,$firetruck,$summary,$municipality,$reportid){
+        $conn->query("UPDATE activities SET receivecall = '$receivecall', location = '$location', dispatched = '$dispatched', arrivalscene = '$arrivalscene',
+         alarmstatus = '$alarmstatus', fireout = '$fireout', occupancy = '$occupancy', fatality = '$fatality', damage = '$damage', cause = '$cause', returnedunit = '$returnedunit',
+         commander = '$commander', commandercontact = '$commandercontact', sender = '$sender', firetruck = '$firetruck', summary = '$summary', municipality_id = $municipality WHERE  id = $reportid");
+    }
 
     public function getReport($conn,$type){
         $city = $_SESSION['city_id'];
@@ -41,7 +47,7 @@ class ActivitiesController{
             <th>LOCATION</th>
             <th>RESPONDING TEAM</th>
             <th>Status</th>
-            <th></th>
+            <th>Functions</th>
         </tr>";
         $clickable = false;
         
@@ -49,7 +55,7 @@ class ActivitiesController{
             $clickable = true;
         }
             if($type == 0){
-                $result = $conn->query("SELECT *, group_concat(name SEPARATOR ', ') AS teams, a.status AS astat FROM activities AS a 
+                $result = $conn->query("SELECT *, group_concat(name SEPARATOR ', ') AS teams, a.status AS astat, a.id AS aid FROM activities AS a 
                 INNER JOIN responded_team AS r INNER JOIN team AS t ON a.id = r.activities_id AND r.team_id = t.id 
                 WHERE t.municipality_id = $city GROUP BY a.id");
                 while($res = $result->fetch_assoc()){
@@ -59,7 +65,7 @@ class ActivitiesController{
                     }else if($res['astat'] == 2){
                         $status = "Fire out";
                     }
-                    $tbody .= "<tr>
+                    $tbody .= "<tr id='".$res['aid']."'>
                         <td>".$res['alarmstatus']."</td> 
                         <td>".$res['cause']."</td>
                         <td>".$res['location']."</td>
@@ -80,7 +86,13 @@ class ActivitiesController{
                         <td hidden>".$res['commandercontact']."</td>
                         <td hidden>".$res['sender']."</td>
                         <td hidden>".$res['firetruck']."</td>
-                        <td><b style='padding: 3px 7px; font-size: 13px; border: 1px solid gray; border-radius: 3px'>Details</b></td>
+                        <td>
+                        <b class='rbutton view' style='margin-right: 7px'><i class='fa-solid fa-eye'></i></b>";
+
+                        if($clickable){
+                            $tbody .= "<b class='rbutton update'><i class='fa-solid fa-refresh'></i></b>";
+                        }
+                        $tbody .= "</td>
                     </tr>";
                 }
             }else{

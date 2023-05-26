@@ -34,6 +34,28 @@
             $_SESSION['city_id'],
         ); 
             break;
+        case "upAc": $activities->updateActivities(
+                $conn,
+                $_POST['rcall'],
+                $_POST['loc'],
+                $_POST['dispatched'],
+                $_POST['arrivalscene'],
+                $_POST['astatus'],
+                $_POST['fireout'],
+                $_POST['occupancy'],
+                $_POST['fatality'],
+                $_POST['damage'],
+                $_POST['cause'],
+                $_POST['returnedunit'],
+                $_POST['commander'],
+                $_POST['commandercontact'],
+                $_POST['sender'],
+                $_POST['firetruck'],
+                $_POST['suma'],
+                $_SESSION['city_id'],
+                $_POST['reportid']
+            ); 
+                break;
         case "attendance": $main->attendance($conn); break;
         case "getPersonnel": $main->getPersonnel($conn); break;
         case "gnp": $main->getPandT($conn); break;
@@ -58,4 +80,5 @@
         case 'updateAbout': $main->updateAbout($conn,$_POST['details']); break;
         case 'updateTeamName': $main->updateTeamName($conn,$_POST['id'],$_POST['name']); break;
         case 'addVehicle': $main->addVehicle($conn,$_POST['vehiclename'],$_POST['type']); break;
+        case 'deleteVehicle': $main->deleteVehicle($conn,$_POST['id']); break;
     }

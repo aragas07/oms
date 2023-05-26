@@ -7,6 +7,11 @@ body, html{
     width: 10px;
 }
 
+.ricon{
+    height: 13px;
+    width: 13px;
+}
+
 button:hover{
     cursor: pointer;
 }
@@ -293,6 +298,14 @@ button:hover{
 
 .p-justify{
     text-align: justify;
+}
+
+.rbutton{
+    padding: 3px 7px; 
+    font-size: 13px; 
+    border: 1px solid gray; 
+    border-radius: 3px;
+
 }
 
 .col-4{

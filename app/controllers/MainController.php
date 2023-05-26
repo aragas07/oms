@@ -158,4 +158,8 @@ class MainController{
             echo true;
         }else{echo false;}
     }
+
+    public function deleteVehicle($conn, $id){
+        $conn->query("DELETE FROM vehicle WHERE id = $id");
+    }
 }

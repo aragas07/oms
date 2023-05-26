@@ -132,6 +132,7 @@ class UserController{
                                 <option ";if($res['status'] == 1){$tbody .= "selected";} $tbody .= " value=1>On use</option>
                                 <option ";if($res['status'] == 2){$tbody .= "selected";} $tbody .= " value=2>Under maintenance</option>
                             </select>
+                            <button value='".$res['id']."' class='deletebtn rbutton'>Delete</button>
                         </td>";
                 }else{
                     $tbody .= "<td>".$status."</td>";
