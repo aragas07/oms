@@ -20,9 +20,9 @@ class ActivitiesController{
     public function insertActivities($conn,$receivecall,$location,$dispatched,$arrivalscene,$alarmstatus,$fireout,$occupancy,$fatality,
     $damage,$cause,$returnedunit,$commander,$commandercontact,$sender,$contact,$firetruck,$image,$summary,$municipality){
         if($conn->query("INSERT INTO activities(receivecall,location,dispatched,arrivalscene,image,alarmstatus,fireout,occupancy,
-        fatality,damage,cause,returnedunit,commander,commandercontact,sender,contact,firetruck,summary,municipality_id,status) 
+        fatality,damage,cause,returnedunit,commander,commandercontact,sender,contact,firetruck,summary,municipality_id,status,notif) 
         VALUES('$receivecall','$location','$dispatched','$arrivalscene','$image','$alarmstatus','$fireout','$occupancy','$fatality',
-        '$damage','$cause','$returnedunit','$commander','$commandercontact','$sender','$contact','$firetruck','$summary',$municipality,0)")){
+        '$damage','$cause','$returnedunit','$commander','$commandercontact','$sender','$contact','$firetruck','$summary',$municipality,0,0)")){
             $getId = $conn->query("SELECT id FROM activities ORDER BY id DESC LIMIT 1");
            while($get = $getId->fetch_assoc()){
                 echo json_encode(['success'=>true, 'id'=>$get['id']]);
@@ -90,7 +90,7 @@ class ActivitiesController{
                         <b class='rbutton view' style='margin-right: 7px'><i class='fa-solid fa-eye'></i></b>";
 
                         if($clickable){
-                            $tbody .= "<b class='rbutton update'><i class='fa-solid fa-refresh'></i></b>";
+                            $tbody .= "<b class='rbutton update'><i class='fa-solid fa-pen'></i></b>";
                         }
                         $tbody .= "</td>
                     </tr>";
@@ -98,14 +98,14 @@ class ActivitiesController{
             }else{
                 $thead = "<tr>
                     <th>REQUESTED BY</th>
-                    <th>INCIDENT TYPE</th>
+                    <th>ALARM STATUS</th>
                     <th>LOCATION</th>
                 </tr>";
                 $result = $conn->query("SELECT *,a.id AS aid FROM help AS h INNER JOIN activities AS a INNER JOIN municipality AS m ON h.activities = a.id AND a.municipality_id = m.id WHERE h.municipality_id = $city AND a.status < 2");
                 while($res = $result->fetch_assoc()){
                     $tbody .= "<tr value='".$res['aid']."'>
                         <td>".$res['name']."</td>
-                        <td>".$res['activity']."</td>
+                        <td>".$res['alarmstatus']."</td>
                         <td>".$res['location']."</td>
                         <td hidden></td>
                         <td hidden>".$res['summary']."</td>
@@ -113,12 +113,25 @@ class ActivitiesController{
                     </tr>";
                 }
             }
-        echo json_encode(['thead'=>$thead, 'tbody'=>$tbody, 'clickable'=>$clickable]);
+        echo json_encode(['thead'=>$thead, 'tbody'=>$tbody, 'clickable'=>$clickable, 'city'=>$city]);
     }
 
     public function getNewActivity($conn){
-        $result = $conn->query("SELECT * FROM help WHERE status = 0 AND municipality_id = ".$_SESSION['userloc']);
-        echo mysqli_num_rows($result);
+        $result = $conn->query("SELECT * FROM help WHERE status < 2 AND municipality_id = ".$_SESSION['userloc']);
+        $notif = array();
+        $sample = "";
+        while($res = $result->fetch_assoc()){
+            $sample .= " ".$res['municipality_id'];
+            if($res['status'] == 0){
+                $gethelp = $conn->query("SELECT * FROM activities WHERE id = ".$res['activities']);
+                while($r = $gethelp->fetch_assoc()){
+                    $sample .= " ".$r['id'];
+                    array_push($notif, ['alarmstatus'=>$r['alarmstatus'],'summary'=>$r['summary']]);
+                    $conn->query("UPDATE help SET status = 1 WHERE municipality_id = ".$res['municipality_id']." AND activities = ".$r['id']);
+                }
+            }
+        }
+        echo json_encode(['notif'=>$notif,'result'=>mysqli_num_rows($result),'id'=>$sample]);
     }
 
     public function getAvailable($conn){

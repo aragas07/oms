@@ -69,7 +69,6 @@
     $(function(){
         function tableclick(dis,i){
             var tcol = $("tbody>tr").eq(i).children()
-            console.log($("tbody>tr").eq(i).attr('id'))
             $("#reportid").val($("tbody>tr").eq(i).attr('id'))
             $("#img-report").attr("src","")
             $('.tractive').removeClass('tractive')
@@ -117,77 +116,6 @@
             $(".modal-form").width("70%")
             $(".modal-head").children('h4').text('Full details')
             $(".tabcont").hide()
-        },
-        fetch = (type)=>{
-            console.log("exmaple")
-            $.ajax({
-                url:"route/getReport",
-                dataType: "JSON",
-                type: 'POST',
-                data: {type: type},
-                success: function(result){
-                    $("table>thead").html(result.thead)
-                    $("table>tbody").html(result.tbody)
-                    $(".view").each(function(i){
-                        $(this).click(()=>{
-                            $(".form-control").each(function(){
-                                $(this).prop('disabled','true')
-                            })
-                            $("#suma").prop('disabled','true')
-                            $("#updatereport").hide()
-                            result.clickable ? ctable(i) : hidetab(i)
-                        })
-                    })
-                    $(".update").each(function(i){
-                        $(this).click(()=>{
-                            $("#updatereport").show()
-                            result.clickable ? ctable(i) : hidetab(i)
-                            $("#insidebutton").hide()
-                            $(".form-control").each(function(){
-                                $(this).prop('disabled',false)
-                            })
-                            $("#suma").prop('disabled',false)
-                            
-                            $("#editreport").on('submit',function(e){
-                                e.preventDefault()
-                                Swal.fire({
-                                    title: 'Are you sure?',
-                                    text: "You won't be able to revert this!",
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#3085d6',
-                                    cancelButtonColor: '#d33',
-                                    confirmButtonText: 'Yes, delete it!'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        console.log("Exnpane")
-                                        $.ajax({
-                                            url: 'route/upAc',
-                                            type: 'POST',
-                                            data: new FormData(this),
-                                            dataType: "JSON",
-                                            contentType: false,
-                                            cache: false,
-                                            processData: false,
-                                            success: function(r){
-                                                console.log(r)
-                                                fetch(1)
-                                            },
-                                            error: function (request, status, error) {
-                                                console.log(request.responseText);
-                                            }
-                                        })
-                                    }
-                                })
-                            })
-        
-                        })
-                    })
-                },
-                error: function (request, status, error) {
-                    console.log(request.responseText);
-                }
-            })
         }, 
         response = ()=>{
             console.log("response")
@@ -297,6 +225,75 @@
             $(".modal-head>h4").text(get.text)
         }
 
+        function fetch(type){
+            console.log("exmaple")
+            $.ajax({
+                url:"route/getReport",
+                type: 'POST',
+                dataType: "JSON",
+                data: {type: type},
+                success: function(result){
+                    console.log("this is reports for this month "+result.thead)
+                    $("table>thead").html(result.thead)
+                    $("table>tbody").html(result.tbody)
+                    $(".view").each(function(i){
+                        $(this).click(()=>{
+                            $(".form-control").each(function(){
+                                $(this).prop('disabled','true')
+                            })
+                            $("#suma").prop('disabled','true')
+                            $("#updatereport").hide()
+                            result.clickable ? ctable(i) : hidetab(i)
+                        })
+                    })
+                    $(".update").each(function(i){
+                        $(this).click(()=>{
+                            $("#updatereport").show()
+                            result.clickable ? ctable(i) : hidetab(i)
+                            $("#insidebutton").hide()
+                            $(".form-control").each(function(){
+                                $(this).prop('disabled',false)
+                            })
+                            $("#suma").prop('disabled',false)
+                            
+                            $("#editreport").on('submit',function(e){
+                                e.preventDefault()
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        $.ajax({
+                                            url: 'route/upAc',
+                                            type: 'POST',
+                                            data: new FormData(this),
+                                            dataType: "JSON",
+                                            contentType: false,
+                                            cache: false,
+                                            processData: false,
+                                            success: function(r){
+                                                fetch(1)
+                                            },
+                                            error: function (request, status, error) {
+                                            }
+                                        })
+                                    }
+                                })
+                            })
+        
+                        })
+                    })
+                },
+                error: function (request, status, error) {
+                    console.log(request.responseText)
+                }
+            })
+        }
         fetch(0)
         $(".tab").click(function(){
             $(".tab-active").removeClass('tab-active')

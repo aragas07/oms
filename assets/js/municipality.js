@@ -327,12 +327,18 @@ $(function(){
     })
 
     function hasNotif(){
+        console.log("Example notification")
         $.ajax({
             url: 'route/getnewAc',
+            dataType: 'json',
             success: function(num){
-                if(num > 0){
+                for(var i = 0; i < num.notif.length; i++){
+                    console.log(num.notif[i].alarmstatus+" "+num.notif[i].summary)
+                    Swal.fire('warning',num.notif[i].alarmstatus, num.notif[i].summary)
+                }
+                if(num.result > 0){
                     $(".notif").css("display",'flex')
-                    $(".notif").html(num)
+                    $(".notif").html(num.result)
                 }else{
                     $(".notif").css("display",'none')
                 }

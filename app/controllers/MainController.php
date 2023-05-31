@@ -129,7 +129,7 @@ class MainController{
     }
 
     public function response($conn, $id){
-        $conn->query("UPDATE help SET status = 1 WHERE activities = $id AND municipality_id = ".$_SESSION['userloc']);
+        $conn->query("UPDATE help SET status = 2 WHERE activities = $id AND municipality_id = ".$_SESSION['userloc']);
     }
 
     public function addteam($conn, $team){
