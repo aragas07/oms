@@ -100,6 +100,7 @@ class ActivitiesController{
                     <th>REQUESTED BY</th>
                     <th>ALARM STATUS</th>
                     <th>LOCATION</th>
+                    <th>FUNCTION</th>
                 </tr>";
                 $result = $conn->query("SELECT *,a.id AS aid FROM help AS h INNER JOIN activities AS a INNER JOIN municipality AS m ON h.activities = a.id AND a.municipality_id = m.id WHERE h.municipality_id = $city AND a.status < 2");
                 while($res = $result->fetch_assoc()){
@@ -110,6 +111,7 @@ class ActivitiesController{
                         <td hidden></td>
                         <td hidden>".$res['summary']."</td>
                         <td hidden>".$res['image']."</td>
+                        <td><b class='rbutton view' style='margin-right: 7px'><i class='fa-solid fa-eye'></i></b></td>
                     </tr>";
                 }
             }
