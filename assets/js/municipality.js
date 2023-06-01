@@ -333,8 +333,8 @@ $(function(){
             dataType: 'json',
             success: function(num){
                 for(var i = 0; i < num.notif.length; i++){
-                    console.log(num.notif[i].alarmstatus+" "+num.notif[i].summary)
-                    Swal.fire('warning',num.notif[i].alarmstatus, num.notif[i].summary)
+                    console.log(num.notif[i])
+                    Swal.fire('',num.notif[i].municipal+" is requesting for help", 'warning')
                 }
                 if(num.result > 0){
                     $(".notif").css("display",'flex')

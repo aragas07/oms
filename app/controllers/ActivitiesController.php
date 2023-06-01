@@ -20,9 +20,9 @@ class ActivitiesController{
     public function insertActivities($conn,$receivecall,$location,$dispatched,$arrivalscene,$alarmstatus,$fireout,$occupancy,$fatality,
     $damage,$cause,$returnedunit,$commander,$commandercontact,$sender,$contact,$firetruck,$image,$summary,$municipality){
         if($conn->query("INSERT INTO activities(receivecall,location,dispatched,arrivalscene,image,alarmstatus,fireout,occupancy,
-        fatality,damage,cause,returnedunit,commander,commandercontact,sender,contact,firetruck,summary,municipality_id,status,notif) 
+        fatality,damage,cause,returnedunit,commander,commandercontact,sender,contact,firetruck,summary,municipality_id,status) 
         VALUES('$receivecall','$location','$dispatched','$arrivalscene','$image','$alarmstatus','$fireout','$occupancy','$fatality',
-        '$damage','$cause','$returnedunit','$commander','$commandercontact','$sender','$contact','$firetruck','$summary',$municipality,0,0)")){
+        '$damage','$cause','$returnedunit','$commander','$commandercontact','$sender','$contact','$firetruck','$summary',$municipality,0)")){
             $getId = $conn->query("SELECT id FROM activities ORDER BY id DESC LIMIT 1");
            while($get = $getId->fetch_assoc()){
                 echo json_encode(['success'=>true, 'id'=>$get['id']]);
@@ -122,18 +122,24 @@ class ActivitiesController{
         $result = $conn->query("SELECT * FROM help WHERE status < 2 AND municipality_id = ".$_SESSION['userloc']);
         $notif = array();
         $sample = "";
+        $municipal = 0;
         while($res = $result->fetch_assoc()){
             $sample .= " ".$res['municipality_id'];
             if($res['status'] == 0){
+                $getMunicipality = $conn->query("SELECT * FROM municipality WHERE id = ".$res['municipality_id']);
+                
+                while($municipality = $getMunicipality->fetch_assoc()){
+                    $municipal = $municipality['name'];
+                }
                 $gethelp = $conn->query("SELECT * FROM activities WHERE id = ".$res['activities']);
                 while($r = $gethelp->fetch_assoc()){
                     $sample .= " ".$r['id'];
-                    array_push($notif, ['alarmstatus'=>$r['alarmstatus'],'summary'=>$r['summary']]);
-                    $conn->query("UPDATE help SET status = 1 WHERE municipality_id = ".$res['municipality_id']." AND activities = ".$r['id']);
+                    array_push($notif, ['alarmstatus'=>$r['alarmstatus'],'summary'=>$r['summary'],'municipal'=>$municipal]);
+                    $conn->query("UPDATE help SET status = 1 WHERE id = ".$res['id']);
                 }
             }
         }
-        echo json_encode(['notif'=>$notif,'result'=>mysqli_num_rows($result),'id'=>$sample]);
+        echo json_encode(['notif'=>$notif,'result'=>mysqli_num_rows($result)]);
     }
 
     public function getAvailable($conn){
