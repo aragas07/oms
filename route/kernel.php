@@ -32,8 +32,7 @@
             $_POST['image'],
             $_POST['summary'],
             $_SESSION['city_id'],
-        ); 
-            break;
+        ); break;
         case "upAc": $activities->updateActivities(
                 $conn,
                 $_POST['rcall'],

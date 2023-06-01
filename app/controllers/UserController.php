@@ -142,7 +142,8 @@ class UserController{
         }else if($type == "TEAM"){
             $thead = "<tr>
                         <th>NAME</th>
-                        <th>RESPONDING INCIDENT</th>
+                        <th>LOCATION</th>
+                        <th>OCCUPANCY</th>
                         <th>STATUS</th>
                     </tr>";
             $getTeam = $conn->query("SELECT *,t.status AS tstat FROM team AS t INNER JOIN responded_team AS r INNER JOIN 
@@ -164,7 +165,8 @@ class UserController{
                 else{$status = "On working";}
                 $tbody .= "<tr>
                             <td>".$get['name']."</td>
-                            <td>".$get['fatality']."</td>
+                            <td>".$get['location']."</td>
+                            <td>".$get['occcupancy']."</td>
                             <td>$status</td>
                         </tr>";
             }
@@ -179,21 +181,18 @@ class UserController{
                 $status = "";
                 if($showbtn){
                     $status = '<select id='.$res['id'].'>
-                        <option '; 
-                        if($res['status'] == 0) $status .= 'selected';
-                        $status .= ' value="0">On going</option>
                         <option ';
                         if($res['status'] == 1) $status .= 'selected';
-                        $status .= ' value="1">On working</option>
+                        $status .= ' value="1">Currently working</option>
                         <option ';
                         if($res['status'] == 2) $status .= 'selected';
                         $status .= ' value="2">Done</option>
                     </select>';
                 }else{
                     if($res['status'] == 0){
-                        $status = "On going";
+                        $status = "Currently working";
                     }else if($res['status'] == 1){
-                        $status = "On working";
+                        $status = "Currently working";
                     }else{
                         $status = "Done";
                     }
