@@ -140,15 +140,19 @@ class MainController{
 
     public function getAbout($conn){
         $city = $_SESSION['city_id'];
+        $text = "";
+        $img = "";
         $getAbout = $conn->query("SELECT * FROM abouts WHERE municipality_id = $city");
         while($about = $getAbout->fetch_assoc()){
-            echo $about['about'];
+            $text = $about['about'];
+            $img = $about['img'];
         }
+        echo json_encode(['text'=>$text,'img'=>$img]);
     }
 
-    public function updateAbout($conn, $details){
+    public function updateAbout($conn, $details,$img){
         $city = $_SESSION['city_id'];
-        $conn->query("UPDATE abouts SET about = '$details' WHERE id = $city");
+        $conn->query("UPDATE abouts SET about = '$details', img = '$img' WHERE id = $city");
         
     }
 

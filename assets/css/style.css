@@ -7,15 +7,6 @@ body, html{
     width: 10px;
 }
 
-.ricon{
-    height: 13px;
-    width: 13px;
-}
-
-button:hover{
-    cursor: pointer;
-}
-
 #container::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
@@ -27,6 +18,15 @@ button:hover{
 
 #container::-webkit-scrollbar-track {
     background: #f1f1f100; 
+}
+
+.ricon{
+    height: 13px;
+    width: 13px;
+}
+
+button:hover{
+    cursor: pointer;
 }
 
 *, *:after, *:before{

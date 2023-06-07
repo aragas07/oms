@@ -1,8 +1,10 @@
 $(function(){
     $.ajax({
         url: 'route/getAbout',
+        dataType: 'json',
         success: function(data){
-            $("#texts").html(data)
+            $("#texts").html(data.text)
+            $("#aboutimg").attr('src',data.img)
         }
     })
     $("#custom-btn-about").click(function(){
@@ -15,6 +17,7 @@ $(function(){
             reader.onload = function(){
                 const result = reader.result
                 $("#aboutimg").attr("src",result)
+                $("#img").val(result)
             }
             reader.readAsDataURL(file)
         }
@@ -31,7 +34,7 @@ $(function(){
         $.ajax({
             url: 'route/updateAbout',
             type: 'post',
-            data: {details: $(".card").html()},
+            data: {details: $("#texts").html(), img: $("#img").val()},
             success: function(data){
             }
         })

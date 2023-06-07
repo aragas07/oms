@@ -76,7 +76,7 @@
         case 'getAttendance': $user->getAttendance($conn,$_POST['month']); break;
         case 'getAllMun': $user->getAllMun($conn); break;
         case 'getAbout': $main->getAbout($conn); break;
-        case 'updateAbout': $main->updateAbout($conn,$_POST['details']); break;
+        case 'updateAbout': $main->updateAbout($conn,$_POST['details'],$_POST['img']); break;
         case 'updateTeamName': $main->updateTeamName($conn,$_POST['id'],$_POST['name']); break;
         case 'addVehicle': $main->addVehicle($conn,$_POST['vehiclename'],$_POST['type']); break;
         case 'deleteVehicle': $main->deleteVehicle($conn,$_POST['id']); break;

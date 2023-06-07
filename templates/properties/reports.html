@@ -2,6 +2,7 @@
     <button tab="report" class="tab tab-active">Report</button>
     <button tab="request" class="tab">Request <div class="notif"></div></button>
 </div>
+<button id="download" class="btn-primary">Download PDF</button>
 <table>
     <thead></thead>
     <tbody id="reporttable" style="cursor: pointer!important"></tbody>
@@ -261,12 +262,12 @@
                                 e.preventDefault()
                                 Swal.fire({
                                     title: 'Are you sure?',
-                                    text: "You won't be able to revert this!",
+                                    text: "Do you want to change this details?",
                                     icon: 'warning',
                                     showCancelButton: true,
                                     confirmButtonColor: '#3085d6',
                                     cancelButtonColor: '#d33',
-                                    confirmButtonText: 'Yes, delete it!'
+                                    confirmButtonText: 'Yes, change it!'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         $.ajax({
@@ -317,6 +318,11 @@
 
         $("#response").click(function(){
             modal($(this).text() == 'Respond')
+        })
+
+        $("#download").click(function(e){
+            e.preventDefault()
+            window.location.href = "../../route/pdf.php"
         })
     })
 </script>
