@@ -9,7 +9,7 @@ $(function(){
 
     $("form").on('submit',function(e){
         e.preventDefault()
-        $("#password").val() == $("#confirmation").val() ? 
+        $("#password").val() == $("#confirmation").val() ?  
         $.ajax({
             url: "route/signup",
             type: "POST",

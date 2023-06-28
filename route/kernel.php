@@ -80,4 +80,5 @@
         case 'updateTeamName': $main->updateTeamName($conn,$_POST['id'],$_POST['name']); break;
         case 'addVehicle': $main->addVehicle($conn,$_POST['vehiclename'],$_POST['type']); break;
         case 'deleteVehicle': $main->deleteVehicle($conn,$_POST['id']); break;
+        case 'insertStaff': $user->insertStaff($conn,$_POST['badge'],$_POST['firstname'],$_POST['middlename'],$_POST['lastname']); break;
     }

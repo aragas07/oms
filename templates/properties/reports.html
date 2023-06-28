@@ -2,7 +2,7 @@
     <button tab="report" class="tab tab-active">Report</button>
     <button tab="request" class="tab">Request <div class="notif"></div></button>
 </div>
-<button id="download" class="btn-primary">Download PDF</button>
+<button hidden id="download" class="btn-primary">Download PDF</button>
 <table>
     <thead></thead>
     <tbody id="reporttable" style="cursor: pointer!important"></tbody>
@@ -16,8 +16,8 @@
             <button id="response" class="btn-primary">Ask help</button>
             <button id="repres" class="btn-danger">Respond</button>
         </div>
+        <button hidden id="printreport" class="btn-primary">Print</button>
         <form id="editreport">
-            <button hidden id="updatereport" class="btn-primary">Update</button>
             <div class="row">
                 <div class="col-6">
                     <h4>Receive call</h4>
@@ -59,6 +59,7 @@
             </div>
             <h4>Summary</h4>
             <textarea name="suma" id="suma" cols="30" rows="10"></textarea>
+            <button hidden id="updatereport" class="btn-primary">Update</button>
             <div class="f-width text-center" style="caret-color: transparent">
                 <img style="width:50%; border-radius: 4px;" id="img-report" alt="">
             </div>
@@ -79,10 +80,10 @@
             $("#cause").val(tcol.eq(1).text())
             $("#loc").val(tcol.eq(2).text())
             $("#teams").val(tcol.eq(3).text())
-            $("#suma").val(tcol.eq(4).text())
+            $("#suma").val(tcol.eq(5).text())
             console.log()
-            if(tcol.eq(5).text() != ""){
-                $("#img-report").attr("src",tcol.eq(5).text())
+            if(tcol.eq(6).text() != ""){
+                $("#img-report").attr("src",tcol.eq(6).text())
             }
             $("#rcall").val(tcol.eq(7).text())
             $("#dispatched").val(tcol.eq(8).text())
@@ -106,15 +107,27 @@
                     "display":"flex",
                     "justify-content":"center",
                 })
+                $("#summary").show()
                 $(".modal-body").html($(".card").html())
             }
+            
+
+            $("#printreport").click(function(){
+                var DocumentContainer = $('#editreport')
+                var WindowObject = window.open('', "PrintWindow", "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+                WindowObject.document.writeln(DocumentContainer.html());
+                WindowObject.document.close();
+                WindowObject.focus();
+                WindowObject.print();
+                WindowObject.close();
+            })
         }
         let aid = 0,
         ctable = (id)=>{
             tableclick(true,id)
         },
         hidetab = (id)=>{
-            tableclick(false,id)
+            tableclick(true,id)
             $(".modal-form").width("70%")
             $(".modal-head").children('h4').text('Full details')
             $(".tabcont").hide()
@@ -228,7 +241,6 @@
         }
 
         function fetch(type){
-            console.log("exmaple")
             $.ajax({
                 url:"route/getReport",
                 type: 'POST',
@@ -244,12 +256,14 @@
                                 $(this).prop('disabled','true')
                             })
                             $("#suma").prop('disabled','true')
+                            $("#printreport").show()
                             $("#updatereport").hide()
                             result.clickable ? ctable(i) : hidetab(i)
                         })
                     })
                     $(".update").each(function(i){
                         $(this).click(()=>{
+                            $("#printreport").hide()
                             $("#updatereport").show()
                             result.clickable ? ctable(i) : hidetab(i)
                             $("#insidebutton").hide()
@@ -270,6 +284,7 @@
                                     confirmButtonText: 'Yes, change it!'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
+                                        console.log("Confirmed")
                                         $.ajax({
                                             url: 'route/upAc',
                                             type: 'POST',
@@ -279,9 +294,11 @@
                                             cache: false,
                                             processData: false,
                                             success: function(r){
+                                                console.log(r)
                                                 fetch(1)
                                             },
                                             error: function (request, status, error) {
+                                                console.log(request.responseText)
                                             }
                                         })
                                     }

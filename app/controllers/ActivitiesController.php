@@ -36,6 +36,7 @@ class ActivitiesController{
         $conn->query("UPDATE activities SET receivecall = '$receivecall', location = '$location', dispatched = '$dispatched', arrivalscene = '$arrivalscene',
          alarmstatus = '$alarmstatus', fireout = '$fireout', occupancy = '$occupancy', fatality = '$fatality', damage = '$damage', cause = '$cause', returnedunit = '$returnedunit',
          commander = '$commander', commandercontact = '$commandercontact', sender = '$sender', firetruck = '$firetruck', summary = '$summary', municipality_id = $municipality WHERE  id = $reportid");
+        echo "success";
     }
 
     public function getReport($conn,$type){

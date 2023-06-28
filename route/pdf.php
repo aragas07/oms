@@ -3,8 +3,11 @@ require_once '../vendor/autoload.php';
 session_start();
 include '../app/database/dbconnection.php';
 global $conn;
-$mpdf = new Dompdf\Dompdf();
+$mpdf = new Dompdf\Dompdf(array('enable_remote' => true));
 
+$image=file_get_contents("https://upload.wikimedia.org/wikipedia/commons/4/42/Bureau_of_Fire_Protection.png");
+$imagedata=base64_encode($image);
+$imgpath='<img src="data:image/png;base64, '.$dataBase64.'">';
 $pdf = "
 <style>
     table{
@@ -28,6 +31,7 @@ $pdf = "
         text-align: center;
     }
 </style>
+$imgpath
 <h1>BUREAU OF FIRE PROTECTION OPERATION MONITORING SYSTEM</h1>
 <table>
     <thead>

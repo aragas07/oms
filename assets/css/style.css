@@ -8,16 +8,16 @@ body, html{
 }
 
 #container::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #555;
 }
 
 #container::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #888;
     border-radius: 10px;
 }
 
 #container::-webkit-scrollbar-track {
-    background: #f1f1f100; 
+    background: #f1f1f100;
 }
 
 .ricon{
@@ -105,7 +105,8 @@ button:hover{
 
 .btn-default{
     padding: 5px 15px;
-    background-color: black;
+    background-color: #5c0202;
+    border: none;
     color: #ddd;
     border-radius: 15px;
     height: fit-content;
@@ -350,7 +351,7 @@ button:hover{
 }
 
 .home .title{
-    background-color: #0d4b92ea;
+    background-color: #7E1717;
     padding: 7px;
 }
 

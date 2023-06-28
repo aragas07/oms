@@ -1,28 +1,102 @@
-<div class="text-center">
-    <h4 id="month"></h4>
+<div id="outer">
+    <div class="text-center">
+        <h4 id="month"></h4>
+    </div>
+    <table id="attendance">
+        <thead>
+            <tr>
+                <th>Personnel</th>
+            </tr>
+        </thead>
+        <tbody style="cursor: pointer"></tbody>
+    </table>
 </div>
-<table id="attendance">
-    <thead>
-        <tr>
-            <th>Personnel</th>
-        </tr>
-    </thead>
-    <tbody style="cursor: pointer"></tbody>
-</table>
+<div hidden id="style">
+    <style>
+        *, *:after, *:before {
+            box-sizing: border-box;
+            transition: 0.5s;
+        }
+        table {
+            border-collapse: collapse;
+            margin-top: 7px;
+            width: 100%;
+            border-bottom: 1px solid #a1a1a1;
+            display: table;
+            text-indent: initial;
+            border-spacing: 2px;
+            border-color: gray;
+        }
+        th {
+            padding: 7px;
+        }
+        tr {
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+        }
+        thead {
+            display: table-header-group;
+            vertical-align: middle;
+            border-color: inherit;
+            color: white;
+            text-shadow: 0 1px 3px black;
+        }
+        tbody {
+            display: table-row-group;
+            vertical-align: middle;
+            border-color: inherit;
+        }
+        .text-center{
+            text-align: center;
+        }
+        
+        @media print {
+            th {
+                background-color: #035dc4;
+            }
+        }
+
+        .headers{
+            position: relative;
+            height: 100px;
+            margin-bottom: 19px;
+            display: flex;
+
+        }
+
+        .headers>h1{
+            color: #333;
+            width: 60%;
+            text-align: center;
+            margin: auto;
+        }
+
+        .logos{
+            height: 140px;
+            position: absolute;
+        }
+    </style>
+    <div class="headers">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Bureau_of_Fire_Protection.png" alt="" srcset="" class="logos">
+        <h1>BUREAU OF FIRE PROTECTION OPERATION MONITORING SYSTEM</h1>
+    </div>
+    <div id="inner"></div>
+</div>
 
 <script>
     $(function(){
         $(".modal-head").children('h4').text('Attendance log')
         $(".modal-form").css('width','90%')
+        $(".modal-tools").prepend('<button id="back" class="btn-outline-primary mr-3">Print</button>')
         const table = $('#attendance'),
-        tbody = table.children('tbody'),
-        date = new Date(),
+        tbody = table.children('tbody')
+        let date = new Date(),
         month = date.getMonth()+1,
         year = date.getFullYear(),
         datenow = date.getDate(),
         daysInMonth = getDaysInMonth(year,month),
         listofmonth = ['January','February','March','April','May','June','July','August','September','October','November','December']
-
         function getDaysInMonth(year, month) {
             return new Date(year, month, 0).getDate()
         }
@@ -30,6 +104,16 @@
         for(var i = 1; i <= daysInMonth; i++){
             table.children('thead').children().append('<th>'+i+'</th>')
         }
+        $("#back").click(()=>{
+            $("#inner").html($("#outer").html())
+            var DocumentContainer = $('#style')
+            var WindowObject = window.open('', "PrintWindow", "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+            WindowObject.document.writeln(DocumentContainer.html());
+            WindowObject.document.close();
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        })
         $.ajax({
             url: 'route/getAttendance',
             type: 'POST',
@@ -56,9 +140,10 @@
                         
                     tr += "</tr>"
                     tbody.append(tr)
-                }
                 tbody.children().each(function(i){
+                    console.log("Empxla "+i)
                     $(this).click(()=>{
+                        console.log("amdfpdamfpdsfdpfadsf")
                         $.get('./templates/properties/logsheet.html',(file)=>{
                             data = e[i]
                             dmonth = daysInMonth
@@ -69,6 +154,7 @@
                         })
                     })
                 })
+                }
             }
         })
         

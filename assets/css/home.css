@@ -4,14 +4,9 @@
 }
 
 body{
-    background-color: rgb(219, 247, 247);
+    background-color: #ECF8F9;
 }
 
-.body{
-    background-image: url("../img/pamphlet1.jpg");
-    background-repeat: none;
-    background-size: cover;
-}
 
 #body-logo{
     height: 90px;
@@ -32,6 +27,9 @@ body{
     margin: auto;
 }
 
+.menu{
+    color: white!important;
+}
 
 .nav{
     display: flex;
@@ -67,7 +65,7 @@ body{
 }
 
 .active, .active .drp-dwn{
-    background-color: #0055c5;
+    background-color: #7E1717;
     color: white!important;
 }
 

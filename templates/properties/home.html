@@ -1,7 +1,6 @@
 <div class="card">
     <form method="">
         <div class="hv-center">
-            <button class="btn-primary" style="padding: 4px 17px">Submit</button>
             <div class="row">
                 <div class="form-group">
                     <h3 class="grid-title">Time/Date receive call</h3>
@@ -9,7 +8,7 @@
                 </div>
                 <div class="form-group">
                     <h3 class="grid-title">Location</h3>
-                    <input type="text" name="location" class="cont-row form-control">
+                    <input type="text" required name="location" class="cont-row form-control">
                 </div>
             </div>
             <div class="row">
@@ -35,7 +34,7 @@
             <div class="row">
                 <div class="form-group">
                     <h3 class="grid-title">Type of occupancy</h3>
-                    <input type="text" name="occupancy" class="cont-row form-control">
+                    <input type="text" required name="occupancy" class="cont-row form-control">
                 </div>
                 <div class="form-group">
                     <h3 class="grid-title">Fatality/Casualty</h3>
@@ -98,6 +97,7 @@
                 <button type="button" id="custom-btn">Choose an image</button>
             </div>
         </div>
+        <button class="btn-primary" style="padding: 4px 17px">Submit</button>
     </form>
 </div>
 <div id="recent" hidden>
@@ -203,11 +203,11 @@
             $("#recent").show()
         }
         var now = new Date()
-        var month = (now.getMonth() + 1)               
+        var month = (now.getMonth() + 1)
         var day = now.getDate()
-        if (month < 10) 
+        if (month < 10)
             month = "0" + month
-        if (day < 10) 
+        if (day < 10)
             day = "0" + day
         var today = now.getFullYear() + '-' + month + '-' + day
         $('input[name="date"]').val(today)

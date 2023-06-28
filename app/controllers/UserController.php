@@ -247,4 +247,11 @@ class UserController{
         }
         echo json_encode($personnel);
     }
+
+    public function insertStaff($conn,$badge,$fname,$mname,$lname){
+        $success = false;
+        $city = $_SESSION['city_id'];
+        $conn->query("INSERT INTO users(badge,firstname,middlename,lastname,usertype,municipality_id) VALUES('$badge','$fname','$mname','$lname','personnel',$city)");
+        echo $success;
+    }
 }
