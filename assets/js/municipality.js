@@ -89,7 +89,7 @@ $(function(){
                             })
                         })
                         if(text[0] == 'PERSONNEL'){
-                            $("#custom-btn").after("<button class='right btn-outline-primary mr-3' id='report-btn'>Report</button>")
+                            $("#custom-btn").after("<button class='right btn-default mr-3' id='report-btn'>Report</button>")
                             $("#custom-btn").after("<button class='right' id='team'>Team</button>")
                             $("#custom-btn").text("Attendance")
                             $("#custom-btn").click(function(){
@@ -125,7 +125,7 @@ $(function(){
                                     "justify-content":"center",
                                 })
                                 $(".modal-head").children('h4').text('Team update')
-                                $(".modal-tools").prepend('<button id="add" class="btn-outline-primary mr-3">Add new</button>')
+                                $(".modal-tools").prepend('<button id="add" class="btn-default mr-3">Add new</button>')
                                 $("#add").click(()=>{
                                     Swal.fire({
                                         title: "You'll add new team?",
@@ -166,7 +166,7 @@ $(function(){
                                 })
                             })
                         }else if(text[0] == 'VEHICLE'){
-                            $("table").before("<button id='add' class='right btn-primary mr-3'>Add vehicle</button>")
+                            $("table").before("<button id='add' class='right btn-default mr-3'>Add vehicle</button>")
                             $("#add").click(()=>{
                                 $(".modal").css({
                                     "display":"flex",

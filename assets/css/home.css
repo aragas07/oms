@@ -27,9 +27,6 @@ body{
     margin: auto;
 }
 
-.menu{
-    color: white!important;
-}
 
 .nav{
     display: flex;
@@ -69,8 +66,8 @@ body{
     color: white!important;
 }
 
-.nav li:hover, .nav li:hover button{
-    background-color: #9cc5fc;
+.nav li:hover{
+    background-color: #7e171743;
 }
 
 .nav li ul{
@@ -114,7 +111,7 @@ thead {
     display: table-header-group;
     vertical-align: middle;
     border-color: inherit;
-    background-color: #035dc4;
+    background-color: #068DA9;
     color: white;
     text-shadow: 0 1px 3px black;
 }
@@ -142,20 +139,23 @@ tbody tr{
 
 #custom-btn, #team{
     padding: 5px 30px;
-    border: none;
-    color: white;
     font-weight: 550;
     border-radius: 17px;
 }
 
+#custom-btn{
+    border: 1px solid #7E1717;
+    background: none;
+    color: #7E1717;
+}
+
 #team{
-    background-color: #3d0606;
+    color: #E55807;
+    background: none;
+    border: 1px solid #E55807;
     margin-right: 10px;
 }
 
-#custom-btn{
-    background-color: #06283D;
-}
 
 .t-active{
     background-color: #01a5f1;
@@ -168,10 +168,12 @@ tbody tr{
 }
 
 #custom-btn:hover{
-    background-color: #0249a7;
+    border: 1px solid #e40e0e;
+    color: #320a0a;
 }
 #team:hover{
-    background-color: #a70202;
+    border: 1px solid #ff6a14;
+    color: #5a2506;
 }
 
 td{
@@ -180,7 +182,7 @@ td{
 }
 
 tbody tr:nth-child(even){
-    background-color: #59C1BDDA;
+    background-color: #ECF8F9;
 }
 
 .table-text-left>thead>tr>th, .table-text-left>tbody>tr>td{

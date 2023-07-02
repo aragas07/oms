@@ -53,10 +53,13 @@
         
         @media print {
             th {
-                background-color: #035dc4;
+                background-color: #068DA9;
             }
         }
 
+        @page {
+            size: landscape;
+        }
         .headers{
             position: relative;
             height: 100px;
@@ -88,6 +91,7 @@
     $(function(){
         $(".modal-head").children('h4').text('Attendance log')
         $(".modal-form").css('width','90%')
+        $(".modal-tools>.btn-default").remove()
         $(".modal-tools").prepend('<button id="back" class="btn-outline-primary mr-3">Print</button>')
         const table = $('#attendance'),
         tbody = table.children('tbody')
@@ -107,12 +111,12 @@
         $("#back").click(()=>{
             $("#inner").html($("#outer").html())
             var DocumentContainer = $('#style')
-            var WindowObject = window.open('', "PrintWindow", "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
-            WindowObject.document.writeln(DocumentContainer.html());
-            WindowObject.document.close();
-            WindowObject.focus();
-            WindowObject.print();
-            WindowObject.close();
+            var WindowObject = window.open('', "PrintWindow", "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes")
+            WindowObject.document.writeln(DocumentContainer.html())
+            WindowObject.document.close()
+            WindowObject.focus()
+            WindowObject.print()
+            WindowObject.close()
         })
         $.ajax({
             url: 'route/getAttendance',
