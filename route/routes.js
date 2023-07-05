@@ -9,6 +9,7 @@ const urlRoutes = {
     "/contact": {template: "templates/contact.html", title:"contact | OMS", script: "", link: ""},
     "/signup": {template: "templates/signup.html",title:"Sign up | OMS",script: "signup", link:"login"},
     "/municipality": {template: "templates/municipal.html", title: sessionStorage.getItem('city')+" | OMS", script: "municipality", link: "home"},
+    "/superadmin": {template: "templates/superadmin.html", title: "Super Admin", script: "superadmin", link: "home"}
 }
 
 window.addEventListener('click', function(){
@@ -45,7 +46,7 @@ const urlLocationHandler = async()=>{
         window.location.href = "/"
     }
     const route = urlRoutes[location] || urlRoutes[404]
-    const html = await fetch(route.template).then((response) => response.text()) 
+    const html = await fetch(route.template).then((response) => response.text())
     document.getElementById("new-link").href = "assets/css/"+route.link+".css"
     document.getElementById("component").innerHTML = html
     document.title = route.title

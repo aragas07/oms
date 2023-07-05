@@ -1,35 +1,89 @@
 <?php
 class UserController{
     public function login($conn,$username,$password){
-        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id WHERE username = '$username' OR badge = '$username' AND password = '$password' AND team_id IS NULL AND usertype = 'admin'");
+        $result = $conn->query("SELECT * FROM users INNER JOIN municipality ON users.municipality_id = municipality.id WHERE username = '$username' OR badge = '$username' AND password = '$password' AND team_id IS NULL AND usertype != 'personnel'");
         $login = false;
         $loc = "";
         $badge = "";
+        $sample = [];
         if(mysqli_num_rows($result) != 0){
             while($res = $result->fetch_assoc()){
                 $_SESSION['userloc'] = $res['municipality_id'];
                 $_SESSION['usertype'] = $res['usertype'];
                 $loc = $res['name'];
                 $badge = $res['badge'];
+                $sample[] = $res;
             }
             $login = true;
         }
-        echo json_encode(['login'=>$login, 'location'=>$loc, 'badge'=>$badge]);
+        echo json_encode(['login'=>$login, 'location'=>$loc, 'badge'=>$badge, 'auth'=>$_SESSION['usertype'], 'sample'=>$sample]);
     }
 
     public function signup($conn,$password,$firstname,$middlename,$lastname,$municipality,$usertype,$badge){
         $admin = false;
         $registered = false;
-        if($conn->query("INSERT INTO users(password,firstname,middlename,lastname,usertype,municipality_id,badge) 
+        if($conn->query("INSERT INTO users(password,firstname,middlename,lastname,usertype,municipality_id,badge)
         values('$password','$firstname','$middlename','$lastname','$usertype',$municipality,'$badge')")){
-                $_SESSION['userloc'] = $municipality;
-                $_SESSION['usertype'] = $usertype;
-                if($usertype == 'admin'){
-                    $admin = true;
-                }
-                $registered = true;
+            $_SESSION['userloc'] = $municipality;
+            $_SESSION['usertype'] = $usertype;
+            if($usertype == 'admin'){
+                $admin = true;
+            }
+            $registered = true;
         }
         $this->login($conn,$badge,$password);
+    }
+
+    public function updateAdmin($conn){
+        extract($_POST);
+        $success = false;
+        $pass = md5($password);
+        if($conn->query("UPDATE users SET password='$pass', firstname='$firstname', middlename='$middlename', lastname='$lastname',
+        municipality_id=$municipality,badge='$badge' WHERE id = $id")){
+            $success = true;
+        }
+        echo json_encode(['success'=>$success, 'id'=>$id]);
+    }
+    
+    public function updatePersonnel($conn){
+        extract($_POST);
+        $success = false;
+        $pass = md5($password);
+        if($conn->query("UPDATE users SET firstname='$firstname', middlename='$middlename', lastname='$lastname',
+        municipality_id=$municipality,badge='$badge' WHERE id = $id")){
+            $success = true;
+        }
+        echo json_encode(['success'=>$success, 'id'=>$id]);
+    }
+
+    public function getAdmin($conn,$type){
+        $result = $conn->query("SELECT *,u.id AS uid FROM users AS u INNER JOIN municipality AS m ON u.municipality_id = m.id WHERE usertype = '$type'");
+        $tbody = '';
+        while($row = $result->fetch_assoc()){
+            $tbody .= "<tr id='{$row['uid']}'>
+                <td>{$row['badge']}</td>
+                <td>{$row['firstname']}</td>
+                <td>{$row['middlename']}</td>
+                <td>{$row['lastname']}</td>
+                <td>{$row['name']}</td>
+            </tr>";
+        }
+        echo json_encode(['tbody'=>$tbody]);
+    }
+
+    public function getStaff($conn){
+        $result = $conn->query("SELECT * FROM users AS u INNER JOIN municipality AS m ON u.municipality_id = m.id WHERE usertype = 'admin'");
+        $tbody = '';
+        while($row = $result->fetch_assoc()){
+            $tbody .= "<tr>
+                <td>{$row['badge']}</td>
+                <td>{$row['firstname']}</td>
+                <td>{$row['middlename']}</td>
+                <td>{$row['lastname']}</td>
+                <td>{$row['name']}</td>
+            </tr>";
+        }
+        echo json_encode(['tbody'=>$tbody]);
     }
 
     public function getAllMun($conn){

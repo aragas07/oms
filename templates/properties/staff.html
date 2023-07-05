@@ -1,0 +1,120 @@
+<div class="card">
+    <form class="card-body">
+        <div class="row">
+            <div class="form-group">
+                <h3 class="grid-title">Badge #</h3>
+                <input type="number" maxlength = "7" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required name="badge" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <h3 class="grid-title">First name</h3>
+                <input type="text" name="firstname" id="" class="form-control">
+            </div>
+            <div class="form-group">
+                <h3 class="grid-title">Middle name</h3>
+                <input type="text" name="middlename" id="" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <h3 class="grid-title">Last name</h3>
+                <input type="text" name="lastname" id="" class="form-control">
+            </div>
+            <div class="form-group">
+                <h3 class="grid-title">Municipality</h3>
+                <select name="municipality" class="form-control"></select>
+            </div>
+        </div>
+        <input type="hidden" name="id">
+        <input type="hidden" name="password">
+        <input type="hidden" name="usertype" value="personnel">
+        <div class="row" style="width: 200px">
+            <button class="btn-outline-primary">Submit</button>
+            <button disabled class="btn-outline-danger">Update</button>
+        </div>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Badge #</th>
+            <th>First name</th>
+            <th>Middle name</th>
+            <th>Last name</th>
+            <th>Municipality</th>
+        </tr>
+    </thead>
+    <tbody style="cursor: pointer"></tbody>
+</table>
+
+<script>
+    $(function(){
+        var data = ()=>{
+            $.ajax({
+                url: 'route/getAdmin',
+                type:'post',
+                dataType: 'json',
+                data:{type:'personnel'},
+                success: function(result){
+                    $("tbody").html(result.tbody)
+                    $("tbody>tr").click(function(){
+                        var text = $(this).children()
+                        $("input[name='badge']").val(text.eq(0).text())
+                        $("input[name='id']").val($(this).attr('id'))
+                        $("input[name='firstname']").val(text.eq(1).text())
+                        $("input[name='middlename']").val(text.eq(2).text())
+                        $("input[name='lastname']").val(text.eq(3).text())
+                        $("#confirmation").val(text.eq(3).text())
+                        $("select option").filter(function() {
+                            //may want to use $.trim in here
+                            return $(this).text() == text.eq(4).text();
+                        }).prop('selected', true);
+                        $(".btn-outline-danger").prop('disabled',false)
+                    })
+                }, error: function(result){
+                    console.log(result.responseText)
+                }
+            })
+        }
+        data()
+        $.ajax({
+            url: "route/getCity",
+            success: function(result){
+                console.log(result)
+                $("select[name='municipality']").html(result)
+            }
+        })
+
+        $(".btn-outline-primary").click(function(){
+            $("form").attr('action','route/signup')
+        })
+
+        $(".btn-outline-danger").click(function(){
+            $("form").attr('action','route/updatepersonnel')
+        })
+        
+        $("form").on('submit',function(e){
+            e.preventDefault()
+            $.ajax({
+                url: $(this).attr('action'),
+                type: "POST",
+                data: new FormData(this),
+                dataType: "JSON",
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(result){
+                    console.log(result)
+                    result.length > 1 ?
+                    swal.fire("error","You are not connected to the database","error") :
+                    data()
+                },
+                error: function (request, status, error) {
+                    console.log(request.responseText)
+                }
+            })
+        })
+    })
+</script>

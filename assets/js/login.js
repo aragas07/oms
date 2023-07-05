@@ -17,12 +17,15 @@ $(function(){
     
     if(sessionStorage.length != 0 && sessionStorage.getItem("auth") == "login"){
         window.location.href = "/home"
+    }else if(sessionStorage.length != 0 && sessionStorage.getItem("auth") == "superadmin"){
+        window.location.href = "/superadmin"
     }
     function success(res){
-        sessionStorage.setItem('auth','login')
+        sessionStorage.setItem('auth',res.auth == 'admin' ? 'login':'superadmin')
         sessionStorage.setItem('location',res.location)
         sessionStorage.setItem('badge',res.badge)
-        window.location.href = "/home"
+        console.log(res)
+        window.location.href = res.auth == 'admin' ? "/home":"superadmin"
     }
     $("#signup").click(function(e){
         e.preventDefault();

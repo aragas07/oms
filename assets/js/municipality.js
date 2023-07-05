@@ -39,7 +39,7 @@ $(function(){
     })
     $(".drp-dwn").siblings("ul").children().click(function(){
         if(!submenu){
-            submenu = true 
+            submenu = true
         }
         $(".nav").children(".active").removeClass("active")
         $(this).siblings(".active").removeClass("active")

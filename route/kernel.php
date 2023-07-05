@@ -53,7 +53,7 @@
                 $_POST['suma'],
                 $_SESSION['city_id'],
                 $_POST['reportid']
-            ); 
+            );
                 break;
         case "attendance": $main->attendance($conn); break;
         case "getPersonnel": $main->getPersonnel($conn); break;
@@ -81,4 +81,7 @@
         case 'addVehicle': $main->addVehicle($conn,$_POST['vehiclename'],$_POST['type']); break;
         case 'deleteVehicle': $main->deleteVehicle($conn,$_POST['id']); break;
         case 'insertStaff': $user->insertStaff($conn,$_POST['badge'],$_POST['firstname'],$_POST['middlename'],$_POST['lastname']); break;
+        case 'getAdmin': $user->getAdmin($conn,$_POST['type']); break;
+        case 'updateadmin': $user->updateAdmin($conn); break;
+        case 'updatepersonnel': $user->updatePersonnel($conn); break;
     }
