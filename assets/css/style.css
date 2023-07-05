@@ -50,7 +50,6 @@ button:hover{
     background-color: red;
     z-index: 80;
 }
-
 .nav>li:hover>.notif{
     display: none;
 }
@@ -105,11 +104,17 @@ button:hover{
 
 .btn-default{
     padding: 5px 15px;
-    background-color: #5c0202;
-    border: none;
-    color: #ddd;
+    background: none;
+    border: 1px solid #068DA9;
+    color: #068DA9;
+    font-weight: 570;
     border-radius: 15px;
     height: fit-content;
+}
+
+.btn-default:hover{
+    border: 1px solid #04d5ff;
+    color: #004452;
 }
 
 .btn-primary, .btn-danger{
@@ -133,8 +138,8 @@ button:hover{
 }
 
 .btn-outline-primary{
-    color: rgb(6, 53, 182);
-    border: 1px solid rgb(89, 86, 241);
+    color: #E55807;
+    border: 1px solid #ff7d31;
 }
 
 .btn-outline-danger{
@@ -143,7 +148,7 @@ button:hover{
 }
 
 .btn-primary{
-    background-color: rgb(2, 129, 247);
+    background-color: #E55807;
 }
 
 .btn-danger{
@@ -622,6 +627,7 @@ h4, h3{
     display: flex;
     position: absolute;
     align-items: center;
+    padding: 3px;
 }
 
 .back{
@@ -638,12 +644,17 @@ h4, h3{
     height: 15px;
 }
 
+.deletebtn{
+    background: none;
+
+}
+
 .bcc>div>p{
-    background-color: #b0f7f3;
+    background-color: #ECF8F9;
 }
 
 .bc>div>p{
-    border: 1px solid #01a5f1;
+    border: 1px solid #E55807;
 }
 
 .tractive{
@@ -671,7 +682,7 @@ h4, h3{
 
 .tab-active{
     color: white!important;
-    background-color: #1893cc;
+    background-color: #E55807;
     transform: scale(1.07);
 }
 

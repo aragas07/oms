@@ -18,8 +18,12 @@
         </div>
         <button hidden id="printreport" class="btn-primary">Print</button>
         <form id="editreport">
+            <div style="display:none" class="headers">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Bureau_of_Fire_Protection.png" alt="" srcset="" class="logos">
+                <h1>BUREAU OF FIRE PROTECTION OPERATION MONITORING SYSTEM</h1>
+            </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-3">
                     <h4>Receive call</h4>
                     <input class="form-control" disabled type="text" name="rcall" id="rcall">
                     <h4>Alarm status</h4>
@@ -28,6 +32,8 @@
                     <input class="form-control" disabled type="text" name="cause" id="cause">
                     <h4>Location</h4>
                     <input class="form-control" disabled type="text" name="loc" id="loc">
+                </div>
+                <div class="col-3">
                     <h4>Teams</h4>
                     <input class="form-control" disabled type="text" name="teams" id="teams">
                     <h4>Dispatched</h4>
@@ -37,7 +43,7 @@
                     <h4>Fire out</h4>
                     <input class="form-control" disabled type="text" name="fireout" id="fireout">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <h4>Occupancy</h4>
                     <input class="form-control" disabled type="text" name="occupancy" id="occupancy">
                     <h4>Fatality</h4>
@@ -46,6 +52,8 @@
                     <input class="form-control" disabled type="text" name="damage" id="damage">
                     <h4>Returned unit</h4>
                     <input class="form-control" disabled type="text" name="returnedunit" id="returnedunit">
+                </div>
+                <div class="col-3">
                     <h4>Commander</h4>
                     <input class="form-control" disabled type="text" name="commander" id="commander">
                     <h4>Commander contact</h4>
@@ -58,7 +66,7 @@
                 <input type="text" hidden name="reportid" id="reportid">
             </div>
             <h4>Summary</h4>
-            <textarea name="suma" id="suma" cols="30" rows="10"></textarea>
+            <textarea name="suma" id="suma" cols="30" rows="7"></textarea>
             <button hidden id="updatereport" class="btn-primary">Update</button>
             <div class="f-width text-center" style="caret-color: transparent">
                 <img style="width:50%; border-radius: 4px;" id="img-report" alt="">
@@ -69,36 +77,51 @@
 
 <script>
     $(function(){
+        var imghdn = true;
         function tableclick(dis,i){
             var tcol = $("tbody>tr").eq(i).children()
             $("#reportid").val($("tbody>tr").eq(i).attr('id'))
-            $("#img-report").attr("src","")
             $('.tractive').removeClass('tractive')
             $("tbody>tr").eq(i).attr('class','tractive')
             aid = $("tbody>tr").eq(i).attr('value')
-            $("#astatus").val(tcol.eq(0).text())
-            $("#cause").val(tcol.eq(1).text())
-            $("#loc").val(tcol.eq(2).text())
-            $("#teams").val(tcol.eq(3).text())
-            $("#suma").val(tcol.eq(5).text())
-            console.log()
+            $("#astatus").attr('value',tcol.eq(0).text())
+            $("#cause").attr('value',tcol.eq(1).text())
+            $("#loc").attr('value',tcol.eq(2).text())
+            $("#teams").attr('value',tcol.eq(3).text())
+            $("#suma").attr('value',tcol.eq(5).text())
             if(tcol.eq(6).text() != ""){
+                imghdn = false;
                 $("#img-report").attr("src",tcol.eq(6).text())
             }
-            $("#rcall").val(tcol.eq(7).text())
-            $("#dispatched").val(tcol.eq(8).text())
-            $("#arrivalscene").val(tcol.eq(9).text())
+            $("#rcall").attr('value',tcol.eq(7).text())
+            $("#dispatched").attr('value',tcol.eq(8).text())
+            $("#arrivalscene").attr('value',tcol.eq(9).text())
             if(tcol.eq(10).text() == 2) $("#insidebutton").hide()
             else $("#insidebutton").show()
-            $("#fireout").val(tcol.eq(11).text())
-            $("#occupancy").val(tcol.eq(12).text())
-            $("#fatality").val(tcol.eq(13).text())
-            $("#damage").val(tcol.eq(14).text())
-            $("#returnedunit").val(tcol.eq(15).text())
-            $("#commander").val(tcol.eq(16).text())
-            $("#commandercontact").val(tcol.eq(17).text())
-            $("#sender").val(tcol.eq(18).text())
-            $("#firetruck").val(tcol.eq(19).text())
+            $("#fireout").attr('value',tcol.eq(11).text())
+            $("#occupancy").attr('value',tcol.eq(12).text())
+            $("#fatality").attr('value',tcol.eq(13).text())
+            $("#damage").attr('value',tcol.eq(14).text())
+            $("#returnedunit").attr('value',tcol.eq(15).text())
+            $("#commander").attr('value',tcol.eq(16).text())
+            $("#commandercontact").attr('value',tcol.eq(17).text())
+            $("#sender").attr('value',tcol.eq(18).text())
+            $("#firetruck").attr('value',tcol.eq(19).text())
+
+            $("#printreport").click(function(){
+                // if(imghdn)
+                    $("#img-report").prop('hidden',true)
+                $(".headers").css('display','flex')
+                var DocumentContainer = $('#editreport'),
+                style = '<style>@page {    size: landscape;}.headers{position: relative;height: 100px;margin-bottom: 19px;display: flex;}.headers>h1{color: #333;width: 60%;text-align: center;margin: auto;}.row{display: flex;width: 100%;justify-content: space-between;}.col-3{width: 25%;}.form-control, #suma{font-size: 17px; border: none; background: none;}</style>';
+                console.log(DocumentContainer.html())
+                var WindowObject = window.open('', "PrintWindow", "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+                WindowObject.document.writeln(style+""+DocumentContainer.html());
+                WindowObject.print();
+                WindowObject.close();
+                $("#img-report").prop('hidden',false)
+                $(".headers").css('display','none')
+            })
             if(dis){
                 $("#summary").show()
             }
@@ -111,16 +134,6 @@
                 $(".modal-body").html($(".card").html())
             }
             
-
-            $("#printreport").click(function(){
-                var DocumentContainer = $('#editreport')
-                var WindowObject = window.open('', "PrintWindow", "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
-                WindowObject.document.writeln(DocumentContainer.html());
-                WindowObject.document.close();
-                WindowObject.focus();
-                WindowObject.print();
-                WindowObject.close();
-            })
         }
         let aid = 0,
         ctable = (id)=>{

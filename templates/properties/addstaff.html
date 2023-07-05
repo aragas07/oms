@@ -22,10 +22,8 @@
 
 <script>
     $(function(){
-        console.log("Example")
         $("form").submit(function(e){
             e.preventDefault()
-            console.log("This is sample only")
             $.ajax({
                 url: 'route/insertStaff',
                 type: 'post',
@@ -35,9 +33,26 @@
                 cache: false,
                 processData: false,
                 success: function(result){
-                    console.log(result)
+                    swal(result)
+                    if(result.icon == 'error'){
+                        $(".form-control").each(function(){
+                            $(this).val("")
+                        })
+                    }
+                },
+                error: function(message){
+                    console.log(message.responseText)
                 }
             })
         })
+        
+        function swal(data){
+            Swal.fire({
+                icon: data.icon,
+                title: data.msg,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     })
 </script>

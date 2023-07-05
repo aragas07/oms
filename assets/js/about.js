@@ -28,7 +28,7 @@ $(function(){
     const onEdit=(data)=>{
         $("#texts").attr('contenteditable',data.bool)
         $("#custom-btn-about").attr('hidden',!data.bool)
-        $("#update-about").text(data.text).css({'background-color':data.color})
+        $("#update-about").text(data.text).css({'border-color':data.color})
     },
     submit=()=>{
         $.ajax({

@@ -302,10 +302,16 @@ class UserController{
         echo json_encode($personnel);
     }
 
-    public function insertStaff($conn,$badge,$fname,$mname,$lname){
-        $success = false;
+    public function insertStaff($conn){
+        extract($_POST);
+        $success = 'error';
         $city = $_SESSION['city_id'];
-        $conn->query("INSERT INTO users(badge,firstname,middlename,lastname,usertype,municipality_id) VALUES('$badge','$fname','$mname','$lname','personnel',$city)");
-        echo $success;
+        $text = "";
+        $res = $conn->query("INSERT INTO users(badge,firstname,middlename,lastname,usertype,municipality_id) VALUES('$badge','$firstname','$middlename','$lastname','personnel',$city)");
+        if($res){
+            $success = 'success';
+            $text = $badge.' has been added';
+        }
+        echo json_encode(['icon'=>$success,'msg'=>$text]);
     }
 }
