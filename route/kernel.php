@@ -53,8 +53,7 @@
                 $_POST['suma'],
                 $_SESSION['city_id'],
                 $_POST['reportid']
-            );
-                break;
+            ); break;
         case "attendance": $main->attendance($conn); break;
         case "getPersonnel": $main->getPersonnel($conn); break;
         case "gnp": $main->getPandT($conn); break;

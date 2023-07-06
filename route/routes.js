@@ -34,7 +34,6 @@ const urlRoute = (event)=>{
     window.history.pushState({}, "",event.target.href)
     urlLocationHandler()
 }
-sessionStorage.setItem("auth","superadmin");
 if(sessionStorage.length == 0){
     sessionStorage.setItem("auth","none");
 }

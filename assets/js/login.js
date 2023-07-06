@@ -15,9 +15,12 @@ $(function(){
         })
     })
     
+    
+    // sessionStorage.setItem('auth','superadmin')
     if(sessionStorage.length != 0 && sessionStorage.getItem("auth") == "login"){
         window.location.href = "/home"
     }else if(sessionStorage.length != 0 && sessionStorage.getItem("auth") == "superadmin"){
+        console.log(sessionStorage.getItem("auth"))
         window.location.href = "/superadmin"
     }
     function success(res){

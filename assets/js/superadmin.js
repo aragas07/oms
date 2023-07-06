@@ -15,4 +15,8 @@ $(function(){
         $(this).addClass("active")
         $(this).text() == 'ADMIN' ? admin():staff()
     })
+    $("#logout").click(function(){
+        sessionStorage.setItem('auth','none')
+        location.href = "/"
+    })
 })

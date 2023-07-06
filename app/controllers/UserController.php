@@ -66,26 +66,11 @@ class UserController{
                 <td>{$row['middlename']}</td>
                 <td>{$row['lastname']}</td>
                 <td>{$row['name']}</td>
+                <td><button class='s-update'>Update</button></td>
             </tr>";
         }
         echo json_encode(['tbody'=>$tbody]);
     }
-
-    public function getStaff($conn){
-        $result = $conn->query("SELECT * FROM users AS u INNER JOIN municipality AS m ON u.municipality_id = m.id WHERE usertype = 'admin'");
-        $tbody = '';
-        while($row = $result->fetch_assoc()){
-            $tbody .= "<tr>
-                <td>{$row['badge']}</td>
-                <td>{$row['firstname']}</td>
-                <td>{$row['middlename']}</td>
-                <td>{$row['lastname']}</td>
-                <td>{$row['name']}</td>
-            </tr>";
-        }
-        echo json_encode(['tbody'=>$tbody]);
-    }
-
     public function getAllMun($conn){
         $city = $_SESSION['userloc'];
         $getHomeTown = $conn->query("SELECT * FROM municipality WHERE id = $city");
