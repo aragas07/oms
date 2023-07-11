@@ -305,7 +305,7 @@
                 success: function(r){
                     console.log(r)
                     if(b) r.success ? success(r.id) : msg("aerror","Sorry we have a problem about the database connection")
-                }, 
+                },
                 error: function (request, status, error) {
                     console.log(request.responseText);
                 }

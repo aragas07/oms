@@ -148,15 +148,15 @@ tbody tr{
 
 #custom-btn{
     border: 1px solid #7E1717;
-    background: none;
-    color: #7E1717;
+    color: white;
+    background-color: #7E1717;
 }
 
 #team{
-    color: #E55807;
-    background: none;
-    border: 1px solid #E55807;
+    color: white;
+    background: #E55807;
     margin-right: 10px;
+    border: 1px solid #E55807;
 }
 
 
@@ -171,8 +171,9 @@ tbody tr{
 }
 
 #custom-btn:hover{
-    border: 1px solid #e40e0e;
-    color: #320a0a;
+    border: 1px solid #ffabab;
+    background-color: #ed3030;
+    color: #270101;
 }
 #team:hover{
     border: 1px solid #ff6a14;

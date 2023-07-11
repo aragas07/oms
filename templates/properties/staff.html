@@ -96,6 +96,16 @@
             $("form").attr('action','route/updatepersonnel')
         })
         
+        function msg(type,msg){
+            $("body").append("<div class='alert'><div class='"+type+"'><a>"+msg+"</a></div></div>")
+            setTimeout(()=>{
+                $(".alert").css("opacity","0")
+            },1700)
+            setTimeout(()=>{
+                $(".alert").remove()
+            },3000)
+        }
+
         $("form").on('submit',function(e){
             e.preventDefault()
             $.ajax({
@@ -108,9 +118,17 @@
                 processData: false,
                 success: function(result){
                     console.log(result)
-                    result.length > 1 ?
-                    swal.fire("error","You are not connected to the database","error") :
-                    data()
+                    if(result.success){
+                        msg("asuccess",result.message)
+                        result.length > 1 ?
+                        swal.fire("error","You are not connected to the database","error") :
+                        data()
+                        $(".form-control").each(function(){
+                            $(this).val("")
+                        })
+                    }else{
+                        Swal.fire('Error',result.message,'error')
+                    }
                 },
                 error: function (request, status, error) {
                     console.log(request.responseText)

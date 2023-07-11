@@ -71,7 +71,6 @@
                 type:'post',
                 data:{type:'admin'},
                 success: function(result){
-                    console.log(result)
                     $("tbody").html(result.tbody)
                     $("tbody>tr").click(function(){
                         var text = $(this).children()
@@ -99,19 +98,26 @@
                 $("select[name='municipality']").html(result)
             }
         })
+        function msg(type,msg){
+            $("body").append("<div class='alert'><div class='"+type+"'><a>"+msg+"</a></div></div>")
+            setTimeout(()=>{
+                $(".alert").css("opacity","0")
+            },1700)
+            setTimeout(()=>{
+                $(".alert").remove()
+            },3000)
+        }
 
         $(".btn-outline-primary").click(function(){
             $("form").attr('action','route/signup')
         })
 
         $(".btn-outline-danger").click(function(){
-            console.log("exmple")
             $("form").attr('action','route/updateadmin')
         })
         
         $("form").on('submit',function(e){
             e.preventDefault()
-            console.log($("#password").val()+" == "+$("#confirmation").val())
             $("#pass").val() == $("#confirmation").val() ?
             $.ajax({
                 url: $(this).attr('action'),
@@ -123,9 +129,17 @@
                 processData: false,
                 success: function(result){
                     console.log(result)
-                    result.length > 1 ?
-                    swal.fire("error","You are not connected to the database","error") :
-                    data()
+                    if(result.success){
+                        msg("asuccess",result.message)
+                        result.length > 1 ?
+                        swal.fire("error","You are not connected to the database","error") :
+                        data()
+                        $(".form-control").each(function(){
+                            $(this).val("")
+                        })
+                    }else{
+                        Swal.fire('Error',result.message,'error')
+                    }
                 },
                 error: function (request, status, error) {
                     console.log(request.responseText)

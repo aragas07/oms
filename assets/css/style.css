@@ -6,7 +6,7 @@ body, html{
 #container{
     background-image: url('../img/backgroundimg.png');
     background-size: cover;
-
+    padding-top: 7px!important;
 }
 
 .s-update{
@@ -122,16 +122,16 @@ button:hover{
 
 .btn-default{
     padding: 5px 15px;
-    background: none;
+    background: #068DA9;
     border: 1px solid #068DA9;
-    color: #068DA9;
+    color: white;
     font-weight: 570;
     border-radius: 15px;
     height: fit-content;
 }
 
 .btn-default:hover{
-    border: 1px solid #04d5ff;
+    border: 1px solid #c4f5ff;
     color: #004452;
 }
 
@@ -700,7 +700,7 @@ h4, h3{
 
 .tab-active{
     color: white!important;
-    background-color: #E55807;
+    background-color: #068DA9;
     transform: scale(1.07);
 }
 
