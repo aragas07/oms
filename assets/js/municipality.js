@@ -45,7 +45,6 @@ $(function(){
         $(this).siblings(".active").removeClass("active")
         $(this).addClass("active").parent().parent().addClass("active")
         text = $(this).text().split(" ")
-        page = text[0]
         getData(text[0])
     })
 
@@ -93,6 +92,7 @@ $(function(){
                             $("#custom-btn").after("<button class='right' id='team'>Team</button>")
                             $("#custom-btn").text("Attendance")
                             $("#custom-btn").click(function(){
+                                $(".modal-tools>#add").remove()
                                 $(".modal").css({
                                     "display":"flex",
                                     "justify-content":"center",
@@ -125,6 +125,7 @@ $(function(){
                                     "justify-content":"center",
                                 })
                                 $(".modal-head").children('h4').text('Team update')
+                                $(".modal-tools>#add").remove()
                                 $(".modal-tools").prepend('<button id="add" class="btn-default mr-3">Add new</button>')
                                 $("#add").click(()=>{
                                     Swal.fire({
